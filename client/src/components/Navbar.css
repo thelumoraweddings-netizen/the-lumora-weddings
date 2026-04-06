@@ -1,0 +1,474 @@
+/* ============================================================
+   NAVBAR — Horizontal Desktop & Side Drawer
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,600&family=Instrument+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --nb-gold:    #8A9A5B; /* Clary Sage */
+  --nb-black:   #F4F0E8; /* Dover White */
+  --nb-cream:   #2F3528; /* Deep Forest Charcoal */
+  --nb-muted:   rgba(47, 53, 40, 0.6);
+  --nb-border:  rgba(47, 53, 40, 0.08);
+  --nb-ease:    cubic-bezier(0.77, 0, 0.175, 1);
+  --nb-sage-dark: #4A5043; /* Moody Sage */
+}
+
+/* ── Top Bar ── */
+.nf-navbar {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 80px;
+  z-index: 1000;
+  background: linear-gradient(to bottom, rgba(244,240,232,0.95), transparent);
+  transition: all 0.45s ease;
+}
+
+.nf-navbar--solid {
+  background: rgba(244, 240, 232, 1) !important;
+  border-bottom: 1px solid var(--nb-border);
+  backdrop-filter: blur(20px);
+}
+
+.nf-navbar__inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 44px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative; /* Anchor for centered links */
+}
+
+/* ── Logo ── */
+.nf-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  z-index: 1001;
+  flex-shrink: 0;
+}
+
+.nf-logo__img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid var(--nb-border);
+}
+
+.nf-logo__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.nf-logo__name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--nb-cream);
+}
+
+.nf-logo__sub {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--nb-gold);
+}
+
+/* ── Desktop Links (Horizontal) ── */
+.nf-navbar__desktop-links {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nf-nav-item-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.nf-desktop-link {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--nb-cream);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  opacity: 0.8;
+  padding: 10px 0;
+}
+
+.nf-desktop-link:hover,
+.nf-desktop-link.active {
+  opacity: 1;
+  color: var(--nb-gold);
+}
+
+.nf-desktop-link::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--nb-gold);
+  transition: width 0.3s ease;
+}
+
+.nf-desktop-link:hover::after,
+.nf-desktop-link.active::after {
+  width: 100%;
+}
+
+/* ── Dropdown (Desktop Only) ── */
+.nf-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  padding-top: 15px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s var(--nb-ease);
+  pointer-events: none;
+  z-index: 1002;
+}
+
+.nf-nav-item-wrapper:hover .nf-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: all;
+}
+
+.nf-dropdown-inner {
+  background: #F4F0E8; /* Dover White */
+  min-width: 220px;
+  padding: 24px 0;
+  box-shadow: 0 15px 45px rgba(0,0,0,0.08);
+  border: 1px solid var(--nb-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nf-dropdown-link {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--nb-cream);
+  text-decoration: none;
+  padding: 12px 30px;
+  width: 100%;
+  text-align: center;
+  transition: all 0.3s ease;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.nf-dropdown-link:hover {
+  color: var(--nb-gold);
+  background: rgba(138, 154, 91, 0.05); /* Very subtle sage tint */
+}
+
+/* ── Mobile Controls ── */
+.nf-navbar__controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  z-index: 1001;
+}
+
+.nf-info-label {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--nb-cream);
+  opacity: 0.6;
+}
+
+.nf-hamburger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 6px;
+}
+
+.nf-hamburger__line {
+  display: block;
+  height: 1.5px;
+  background: var(--nb-cream);
+  border-radius: 2px;
+  transition: all 0.4s var(--nb-ease);
+}
+
+.nf-hamburger__line:nth-child(1) { width: 30px; }
+.nf-hamburger__line:nth-child(2) { width: 22px; }
+.nf-hamburger__line:nth-child(3) { width: 30px; }
+
+.nf-hamburger--active .nf-hamburger__line { background: #FFF !important; }
+
+/* ══════════════════════════════════════
+   SIDE DRAWER (MOBILE NAV SUPPORT)
+   ══════════════════════════════════════ */
+.nf-side-drawer {
+  position: fixed;
+  top: 0; right: 0;
+  width: 420px; 
+  height: 100vh;
+  z-index: 2000;
+  background: var(--nb-sage-dark);
+  color: #FFF;
+  box-shadow: -20px 0 60px rgba(0,0,0,0.25);
+  transform: translate3d(100%, 0, 0); /* Force GPU acceleration */
+  will-change: transform;
+  transition: transform 1.0s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  padding: 60px 40px;
+  overflow-y: auto;
+}
+
+.nf-side-drawer--open {
+  transform: translate3d(0, 0, 0);
+}
+
+/* ── Staggered Link Reveals ── */
+.nf-drawer-item-container {
+  opacity: 0;
+  transform: translateY(20px) translate3d(0,0,0);
+  will-change: transform, opacity;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.8s ease-out;
+}
+
+.nf-side-drawer--open .nf-drawer-item-container {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.nf-side-drawer--open .nf-drawer-item-container:nth-child(1) { transition-delay: 0.3s; }
+.nf-side-drawer--open .nf-drawer-item-container:nth-child(2) { transition-delay: 0.4s; }
+.nf-side-drawer--open .nf-drawer-item-container:nth-child(3) { transition-delay: 0.5s; }
+.nf-side-drawer--open .nf-drawer-item-container:nth-child(4) { transition-delay: 0.6s; }
+.nf-side-drawer--open .nf-drawer-item-container:nth-child(5) { transition-delay: 0.7s; }
+
+.nf-side-drawer--open .nf-drawer-brand-desc,
+.nf-side-drawer--open .nf-drawer-insta-section {
+  opacity: 0;
+  animation: fadeInSlideUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.nf-side-drawer--open .nf-drawer-brand-desc { animation-delay: 0.8s; }
+.nf-side-drawer--open .nf-drawer-insta-section { animation-delay: 0.9s; }
+
+@keyframes fadeInSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.nf-drawer-close-area { align-self: flex-end; margin-bottom: 20px; }
+.nf-drawer-close-btn { 
+  background: none; 
+  border: none; 
+  color: #FFF; 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+  cursor: pointer; 
+  opacity: 0;
+  transform: rotate(90deg) scale(0.8);
+  transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.5s; /* Delay until panel is mostly open */
+}
+
+.nf-side-drawer--open .nf-drawer-close-btn {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+
+.nf-drawer-inner { flex: 1; display: flex; align-items: flex-start; justify-content: center; padding-top: 20px; }
+.nf-drawer-content-stack { display: flex; flex-direction: column; align-items: center; gap: 40px; width: 100%; transition: all 0.3s; }
+
+/* ── Drawer Overlay (Click outside to close) ── */
+.nf-drawer-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(0px); /* Transition from 0 */
+  z-index: 1999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.8s cubic-bezier(0.83, 0, 0.17, 1),
+              backdrop-filter 0.8s cubic-bezier(0.83, 0, 0.17, 1),
+              visibility 0s linear 0.8s; /* Visibility stays hidden until fade ends */
+}
+
+.nf-drawer-overlay--visible {
+  opacity: 1;
+  visibility: visible;
+  backdrop-filter: blur(12px); /* Deep cinematic blur */
+  transition: opacity 0.8s cubic-bezier(0.83, 0, 0.17, 1),
+              backdrop-filter 0.8s cubic-bezier(0.83, 0, 0.17, 1),
+              visibility 0s linear 0s;
+}
+
+/* ── Mobile Nav Links ── */
+.nf-drawer-nav-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.nf-drawer-link {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  line-height: 1.2;
+}
+
+.nf-drawer-item-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.nf-drawer-link:hover,
+.nf-drawer-link.active {
+  color: var(--nb-gold);
+}
+
+.nf-drawer-sublinks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0;
+  margin-bottom: 0;
+  
+  /* Hide by default */
+  max-height: 0;
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+  transition: all 0.5s var(--nb-ease);
+}
+
+.nf-drawer-item-container:hover .nf-drawer-sublinks {
+  max-height: 400px;
+  opacity: 1;
+  visibility: visible;
+  margin-top: 8px;
+  margin-bottom: 20px;
+}
+
+.nf-drawer-sublink {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.nf-drawer-sublink:hover,
+.nf-drawer-sublink.active {
+  color: var(--nb-gold);
+}
+
+.nf-drawer-divider-thin {
+  width: 50%;
+  height: 1px;
+  background: rgba(255,255,255,0.1);
+  margin: 10px 0;
+}
+
+.nf-drawer-brand-desc {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.6);
+  max-width: 260px;
+  text-align: center;
+}
+
+.section-label-drawer { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; letter-spacing: 0.2em; color: #FFF; font-weight: 500; margin-bottom: 8px; }
+.insta-handle-drawer { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-style: italic; color: rgba(255,255,255,0.75); text-decoration: none; }
+
+/* ── Responsive Polish ── */
+@media (max-width: 1024px) {
+  .nf-navbar__desktop-links { display: none; }
+  .nf-navbar__inner { padding: 0 20px; }
+  .nf-side-drawer { width: 100%; padding: 30px; }
+  .nf-logo__text { display: none; }
+  .nf-global-whatsapp-float { right: 20px; bottom: 20px; }
+}
+
+@media (max-width: 480px) {
+  .nf-drawer-link { font-size: 1.8rem; }
+  .nf-drawer-content-stack { gap: 30px; }
+}
+
+/* ── Global Floating WhatsApp (Every Page) ── */
+.nf-global-whatsapp-float {
+  position: fixed;
+  right: 40px;
+  bottom: 40px;
+  z-index: 9999;
+  text-decoration: none;
+  transition: all 0.4s var(--hc-ease);
+  animation: float-slide-up 0.8s var(--hc-ease) both;
+}
+
+.nf-global-whatsapp-float:hover {
+  transform: translateY(-8px) scale(1.05);
+}
+
+.global-whatsapp-bg {
+  width: 50px; /* Reduced from 64px */
+  height: 50px;
+  background: #0a0a0a; /* Modern, minimalist dark color */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(212, 175, 55, 0.4); /* Gold accent border */
+}
+
+@keyframes float-slide-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}

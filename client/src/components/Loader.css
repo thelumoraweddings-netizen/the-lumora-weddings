@@ -1,0 +1,183 @@
+/* ============================================================
+   LOADER — Cinematic Luxury
+   Font: Cormorant Garamond display + Instrument Sans body
+   Palette: Near-black · Warm gold · Film grain
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,300;1,600&family=Instrument+Sans:wght@300;400;500;600&display=swap');
+
+/* ── Shell ── */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  background: #FCFAF7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+/* Grain overlay */
+.loading-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Radial ambient glow */
+.loading-screen::after {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 162, 39, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Content ── */
+.loading-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+/* ── Logo Ring ── */
+.loading-logo-box {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 32px;
+}
+
+/* Spinning gold ring */
+.loading-logo-box::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  border-top-color: #C9A227;
+  border-right-color: rgba(201, 162, 39, 0.3);
+  animation: ring-spin 2s linear infinite;
+}
+
+/* Static decorative ring */
+.loading-logo-box::after {
+  content: '';
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 162, 39, 0.1);
+}
+
+@keyframes ring-spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-logo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #EEEAE3;
+  display: block;
+}
+
+/* ── Brand Name ── */
+.loading-brand-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #1A1A1A;
+  text-align: center;
+  margin-bottom: 6px;
+  line-height: 1;
+}
+
+.loading-brand-text span {
+  font-weight: 300;
+  font-style: italic;
+  color: #C9A227;
+}
+
+/* ── Sub label ── */
+.loading-sub {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(201, 162, 39, 0.6);
+  margin-bottom: 40px;
+}
+
+/* ── Progress Bar ── */
+.loading-bar-container {
+  width: 180px;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 1px;
+  overflow: hidden;
+  position: relative;
+}
+
+.loading-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, rgba(201, 162, 39, 0.5), #C9A227, rgba(201, 162, 39, 0.5));
+  border-radius: 1px;
+  position: relative;
+}
+
+/* Shimmer on bar */
+.loading-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+  animation: bar-shimmer 1.5s ease infinite;
+}
+
+@keyframes bar-shimmer {
+  to { left: 200%; }
+}
+
+/* ── Frame corners ── */
+.loading-frame {
+  position: absolute;
+  inset: 32px;
+  pointer-events: none;
+}
+
+.loading-frame::before,
+.loading-frame::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-color: rgba(201, 162, 39, 0.2);
+  border-style: solid;
+}
+
+.loading-frame::before {
+  top: 0; left: 0;
+  border-width: 1px 0 0 1px;
+}
+
+.loading-frame::after {
+  bottom: 0; right: 0;
+  border-width: 0 1px 1px 0;
+}
