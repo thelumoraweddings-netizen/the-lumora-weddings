@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import './Portfolio.css';
 
@@ -6,36 +6,54 @@ const weddingVideos = [
   { 
     id: "tnOvpl9mdVc", 
     title: "GOWTHAM ❤️ PRABHAVATHY", 
-    subtitle: "WEDDING TEASER"
+    subtitle: "WEDDING TEASER",
+    category: "wedding&reception"
   },
   { 
     id: "E3I8vrSFkwQ", 
     title: "RADHA ❤️ KESAVAMOORTHY", 
-    subtitle: "MATERNITY"
+    subtitle: "MATERNITY",
+    category: "babyshower&maternity"
   },
   { 
     id: "J91PdCSxw1o", 
     title: "RADHA ❤️ KESAVAMOORTHY", 
-    subtitle: "SEEMANTHAM"
+    subtitle: "SEEMANTHAM",
+    category: "babyshower&maternity"
   },
   { 
     id: "tNbW46nZYPc", 
     title: "DIVYA BHARATHY ❤️ PAUL", 
-    subtitle: "MATERNITY"
+    subtitle: "MATERNITY",
+    category: "babyshower&maternity"
   },
   { 
     id: "cCDHfrPLzD8", 
     title: "GOWTHAM ❤️ PRABHAVATHY", 
-    subtitle: "PRE WEDDING"
+    subtitle: "PRE WEDDING",
+    category: "save the date"
   },
   { 
     id: "3D4FSPXNzFk", 
     title: "ROSHITHA ❤️ VIGNESH", 
-    subtitle: "WEDDING TEASER"
+    subtitle: "WEDDING TEASER",
+    category: "wedding&reception"
   }
 ];
 
 const Portfolio = () => {
+  const [selectedCategory, setSelectedCategory] = useState('all');
+
+  const categories = [
+    { key: 'all', label: 'All' },
+    { key: 'save the date', label: 'Save the Date' },
+    { key: 'wedding&reception', label: 'Wedding & Reception' },
+    { key: 'babyshower&maternity', label: 'Babyshower & Maternity' }
+  ];
+
+  const filteredVideos = selectedCategory === 'all' 
+    ? weddingVideos 
+    : weddingVideos.filter(video => video.category === selectedCategory);
   return (
     <div className="page-wrapper">
 
@@ -58,11 +76,37 @@ const Portfolio = () => {
         </div>
       </section>
 
+      {/* ── Explore Films ── */}
+      <section className="explore-films-section">
+        <div className="pg-container">
+          <motion.div
+            className="explore-header"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="explore-title">Explore Our Films</h2>
+            <div className="category-buttons">
+              {categories.map((cat) => (
+                <button
+                  key={cat.key}
+                  className={`category-btn ${selectedCategory === cat.key ? 'active' : ''}`}
+                  onClick={() => setSelectedCategory(cat.key)}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* ── Video Grid ── */}
       <section className="video-grid-section">
         <div className="pg-container">
           <div className="video-grid">
-            {weddingVideos.map((video, idx) => (
+            {filteredVideos.map((video, idx) => (
               <motion.div 
                 key={video.id} 
                 className="video-card"
@@ -80,7 +124,6 @@ const Portfolio = () => {
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
-                    loading="lazy"
                   ></iframe>
                 </div>
                 <div className="video-info">
@@ -93,6 +136,33 @@ const Portfolio = () => {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Footer CTA — Wedding Films */}
+      <section className="portfolio-cta-section">
+        <div className="pg-container">
+          <div className="portfolio-cta-banner">
+            <p className="portfolio-cta-eyebrow">Subscribe</p>
+            <h2 className="portfolio-cta-heading">Watch More on YouTube</h2>
+            <p className="portfolio-cta-text">
+              Discover our cinematic wedding films, behind-the-scenes moments, and storytelling
+              inspiration on YouTube. Hit subscribe to stay connected and never miss a new release.
+            </p>
+            <a
+              href="https://www.youtube.com/@negativefilmphotography"
+              target="_blank"
+              rel="noreferrer"
+              className="portfolio-cta-button pg-btn-primary"
+            >
+              <span className="portfolio-cta-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="white" aria-hidden="true">
+                  <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 4-8 4z" />
+                </svg>
+              </span>
+              Subscribe on YouTube
+            </a>
           </div>
         </div>
       </section>

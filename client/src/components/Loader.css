@@ -10,7 +10,7 @@
 .loading-screen {
   position: fixed;
   inset: 0;
-  background: #FCFAF7;
+  background: #FDFCF8; /* Reverted to light premium cream for logo visibility */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,14 +29,14 @@
   z-index: 1;
 }
 
-/* Radial ambient glow */
+/* Suble pulse glow */
 .loading-screen::after {
   content: '';
   position: absolute;
-  width: 600px;
-  height: 600px;
+  width: 800px;
+  height: 800px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(201, 162, 39, 0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.04) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -54,79 +54,54 @@
 /* ── Logo Ring ── */
 .loading-logo-box {
   position: relative;
-  width: 100px;
-  height: 100px;
-  margin-bottom: 32px;
+  width: 240px; /* Increased size significantly for the central brand mark */
+  height: auto;
+  margin-bottom: 24px;
 }
 
-/* Spinning gold ring */
+/* Elegant gold aura */
 .loading-logo-box::before {
   content: '';
   position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  border-top-color: #C9A227;
-  border-right-color: rgba(201, 162, 39, 0.3);
-  animation: ring-spin 2s linear infinite;
+  inset: -30px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+  filter: blur(20px);
+  z-index: -1;
+  animation: logo-glow 3s ease-in-out infinite alternate;
 }
 
-/* Static decorative ring */
-.loading-logo-box::after {
-  content: '';
-  position: absolute;
-  inset: -14px;
-  border-radius: 50%;
-  border: 1px solid rgba(201, 162, 39, 0.1);
-}
-
-@keyframes ring-spin {
-  to { transform: rotate(360deg); }
+@keyframes logo-glow {
+  from { opacity: 0.4; transform: scale(0.95); }
+  to { opacity: 0.8; transform: scale(1.05); }
 }
 
 .loading-logo {
   width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  background: #EEEAE3;
+  height: auto;
+  object-fit: contain;
+  /* Removed filters to keep the logo design exactly as it is */
   display: block;
 }
 
-/* ── Brand Name ── */
-.loading-brand-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: #1A1A1A;
-  text-align: center;
-  margin-bottom: 6px;
-  line-height: 1;
-}
-
-.loading-brand-text span {
-  font-weight: 300;
-  font-style: italic;
-  color: #C9A227;
-}
+/* Removed brand text as it's within the logo */
 
 /* ── Sub label ── */
 .loading-sub {
   font-family: 'Instrument Sans', sans-serif;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.3em;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.38em;
   text-transform: uppercase;
-  color: rgba(201, 162, 39, 0.6);
-  margin-bottom: 40px;
+  color: #002D24; /* Dark Emerald for text contrast on cream */
+  margin-bottom: 48px;
+  opacity: 0.85;
 }
 
 /* ── Progress Bar ── */
 .loading-bar-container {
-  width: 180px;
+  width: 220px;
   height: 1px;
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(0, 45, 36, 0.1);
   border-radius: 1px;
   overflow: hidden;
   position: relative;
@@ -134,7 +109,7 @@
 
 .loading-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, rgba(201, 162, 39, 0.5), #C9A227, rgba(201, 162, 39, 0.5));
+  background: #002D24; /* Emerald progress bar */
   border-radius: 1px;
   position: relative;
 }
@@ -166,9 +141,9 @@
 .loading-frame::after {
   content: '';
   position: absolute;
-  width: 40px;
-  height: 40px;
-  border-color: rgba(201, 162, 39, 0.2);
+  width: 50px;
+  height: 50px;
+  border-color: rgba(0, 45, 36, 0.15);
   border-style: solid;
 }
 

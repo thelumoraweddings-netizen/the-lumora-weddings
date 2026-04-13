@@ -34,29 +34,19 @@ const Loader = ({ onLoaded }) => {
             {/* Logo */}
             <motion.div
               className="loading-logo-box"
-              initial={{ scale: 0.85, opacity: 0 }}
+              initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             >
               <img src="/logo.png" alt="THE LUMORA WEDDINGS" className="loading-logo" />
             </motion.div>
 
-            {/* Brand name */}
-            <motion.h2
-              className="loading-brand-text"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.9 }}
-            >
-              THE LUMORA <span>WEDDINGS</span>
-            </motion.h2>
-
-            {/* Sub */}
+            {/* Sub label - Elegant and refined */}
             <motion.p
               className="loading-sub"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.65, duration: 0.8 }}
+              initial={{ opacity: 0, tracking: '0.1em' }}
+              animate={{ opacity: 1, tracking: '0.3em' }}
+              transition={{ delay: 0.5, duration: 1.2 }}
             >
               Cinematic Storytelling
             </motion.p>

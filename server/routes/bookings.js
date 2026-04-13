@@ -11,24 +11,24 @@ router.post('/', async (req, res) => {
     const bookingData = req.body;
     
     // 💡 STEP 1: Backup to local file (Safety Net)
-    // Even if notifications fail, the lead is safely stored on the server.
-    await StorageService.saveInquiry(bookingData);
+    const isSaved = await StorageService.saveInquiry(bookingData);
 
-    // 💡 STEP 2: Trigger Notifications (Blocking)
-    // We now WAIT for the email/whatsapp to succeed before telling the user "Success"
+    // 💡 STEP 2: Trigger Notifications
+    // We attempt notifications, but the lead is already safe if isSaved is true.
     const isNotified = await NotificationService.notifyAll(bookingData);
 
-    if (isNotified) {
-      // Return success only if notifications were delivered
+    if (isSaved) {
       res.status(201).json({ 
         success: true, 
-        message: 'Inquiry received and notifications delivered successfully.' 
+        message: isNotified 
+          ? 'Inquiry received and notifications delivered successfully.' 
+          : 'Inquiry received. We will contact you soon.'
       });
     } else {
-      // If email failed after all retries, return an error even if it was backed up
+      // Only returns error if even the local backup failed
       res.status(500).json({ 
         success: false, 
-        message: 'Please try again later.' 
+        message: 'Please try again later. (Backup Error)' 
       });
     }
   } catch (error) {

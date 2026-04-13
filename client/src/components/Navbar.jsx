@@ -71,10 +71,6 @@ const Navbar = () => {
             style={{ opacity: menuOpen ? 0 : 1, pointerEvents: menuOpen ? 'none' : 'all', transition: 'opacity 0.3s' }}
           >
             <img src="/logo.png" alt="THE LUMORA WEDDINGS" className="nf-logo__img" />
-            <div className="nf-logo__text">
-              <span className="nf-logo__name">THE LUMORA WEDDINGS</span>
-              <span className="nf-logo__sub">Wedding Artistry</span>
-            </div>
           </Link>
 
           {/* Desktop Navigation (Center-Right) */}

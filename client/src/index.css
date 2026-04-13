@@ -3,26 +3,26 @@
 
 :root {
   /* Color Palette - "SOPHISTICATED ORGANIC" (CLARY SAGE & DOVER WHITE) */
-  --bg-primary: #F4F0E8; /* Dover White - Warm Off-white */
-  --bg-secondary: #EBE6D9;
-  --text-primary: #2F3528; /* Deep Forest Charcoal - Earthy Contrast */
-  --text-secondary: #5C6256;
-  --accent-color: #8A9A5B; /* Clary Sage - Muted Earthy Green */
-  --accent-hover: #75864C;
-  --glass-bg: rgba(244, 240, 232, 0.82);
-  --glass-border: rgba(47, 53, 40, 0.08);
-  --border-color: rgba(47, 53, 40, 0.1);
+  --bg-primary: #FDFCF8; /* Creamier Off-white */
+  --bg-secondary: #F6F4ED;
+  --text-primary: #002D24; /* New Deep Emerald Green from Logo */
+  --text-secondary: #4A5D4E;
+  --accent-color: #D4AF37; /* Rose Gold / Bronze from Logo */
+  --accent-hover: #BF9B30;
+  --glass-bg: rgba(253, 252, 248, 0.85);
+  --glass-border: rgba(0, 45, 36, 0.1);
+  --border-color: rgba(0, 45, 36, 0.12);
 
-  /* ConnectForm specific (Clary Sage Palette) */
-  --pg-black: #F4F0E8;
+  /* Brand Specific (Emerald & Gold) */
+  --pg-black: #FDFCF8;
   --pg-surface: #FFFFFF;
-  --pg-surface-2: #F1EDDF;
-  --pg-cream: #2F3528; /* Label text on Dover White */
-  --pg-gold: #8A9A5B; /* Clary Sage Primary */
-  --pg-gold-glow: rgba(138, 154, 91, 0.12);
-  --pg-border: rgba(47, 53, 40, 0.08);
-  --pg-border-soft: rgba(47, 53, 40, 0.04);
-  --pg-muted: #7A8172;
+  --pg-surface-2: #F6F4ED;
+  --pg-cream: #002D24; 
+  --pg-gold: #D4AF37; 
+  --pg-gold-glow: rgba(212, 175, 55, 0.15);
+  --pg-border: rgba(0, 45, 36, 0.08);
+  --pg-border-soft: rgba(0, 45, 36, 0.04);
+  --pg-muted: #5C6256;
   
   /* Typography */
   --font-family: 'Poppins', sans-serif;

@@ -5,9 +5,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import Home from './pages/Home';
 import Portfolio from './pages/Portfolio';
 import About from './pages/About';
-import Services from './pages/Services';
 import Booking from './pages/Booking';
-import Blog from './pages/Blog';
 import Testimonials from './pages/Testimonials';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -34,8 +32,6 @@ import AdminLogin from './pages/Admin/AdminLogin';
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import GalleryManager from './pages/Admin/GalleryManager';
 import BookingManager from './pages/Admin/BookingManager';
-import BlogManager from './pages/Admin/BlogManager';
-import ServiceManager from './pages/Admin/ServiceManager';
 import TestimonialManager from './pages/Admin/TestimonialManager';
 import AdminLayout from './pages/Admin/AdminLayout';
 
@@ -66,12 +62,14 @@ function App() {
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/portfolio" element={<Portfolio />} />
+                      <Route path="/gallery" element={<Gallery />} />
                       <Route path="/gallery/:categoryId" element={<CategoryGalleryPage />} />
                       <Route path="/gallery/:categoryId/:subId" element={<CategoryGalleryPage />} />
                       <Route path="/about" element={<About />} />
-                      <Route path="/services" element={<Services />} />
+                      <Route path="/services" element={<Navigate to="/gallery" replace />} />
                       <Route path="/booking" element={<Booking />} />
-                      <Route path="/blog" element={<Blog />} />
+                      <Route path="/blog" element={<Navigate to="/gallery" replace />} />
+                      <Route path="/journal" element={<Navigate to="/gallery" replace />} />
                       <Route path="/testimonials" element={<Testimonials />} />
                       <Route path="/work/tamil-wedding" element={<TamilWedding />} />
                       <Route path="/work/telugu-wedding" element={<TeluguWedding />} />
@@ -96,11 +94,9 @@ function App() {
                 </ProtectedRoute>
               }>
                 <Route index element={<AdminDashboard />} />
-                <Route path="gallery" element={<GalleryManager />} />
-                <Route path="bookings" element={<BookingManager />} />
-                <Route path="blogs" element={<BlogManager />} />
-                <Route path="services" element={<ServiceManager />} />
-                <Route path="testimonials" element={<TestimonialManager />} />
+                 <Route path="gallery" element={<GalleryManager />} />
+                 <Route path="bookings" element={<BookingManager />} />
+                 <Route path="testimonials" element={<TestimonialManager />} />
               </Route>
             </Routes>
           </Router>

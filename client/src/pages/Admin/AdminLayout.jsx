@@ -28,8 +28,6 @@ const AdminLayout = () => {
         { name: 'Dashboard', path: '/admin', icon: <LayoutDashboard size={20} /> },
         { name: 'Gallery', path: '/admin/gallery', icon: <Image size={20} /> },
         { name: 'Bookings', path: '/admin/bookings', icon: <Calendar size={20} /> },
-        { name: 'Blogs', path: '/admin/blogs', icon: <BookOpen size={20} /> },
-        { name: 'Services', path: '/admin/services', icon: <Briefcase size={20} /> },
         { name: 'Testimonials', path: '/admin/testimonials', icon: <Star size={20} /> },
     ];
 

@@ -14,12 +14,21 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--text-primary);
   text-decoration: none;
-  letter-spacing: -0.5px;
-  font-family: 'Cormorant Garamond', serif;
+}
+
+.footer-brand-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Left-aligned on desktop */
+}
+
+.footer-brand-desc {
+  margin-top: 24px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  max-width: 320px;
 }
 
 .footer-logo-text-group {
@@ -45,12 +54,10 @@
 }
 
 .footer-logo-img {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  object-fit: cover;
-  background-color: var(--accent-color);
-  border: 1px solid rgba(47, 53, 40, 0.08);
+  width: 72px;
+  height: auto;
+  object-fit: contain;
+  /* Removed circular background and border for the new professional mark */
 }
 
 .footer-heading-modern {
@@ -189,7 +196,16 @@
     gap: 32px;
     text-align: center;
   }
-  .footer-logo-modern { justify-content: center; margin-bottom: 32px; }
+  .footer-brand-col {
+    align-items: center;
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .footer-brand-desc {
+    margin: 0 auto;
+    max-width: 280px;
+  }
+  .footer-logo-modern { justify-content: center; margin-bottom: 24px; }
   .footer-social-modern { justify-content: center; }
   .footer-contact-list li { justify-content: center; }
   .footer-bottom-modern {

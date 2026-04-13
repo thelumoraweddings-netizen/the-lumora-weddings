@@ -232,7 +232,7 @@ const Home = () => {
               {instaPhotos.map((src, i) => (
                 <SwiperSlide key={i} className="insta-slide">
                   <a 
-                    href="https://www.instagram.com/p/DUacWGEAYOF/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" 
+                    href="https://www.instagram.com/TheLumoraWeddings" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="insta-link-wrap"

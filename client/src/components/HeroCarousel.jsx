@@ -2,7 +2,7 @@
 import React, { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination, EffectFade } from 'swiper/modules';
-import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -155,6 +155,13 @@ const HeroCarousel = () => {
                         <motion.p className="hero-subtitle" {...fadeSlide(0.8)}>
                           {slide.subtitle}
                         </motion.p>
+
+                        <motion.div className="hero-btn-group" {...fadeSlide(1.1)}>
+                          <Link to="/booking" className="hc-btn hc-btn--primary">
+                            <span>Book Your Session</span>
+                            <ArrowRight size={18} />
+                          </Link>
+                        </motion.div>
 
 
                       </motion.div>
