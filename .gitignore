@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Environment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+server/.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+server/logs/*.json
+!server/logs/inquiries.json.example
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+
+# Misc
+server/output.log
+temp/
+/tmp/
+.gemini/

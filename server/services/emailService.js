@@ -25,7 +25,7 @@ class EmailService {
    * Send a highly-formatted inquiry email to the admin.
    */
   async sendInquiryEmail(booking) {
-    const adminEmail = process.env.ADMIN_EMAIL_RECIPIENT || "thelumoraweddings@thelumoraweddings.com";
+    const adminEmail = process.env.ADMIN_EMAIL_RECIPIENT || "thelumoraweddings@gmail.com";
     
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
       console.error('[Email Error] Credentials missing in .env. Skipping email notification.');
@@ -89,8 +89,9 @@ class EmailService {
     };
 
     try {
+      console.log(`[Email Dispatch] Sending inquiry to: ${adminEmail}`);
       await this.transporter.sendMail(mailOptions);
-      console.log(`[Email Success] Inquiry email sent to: ${adminEmail}`);
+      console.log(`[Email Success] Inquiry email delivered successfully.`);
       return true;
     } catch (error) {
       console.error(`[Email Error] Failed to send email: ${error.message}`);

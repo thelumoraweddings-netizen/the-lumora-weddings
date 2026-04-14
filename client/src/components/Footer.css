@@ -5,8 +5,6 @@
 }
 
 .footer-modern .grid-container {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 2fr;
   gap: 60px;
 }
 
@@ -182,24 +180,21 @@
   color: var(--accent-color);
 }
 
-@media (max-width: 1024px) {
-  .footer-modern .grid-container {
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-  }
-}
+/* Removed the 1024px override to let the desktop grid persevere on tablets */
 
 @media (max-width: 768px) {
   .footer-modern { padding-top: 60px; }
   .footer-modern .grid-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 32px;
     text-align: center;
   }
-  .footer-brand-col {
-    align-items: center;
-    text-align: center;
-    margin-bottom: 32px;
+  .footer-nav-col {
+    grid-column: span 1 !important;
+  }
+  .footer-brand-col,
+  .footer-contact-col {
+    grid-column: span 2 !important;
   }
   .footer-brand-desc {
     margin: 0 auto;

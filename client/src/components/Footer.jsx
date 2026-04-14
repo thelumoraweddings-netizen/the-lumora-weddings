@@ -25,7 +25,7 @@ const Footer = () => {
                     </div>
 
                     {/* Nav Col 1 */}
-                    <div className="col-span-2">
+                    <div className="col-span-2 footer-nav-col">
                         <h4 className="footer-heading-modern">Studio</h4>
                         <ul className="footer-list-modern">
                             <li><Link to="/">Home</Link></li>
@@ -35,7 +35,7 @@ const Footer = () => {
                     </div>
 
                     {/* Nav Col 2 */}
-                    <div className="col-span-2">
+                    <div className="col-span-2 footer-nav-col">
                         <h4 className="footer-heading-modern">Explore</h4>
                         <ul className="footer-list-modern">
                             <li><Link to="/booking">Book Us</Link></li>
@@ -44,7 +44,7 @@ const Footer = () => {
                     </div>
 
                     {/* Contact Col */}
-                    <div className="col-span-4">
+                    <div className="col-span-4 footer-contact-col">
                         <h4 className="footer-heading-modern">Get In Touch</h4>
                         <ul className="footer-contact-list">
                             <li>

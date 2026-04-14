@@ -111,19 +111,20 @@ class NotificationService {
         const emailSuccess = results[1].status === 'fulfilled' && results[1].value === true;
         const waSuccess = results[0].status === 'fulfilled' && results[0].value === true;
         
-        if (emailSuccess || waSuccess) {
-          if (!emailSuccess) {
-            console.warn(`[Notification Warning] Attempt ${i}: WhatsApp OK but Email failed.`);
-          }
+        if (emailSuccess) {
           if (!waSuccess) {
             console.warn(`[Notification Warning] Attempt ${i}: Email OK but WhatsApp failed.`);
           }
-          console.log(`[Notification Success] Notification(s) delivered successfully on attempt ${i}`);
+          console.log(`[Notification Success] Inquiry delivered via Email on attempt ${i}`);
           return true;
         } else {
-          console.warn(`[Notification Warning] Attempt ${i} failed for both channels.`);
+          console.warn(`[Notification Warning] Attempt ${i}: Email failed.`);
+          if (waSuccess) {
+            console.log(`[Notification Success] Attempt ${i}: WhatsApp OK (but Email failed).`);
+          }
+          
           if (i === attempts) {
-            console.error('[Notification Final Error] Exhausted all retry attempts for all channels.');
+            console.error('[Notification Final Error] Exhausted all retry attempts for Email.');
             return false;
           }
         }

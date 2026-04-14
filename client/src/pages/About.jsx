@@ -12,10 +12,12 @@ const vUp = (delay = 0) => ({
 });
 
 const teamMembers = [
-  { name: 'Arjun Mehta',  role: 'Lead Photographer & Director',    img: '/images/team/arjun.png' },
-  { name: 'Priya Sharma', role: 'Senior Photographer',           img: '/images/team/priya.png' },
-  { name: 'Rohan Das',    role: 'Cinematographer & Editor',      img: '/images/team/rohan.png' },
-  { name: 'Kavya Nair',   role: 'Second Shooter & Coordinator',  img: '/images/team/kavya.png' },
+  { name: 'Maari Selvam',  role: 'Cinemotographer & Editor',  img: '/images/Meet Our Team Images/Maari Selvam.jpeg' },
+  { name: 'Santhosh kumar', role: 'Photographer',             img: '/images/Meet Our Team Images/Santhosh kumar.jpeg' },
+  { name: 'Tilak',         role: 'Cinemotographer & Editor',  img: '/images/Meet Our Team Images/Tilak.jpeg' },
+  { name: 'Bharathi raja', role: 'Photographer & designer',   img: '/images/Meet Our Team Images/Bharathi raja.PNG' },
+  { name: 'Raja rajan',    role: 'Photographer & designer',   img: '/images/Meet Our Team Images/Raja Rajan.jpeg' },
+  { name: 'Hari',          role: 'Cinemotographer & Editor',  img: '/images/Meet Our Team Images/Hari Krishnan.PNG' },
 ];
 
 const About = () => (

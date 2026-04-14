@@ -151,7 +151,7 @@ const Portfolio = () => {
               inspiration on YouTube. Hit subscribe to stay connected and never miss a new release.
             </p>
             <a
-              href="https://www.youtube.com/@negativefilmphotography"
+              href="https://www.youtube.com/@thelumoraweddings"
               target="_blank"
               rel="noreferrer"
               className="portfolio-cta-button pg-btn-primary"

@@ -27,13 +27,21 @@ class StorageService {
     }
   }
 
-  /**
-   * Save a new inquiry to the JSON file
-   */
   async saveInquiry(data) {
     try {
-      const currentData = await fs.readFile(this.inquiriesFile, 'utf8');
-      const inquiries = JSON.parse(currentData);
+      let inquiries = [];
+      try {
+        const currentData = await fs.readFile(this.inquiriesFile, 'utf8');
+        // Handle empty file by initializing with empty array
+        if (currentData.trim() === '') {
+          inquiries = [];
+        } else {
+          inquiries = JSON.parse(currentData);
+        }
+      } catch (parseError) {
+        console.warn('[Storage Warning] Could not parse inquiries file, starting fresh:', parseError.message);
+        inquiries = [];
+      }
 
       // Add a unique ID and timestamp to mimic DB behavior
       const newEntry = {
@@ -42,6 +50,10 @@ class StorageService {
         status: 'Pending',
         ...data
       };
+      
+      // Ensure inquiries is an array
+      if (!Array.isArray(inquiries)) inquiries = [];
+      
       inquiries.push(newEntry);
 
       await fs.writeFile(this.inquiriesFile, JSON.stringify(inquiries, null, 2));

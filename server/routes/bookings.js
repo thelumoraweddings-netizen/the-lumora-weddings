@@ -4,39 +4,39 @@ const { protect } = require('../middleware/auth');
 const NotificationService = require('../services/notificationService');
 const StorageService = require('../services/storageService');
 
-// @desc    Create new booking (Zero-Fail Mode: Local Backup + Notifications)
+/**
+ * Booking Routes (Zero-DB Mode)
+ * Focuses on direct notification delivery to Admin via Email/WhatsApp.
+ */
+
+// @desc    Create new booking
 // @route   POST /api/bookings
 router.post('/', async (req, res) => {
+  console.log('[API] Received new booking inquiry:', req.body.name);
   try {
     const bookingData = req.body;
     
-    // 💡 STEP 1: Backup to local file (Safety Net)
-    const isSaved = await StorageService.saveInquiry(bookingData);
-
-    // 💡 STEP 2: Trigger Notifications
-    // We attempt notifications, but the lead is already safe if isSaved is true.
+    // 💡 STEP 1: Trigger Immediate Notifications (Email/WhatsApp)
+    // We attempt to notify the admin immediately. the service handles retries.
     const isNotified = await NotificationService.notifyAll(bookingData);
 
-    if (isSaved) {
-      res.status(201).json({ 
-        success: true, 
-        message: isNotified 
-          ? 'Inquiry received and notifications delivered successfully.' 
-          : 'Inquiry received. We will contact you soon.'
-      });
-    } else {
-      // Only returns error if even the local backup failed
-      res.status(500).json({ 
-        success: false, 
-        message: 'Please try again later. (Backup Error)' 
-      });
-    }
+    // 💡 STEP 2: Safety Backup to local file 
+    // This serves as a secondary record in case of notification failure.
+    await StorageService.saveInquiry(bookingData);
+
+    res.status(201).json({ 
+      success: true, 
+      message: isNotified 
+        ? 'Your inquiry has been sent directly to our team via Email & WhatsApp.' 
+        : 'Inquiry received. We will contact you shortly.'
+    });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error('[API Error] Booking submission failed:', error.message);
+    res.status(400).json({ success: false, message: error.message });
   }
 });
 
-// @desc    Get all bookings (from local safety-net storage)
+// @desc    Get all bookings (Safety net backup)
 // @route   GET /api/bookings
 router.get('/', protect, async (req, res) => {
   try {
@@ -47,8 +47,7 @@ router.get('/', protect, async (req, res) => {
   }
 });
 
-// @desc    Update booking status (Removed as part of Zero-DB transition)
-// @route   PATCH /api/bookings/:id
+// @desc    Update booking status (Disabled in Zero-DB mode)
 router.patch('/:id', protect, async (req, res) => {
     res.status(501).json({ message: 'Status updates are disabled in Zero-DB mode.' });
 });

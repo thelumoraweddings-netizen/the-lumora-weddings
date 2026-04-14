@@ -36,9 +36,9 @@ const AdminLayout = () => {
             <div className="admin-sidebar-v2">
                 <div className="sidebar-header-v2">
                     <div className="admin-logo-box">
-                        <img src="/logo.png" alt="NegativeFilm Logo" />
+                        <img src="/logo.png" alt="THE LUMORA WEDDINGS Logo" />
                     </div>
-                    <h2>NegativeFilm</h2>
+                    <h2>THE LUMORA WEDDINGS</h2>
                     <span className="uppercase">Studio Backend</span>
                 </div>
                 <nav className="sidebar-nav-v2">

@@ -1,5 +1,5 @@
 /* ================================================================
-   NEGATIVEFILM — Unified Page Design System
+   THE LUMORA WEDDINGS — Unified Page Design System
    Aesthetic: Cinematic Luxury · Dark Editorial
    Font: Cormorant Garamond (display) + Instrument Sans (body)
    Palette: Near-black #070604 · Warm gold #C9A227 · Cream #f0ead8
@@ -556,22 +556,26 @@
 }
 
 .team-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 32px;
-  margin-top: 32px; /* Reduced from 64px */
+  max-width: 1000px;
+  margin: 32px auto 0;
 }
 
 .team-card {
+  flex: 0 1 calc(25% - 24px); /* 4 columns minus adjusted gap */
+  min-width: 200px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
   transition: all 0.4s var(--pg-ease);
 }
 
 .team-img-wrapper {
   aspect-ratio: 4 / 5;
-  border-radius: 20px;
+  border-radius: 12px;
   overflow: hidden;
   background: var(--pg-black);
   border: 1px solid var(--pg-border-soft);
@@ -611,12 +615,14 @@
 }
 
 @media (max-width: 1024px) {
-  .team-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .team-card { flex: 0 1 calc(33.333% - 22px); }
+  .team-grid { gap: 24px; }
 }
 
-@media (max-width: 580px) {
-  .team-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-  .team-name { font-size: 1.2rem; }
+@media (max-width: 768px) {
+  .team-card { flex: 0 1 calc(50% - 12px); min-width: 140px; }
+  .team-grid { gap: 16px; padding: 0 10px; }
+  .team-name { font-size: 1.1rem; }
   .team-role { font-size: 8px; }
 }
 

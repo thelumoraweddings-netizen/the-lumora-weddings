@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronUp, ChevronDown, Check, ArrowRight } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import api from '../utils/api';
 import './ConnectForm.css';
 
 const COUNTRY_CODES = [
@@ -125,18 +126,13 @@ const ConnectForm = () => {
         eventType: 'Wedding Photography'
       };
 
-      const response = await fetch('/api/bookings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(apiData),
-      });
+      const response = await api.post('/api/bookings', apiData);
 
-      if (response.ok) {
+      if (response.data.success) {
         toast.success('Your story has been received!');
         setStep(4);
       } else {
-        const errorData = await response.json();
-        toast.error(errorData.message || 'Something went wrong. Please try again.');
+        toast.error(response.data.message || 'Something went wrong. Please try again.');
       }
     } catch (err) {
       toast.error('Connection error. Please ensure the server is running.');
