@@ -33,6 +33,8 @@ const About = () => (
               src="/images/Lumora Logo/Logo for post Dark.png" 
               alt="The Lumora Weddings Logo" 
               className="about-row-logo"
+              decoding="async"
+              fetchpriority="high"
             />
           </motion.div>
           <motion.div {...vUp(0.15)} className="about-text-col">
@@ -92,6 +94,8 @@ const About = () => (
               <img 
                 src="/images/Koushik Img/DSC00815.jpg.jpeg" 
                 alt="Koushik — Lead Photographer" 
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </motion.div>
@@ -131,7 +135,7 @@ const About = () => (
           {teamMembers.map((member, i) => (
             <motion.div key={i} {...vUp(i * 0.1)} className="team-card">
               <div className="team-img-wrapper">
-                <img src={member.img} alt={member.name} loading="lazy" />
+                <img src={member.img} alt={member.name} loading="lazy" decoding="async" />
               </div>
               <div className="team-info">
                 <h3 className="team-name">{member.name}</h3>
