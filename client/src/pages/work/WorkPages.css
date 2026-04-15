@@ -2180,34 +2180,6 @@
   border-radius: 4px;
 }
 
-.pb-back-btn {
-  position: absolute;
-  top: 40px;
-  left: 40px;
-  z-index: 10;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 24px;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 100px;
-  color: #fff;
-  text-decoration: none;
-  font-family: 'Instrument Sans', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  transition: all 0.3s ease;
-}
-
-.pb-back-btn:hover {
-  background: #fff;
-  color: #000;
-}
 
 /* Story Intro */
 .story-intro-container {

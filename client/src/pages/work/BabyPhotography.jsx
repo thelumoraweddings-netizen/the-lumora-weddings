@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
+// import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import './WorkPages.css';
 
@@ -56,9 +56,6 @@ const BabyPhotography = () => {
             transition={{ duration: 1.6 }}
             style={{ backgroundImage: `url(${heroImages.center})` }}
           />
-          <Link to="/" className="pb-back-btn">
-            <ArrowLeft size={16} /> Back to Stories
-          </Link>
         </div>
         <div className="pb-right">
           <motion.div 
