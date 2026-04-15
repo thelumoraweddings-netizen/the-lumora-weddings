@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Instagram, Facebook, Twitter, Mail, Phone, MapPin } from 'lucide-react';
+import { Instagram, Youtube, Mail, Phone, MapPin } from 'lucide-react';
 import './Footer.css';
 
 const Footer = () => {
@@ -19,8 +19,7 @@ const Footer = () => {
                         </p>
                         <div className="footer-social-modern mt-8">
                             <a href="https://www.instagram.com/TheLumoraWeddings" target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={20} /></a>
-                            <a href="#" aria-label="Facebook"><Facebook size={20} /></a>
-                            <a href="#" aria-label="Twitter"><Twitter size={20} /></a>
+                            <a href="https://youtube.com/@TheLumoraWeddings" target="_blank" rel="noreferrer" aria-label="YouTube"><Youtube size={20} /></a>
                         </div>
                     </div>
 
