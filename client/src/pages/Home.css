@@ -1576,6 +1576,7 @@
 
 .insta-link-wrap img {
   will-change: transform;
+  transform: translateZ(0);
 }
 
 @media (max-width: 600px) { .feature-list { grid-template-columns: 1fr; } }
@@ -1829,11 +1830,12 @@
 .insta-swiper .swiper-slide-active {
   animation: floating 4s ease-in-out infinite;
   box-shadow: 0 30px 60px rgba(183, 110, 121, 0.25);
+  will-change: transform;
 }
 
 @keyframes floating {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -12px, 0); }
 }
 
 @media (max-width: 768px) {
@@ -1876,8 +1878,9 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   box-shadow: 0 8px 20px rgba(183, 110, 121, 0.3);
-  transition: all 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  will-change: transform;
 }
 
 .insta-link-wrap:hover .insta-click-btn {

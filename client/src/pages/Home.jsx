@@ -223,11 +223,13 @@ const Home = () => {
               centeredSlides={true}
               slidesPerView={'auto'}
               loop={true}
-              speed={1000}
+              speed={700} // Snappier feel
               roundLengths={true}
               autoplay={{ delay: 4000, disableOnInteraction: false }}
               pagination={{ clickable: true, el: '.insta-dots-bottom' }}
               className="insta-swiper"
+              touchReleaseOnEdges={true}
+              watchSlidesProgress={true}
             >
               {instaPhotos.map((src, i) => (
                 <SwiperSlide key={i} className="insta-slide">
