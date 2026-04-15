@@ -195,12 +195,14 @@
   .footer-brand-col,
   .footer-contact-col {
     grid-column: span 2 !important;
+    align-items: center;
   }
   .footer-brand-desc {
-    margin: 0 auto;
+    margin: 24px 0 0;
     max-width: 280px;
   }
   .footer-logo-modern { justify-content: center; margin-bottom: 24px; }
+  .footer-logo-img { width: 110px; }
   .footer-social-modern { justify-content: center; }
   .footer-contact-list li { justify-content: center; }
   .footer-bottom-modern {
