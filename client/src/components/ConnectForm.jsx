@@ -66,7 +66,18 @@ const ConnectForm = () => {
   const displayProgress = step === 1 ? 10 : step === 2 ? 40 : 70;
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
+    
+    // Restrict Phone and Guest Count to digits only
+    if (name === 'phone' || name === 'guestCount') {
+      value = value.replace(/\D/g, ''); // Remove non-numeric characters
+    }
+
+    // Limit phone to 10 digits
+    if (name === 'phone' && value.length > 10) {
+      value = value.slice(0, 10);
+    }
+
     setFormData(prev => ({ ...prev, [name]: value }));
     // Clear error when user types
     if (errors[name]) {
@@ -85,7 +96,9 @@ const ConnectForm = () => {
     } else if (s === 2) {
       if (!formData.city.trim()) newErrors.city = 'City is required';
       if (!formData.date) newErrors.date = 'Please select a date';
-      // Venue and Guest Count are now optional
+      if (formData.guestCount && isNaN(formData.guestCount)) {
+        newErrors.guestCount = 'Please enter a valid number';
+      }
     } else if (s === 3) {
       // Source and Message are now optional
     }
@@ -135,7 +148,9 @@ const ConnectForm = () => {
         toast.error(response.data.message || 'Something went wrong. Please try again.');
       }
     } catch (err) {
-      toast.error('Connection error. Please ensure the server is running.');
+      console.error('[Booking Error]', err);
+      const errorMessage = err.response?.data?.message || err.message || 'Connection error';
+      toast.error(`Error: ${errorMessage}. Please check your connection.`);
     } finally {
       setLoading(false);
     }
@@ -219,6 +234,7 @@ const ConnectForm = () => {
                   <input 
                     type="tel" name="phone" placeholder="98765 43210"
                     value={formData.phone} onChange={handleChange}
+                    inputMode="numeric" pattern="[0-9]*"
                     className={errors.phone ? 'input-error' : ''}
                   />
                 </div>
@@ -287,7 +303,10 @@ const ConnectForm = () => {
                 <input 
                   type="text" name="guestCount" placeholder="Number of guests"
                   value={formData.guestCount} onChange={handleChange}
+                  inputMode="numeric" pattern="[0-9]*"
+                  className={errors.guestCount ? 'input-error' : ''}
                 />
+                {errors.guestCount && <span className="error-text">{errors.guestCount}</span>}
               </div>
 
               <div className="card-footer">
