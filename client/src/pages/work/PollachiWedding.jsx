@@ -21,25 +21,25 @@ const PollachiWedding = () => {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   const heroImages = {
-    left: '/images/home_image/image_2.jpg',
-    center: '/images/home_image/image_1.jpg',
-    right: '/images/home_image/image_3.jpg',
+    left: '/images/homepage_image/image_2.jpg',
+    center: '/images/homepage_image/image_1.jpg',
+    right: '/images/homepage_image/image_3.jpg',
   };
   
   // Dynamic Gallery - Easily add more images here
   const galleryImages = [
-    '/images/home_image/image_4.jpg',
-    '/images/home_image/image_5.jpg',
-    '/images/home_image/image_6.jpg',
-    '/images/home_image/image_7.jpg',
-    '/images/home_image/image_8.jpg',
-    '/images/home_image/image_1.jpg',
-    '/images/home_image/image_2.jpg',
-    '/images/home_image/image_3.jpg',
-    '/images/home_image/image_4.jpg',
-    '/images/home_image/image_5.jpg',
-    '/images/home_image/image_6.jpg',
-    '/images/home_image/image_7.jpg',
+    '/images/homepage_image/image_4.jpg',
+    '/images/homepage_image/image_5.jpg',
+    '/images/homepage_image/image_6.jpg',
+    '/images/homepage_image/image_7.jpg',
+    '/images/homepage_image/image_8.jpg',
+    '/images/homepage_image/image_1.jpg',
+    '/images/homepage_image/image_2.jpg',
+    '/images/homepage_image/image_3.jpg',
+    '/images/homepage_image/image_4.jpg',
+    '/images/homepage_image/image_5.jpg',
+    '/images/homepage_image/image_6.jpg',
+    '/images/homepage_image/image_7.jpg',
   ];
 
   return (

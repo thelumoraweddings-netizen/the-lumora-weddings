@@ -3,11 +3,11 @@ const router = express.Router();
 const path = require('path');
 const fs = require('fs');
 
-// Resolve the home_image directory relative to THIS file (server/routes/homeImages.js)
-// server/routes/ → ../../client/public/images/home_image
+// Resolve the homepage_image directory relative to THIS file (server/routes/homeImages.js)
+// server/routes/ → ../../client/public/images/homepage_image
 const HOME_IMAGE_DIR = path.resolve(
   __dirname,
-  '..', '..', 'client', 'public', 'images', 'home_image'
+  '..', '..', 'client', 'public', 'images', 'homepage_image'
 );
 
 console.log('[home-images] Looking for images in:', HOME_IMAGE_DIR);
@@ -27,7 +27,7 @@ router.get('/', (req, res) => {
       .filter(file => validExtensions.test(file))
       .sort(); // alphabetical order (prefix with 01_, 02_ to control order)
 
-    const imageUrls = files.map(file => `/images/home_image/${file}`);
+    const imageUrls = files.map(file => `/images/homepage_image/${file}`);
 
     console.log(`[home-images] Found ${files.length} image(s):`, files);
 

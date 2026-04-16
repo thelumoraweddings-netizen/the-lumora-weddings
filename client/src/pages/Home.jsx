@@ -68,16 +68,16 @@ const testimonials = [
 ];
 
 const instaPhotos = [
-  '/images/babyshower/ridhu/image_1.jpg',
-  '/images/babyshower/ridhu/image_2.jpg',
-  '/images/engagement/ajay/image_1.jpg',
-  '/images/engagement/ajay/image_2.jpg',
-  '/images/maternity/ridhu/image_1.jpg',
-  '/images/maternity/ridhu/image_2.jpg',
-  '/images/outdoor/deva-sowmiya/img07947.jpg',
-  '/images/outdoor/deva-sowmiya/img08357.jpg',
-  '/images/reception/jeevi/image_1.jpg',
-  '/images/reception/jeevi/image_2.jpg',
+  '/images/BABYSHOWERR CC/ridhu cc/1.jpg',
+  '/images/BABYSHOWERR CC/ridhu cc/2.jpg',
+  '/images/ENGAGEMENT CC/AJAY CC/image_1.jpg',
+  '/images/ENGAGEMENT CC/AJAY CC/image_2.jpg',
+  '/images/MATERNITY CC/RIDHU CC/image_1.jpg',
+  '/images/MATERNITY CC/RIDHU CC/image_2.jpg',
+  '/images/OUTDOOR CC/DEVA SOWMIYA CC/IMG07947.jpg',
+  '/images/OUTDOOR CC/DEVA SOWMIYA CC/IMG08357.jpg',
+  '/images/RECEPTION CC/JEEVI CC/image_1.jpg',
+  '/images/RECEPTION CC/JEEVI CC/image_2.jpg',
 ];
 
 const StatItem = ({ target, label, bg, suffix = '+', delay = 0 }) => {
@@ -152,25 +152,25 @@ const Home = () => {
           <div className="stories-magazine-grid">
             {[
               { 
-                img: '/images/home_image/image_1.jpg', 
+                img: '/images/homepage_image/image_1.jpg', 
                 cat: 'WEDDING', 
                 title: 'A Celebration of Love & Traditions',
                 link: '/work/pollachi-wedding'
               },
               { 
-                img: '/images/home_image/image_2.jpg', 
+                img: '/images/homepage_image/image_2.jpg', 
                 cat: 'OUTDOOR COUPLE PHOTOGRAPHY', 
                 title: 'Moments of joy, laughter, and togetherness, framed under open skies.',
                 link: '/work/outdoor-couple'
               },
               { 
-                img: '/images/home_image/image_3.jpg', 
+                img: '/images/homepage_image/image_3.jpg', 
                 cat: 'BABYSHOWER — MATERNITY', 
                 title: 'Celebrating the miracle of life and the journey of motherhood.',
                 link: '/work/maternity-story'
               },
               { 
-                img: '/images/engagement/ajay/image_5.jpg', 
+                img: '/images/ENGAGEMENT CC/AJAY CC/image_5.jpg', 
                 cat: 'ENGAGEMENT', 
                 title: 'The Promise of Always — A Celebration of Commitment.',
                 link: '/work/engagement'

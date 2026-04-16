@@ -146,7 +146,7 @@ export const galleryCategories = [
     id: 'wedding',
     title: 'WEDDING /reception',
     description: 'Cinematic storytelling of your most sacred union.',
-    image: '/images/home_image/image_1.jpg',
+    image: '/images/homepage_image/image_1.jpg',
     subCategories: [
       {
         id: 'akash-varsha',
@@ -335,8 +335,8 @@ export const galleryCategories = [
     id: 'puberty',
     title: 'Puberty',
     description: 'Celebrating the graceful transition and cultural heritage.',
-    image: '/images/home_image/image_2.jpg',
-    folder: 'home_image',
+    image: '/images/homepage_image/image_2.jpg',
+    folder: 'homepage_image',
     prefix: 'image_',
     count: 14
   }

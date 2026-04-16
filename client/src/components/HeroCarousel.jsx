@@ -22,7 +22,7 @@ const SLIDE_DATA = [
     subtitle: 'Celebrating vibrant connections against the backdrop of timeless ancient wonders.',
     eyebrow: 'Heritage',
     script: 'love',
-    image: '/images/home_image/home-1.jpg'
+    image: '/images/homepage_image/home-1.jpg'
   },
   {
     id: 2,
@@ -30,7 +30,7 @@ const SLIDE_DATA = [
     subtitle: 'Focusing on the beauty of simplicity and the elegance of clean lines.',
     eyebrow: 'Contemporary',
     script: 'pure',
-    image: '/images/home_image/home-2.jpg'
+    image: '/images/homepage_image/home-2.jpg'
   },
   {
     id: 3,
@@ -38,7 +38,7 @@ const SLIDE_DATA = [
     subtitle: 'Embracing the warmth and character of natural elements and organic textures.',
     eyebrow: 'Rustic',
     script: 'warmth',
-    image: '/images/home_image/home-3.jpg'
+    image: '/images/homepage_image/home-3.jpg'
   },
   {
     id: 4,
@@ -46,7 +46,7 @@ const SLIDE_DATA = [
     subtitle: 'Capturing the sophisticated spirit and dynamic energy of the city.',
     eyebrow: 'Urban',
     script: 'city',
-    image: '/images/home_image/home-4.jpg'
+    image: '/images/homepage_image/home-4.jpg'
   },
   {
     id: 5,
@@ -54,7 +54,7 @@ const SLIDE_DATA = [
     subtitle: 'Honoring the enduring beauty and grace of traditional photography.',
     eyebrow: 'Timeless',
     script: 'eternal',
-    image: '/images/home_image/home-5.jpg'
+    image: '/images/homepage_image/home-5.jpg'
   },
   {
     id: 6,
@@ -62,7 +62,7 @@ const SLIDE_DATA = [
     subtitle: 'Finding the magic in untamed landscapes and passionate storytelling.',
     eyebrow: 'Romantic',
     script: 'magic',
-    image: '/images/home_image/home-6.jpg'
+    image: '/images/homepage_image/home-6.jpg'
   },
   {
     id: 7,
@@ -70,7 +70,7 @@ const SLIDE_DATA = [
     subtitle: 'Telling your story through a cinematic lens with depth and emotion.',
     eyebrow: 'Editorial',
     script: 'soul',
-    image: '/images/home_image/home-7.jpg'
+    image: '/images/homepage_image/home-7.jpg'
   },
   {
     id: 8,
@@ -78,7 +78,7 @@ const SLIDE_DATA = [
     subtitle: 'Chasing the golden hour to capture the most dreamlike moments.',
     eyebrow: 'Natural',
     script: 'light',
-    image: '/images/home_image/home-8.jpg'
+    image: '/images/homepage_image/home-8.jpg'
   },
   {
     id: 9,
@@ -86,7 +86,7 @@ const SLIDE_DATA = [
     subtitle: 'Candid moments that speak louder than words ever could.',
     eyebrow: 'Genuine',
     script: 'grace',
-    image: '/images/home_image/home-9.jpg'
+    image: '/images/homepage_image/home-9.jpg'
   },
   {
     id: 10,
@@ -94,7 +94,7 @@ const SLIDE_DATA = [
     subtitle: 'Where photography meets fine art to create lasting legacies.',
     eyebrow: 'Fine Art',
     script: 'spirit',
-    image: '/images/home_image/home-10.jpg'
+    image: '/images/homepage_image/home-10.jpg'
   },
   {
     id: 11,
@@ -102,7 +102,7 @@ const SLIDE_DATA = [
     subtitle: 'Every frame is a new chapter in your beautiful love story.',
     eyebrow: 'Legacy',
     script: 'dream',
-    image: '/images/home_image/home-11.jpg'
+    image: '/images/homepage_image/home-11.jpg'
   }
 ];
 
