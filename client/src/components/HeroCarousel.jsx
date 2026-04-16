@@ -18,51 +18,91 @@ import { HOME_IMAGES } from '../utils/homeImages';
 const SLIDE_DATA = [
   { 
     id: 1, 
-    title: 'THE MEADOW RUN',
-    subtitle: 'A bold journey begins amidst the sweeping hills and timeless horizons.',
-    eyebrow: 'Wedding Cinema',
-    script: 'love',
-    image: '/images/home_image/image_3.jpg'
-  },
-  { 
-    id: 2, 
-    title: 'THE ART OF THE MOMENT',
-    subtitle: 'Beyond the pose: Your story, captured cinematically.',
-    eyebrow: 'Wedding Films',
-    script: 'love',
-    image: '/images/home_image/image_4.jpg'
-  },
-  { 
-    id: 3, 
     title: 'THE HERITAGE COAST',
     subtitle: 'Celebrating vibrant connections against the backdrop of timeless ancient wonders.',
     eyebrow: 'Heritage',
     script: 'love',
-    image: '/images/home_image/image_5.jpg'
+    image: '/images/home_image/01.jpeg'
   },
-  { 
-    id: 4, 
-    title: 'THE ETERNAL GLOW',
-    subtitle: 'Capturing the golden essence of your most cherished celebrations.',
-    eyebrow: 'Golden Hour',
-    script: 'grace',
-    image: '/images/home_image/image_6.jpg'
+  {
+    id: 2,
+    title: 'MODERN MINIMALISM',
+    subtitle: 'Focusing on the beauty of simplicity and the elegance of clean lines.',
+    eyebrow: 'Contemporary',
+    script: 'pure',
+    image: '/images/home_image/02.jpg.jpeg'
   },
-  { 
-    id: 5, 
-    title: 'WHISPERS OF LOVE',
-    subtitle: 'Intimate storytelling that speaks louder than words.',
-    eyebrow: 'Intimacy',
+  {
+    id: 3,
+    title: 'RUSTIC CHARM',
+    subtitle: 'Embracing the warmth and character of natural elements and organic textures.',
+    eyebrow: 'Rustic',
+    script: 'warmth',
+    image: '/images/home_image/03.jpg.jpeg'
+  },
+  {
+    id: 4,
+    title: 'URBAN ELEGANCE',
+    subtitle: 'Capturing the sophisticated spirit and dynamic energy of the city.',
+    eyebrow: 'Urban',
+    script: 'city',
+    image: '/images/home_image/04.jpg.jpeg'
+  },
+  {
+    id: 5,
+    title: 'TIMELESS CLASSICS',
+    subtitle: 'Honoring the enduring beauty and grace of traditional photography.',
+    eyebrow: 'Timeless',
+    script: 'eternal',
+    image: '/images/home_image/05.jpg.jpeg'
+  },
+  {
+    id: 6,
+    title: 'WILD & ROMANTIC',
+    subtitle: 'Finding the magic in untamed landscapes and passionate storytelling.',
+    eyebrow: 'Romantic',
+    script: 'magic',
+    image: '/images/home_image/06.jpg.jpeg'
+  },
+  {
+    id: 7,
+    title: 'CINEMATIC SOUL',
+    subtitle: 'Telling your story through a cinematic lens with depth and emotion.',
+    eyebrow: 'Editorial',
     script: 'soul',
-    image: '/images/home_image/image_7.jpg'
+    image: '/images/home_image/08.jpg.jpeg'
   },
-  { 
-    id: 6, 
-    title: 'GRAND TRADITIONS',
-    subtitle: 'Honoring heritage through a modern, sophisticated lens.',
+  {
+    id: 8,
+    title: 'ETHEREAL LIGHT',
+    subtitle: 'Chasing the golden hour to capture the most dreamlike moments.',
+    eyebrow: 'Natural',
+    script: 'light',
+    image: '/images/home_image/09.jpg.jpeg'
+  },
+  {
+    id: 9,
+    title: 'PUREST EMOTION',
+    subtitle: 'Candid moments that speak louder than words ever could.',
+    eyebrow: 'Genuine',
+    script: 'grace',
+    image: '/images/home_image/10.jpg.jpeg'
+  },
+  {
+    id: 10,
+    title: 'ARTISTIC VISION',
+    subtitle: 'Where photography meets fine art to create lasting legacies.',
+    eyebrow: 'Fine Art',
+    script: 'spirit',
+    image: '/images/home_image/11.jpg.jpeg'
+  },
+  {
+    id: 11,
+    title: 'THE JOURNEY BEGINS',
+    subtitle: 'Every frame is a new chapter in your beautiful love story.',
     eyebrow: 'Legacy',
-    script: 'bond',
-    image: '/images/home_image/image_14.jpg'
+    script: 'dream',
+    image: '/images/home_image/HomePage Image-01.jpeg'
   }
 ];
 
@@ -93,6 +133,7 @@ const HeroCarousel = () => {
   const swiperRef = useRef(null);
   const [activeIdx, setActiveIdx] = useState(0);
   const total = SLIDE_DATA.length;
+  const isSlider = total > 1;
 
   return (
     <div className="hero-fullscreen-wrapper">
@@ -101,11 +142,11 @@ const HeroCarousel = () => {
         modules={[Autoplay, Navigation, Pagination, EffectFade]}
         effect="fade"
         fadeEffect={{ crossFade: true }}
-        loop={true}
+        loop={isSlider}
         speed={1800}
-        autoplay={{ delay: 6000, disableOnInteraction: false }}
-        pagination={{ el: '.hero-pagination', clickable: true }}
-        navigation={{ nextEl: '.hero-nav-next', prevEl: '.hero-nav-prev' }}
+        autoplay={isSlider ? { delay: 6000, disableOnInteraction: false } : false}
+        pagination={isSlider ? { el: '.hero-pagination', clickable: true } : false}
+        navigation={isSlider ? { nextEl: '.hero-nav-next', prevEl: '.hero-nav-prev' } : false}
         onSlideChange={(swiper) => setActiveIdx(swiper.realIndex)}
         className="hero-fullscreen-swiper"
       >
@@ -120,7 +161,7 @@ const HeroCarousel = () => {
                 <div className="hero-overlay-gradient" />
                 
                 <div className="hero-text-container">
-                  <AnimatePresence mode="wait">
+                  <AnimatePresence mode="wait" initial={true}>
                     {isActive && (
                       <motion.div key={`text-${slide.id}`} className="hero-text-inner">
                         {/* Background Script Text */}
@@ -174,18 +215,22 @@ const HeroCarousel = () => {
         ))}
       </Swiper>
 
-      <button className="hero-nav-prev hero-nav-btn"><ChevronLeft size={20} /></button>
-      <button className="hero-nav-next hero-nav-btn"><ChevronRight size={20} /></button>
-      
-      <div className="hero-pagination-wrapper">
-        <div className="hero-pagination" />
-      </div>
+      {isSlider && (
+        <>
+          <button className="hero-nav-prev hero-nav-btn"><ChevronLeft size={20} /></button>
+          <button className="hero-nav-next hero-nav-btn"><ChevronRight size={20} /></button>
+          
+          <div className="hero-pagination-wrapper">
+            <div className="hero-pagination" />
+          </div>
 
-      <div className="hero-slide-counter">
-        <span className="hero-count-curr">0{activeIdx + 1}</span>
-        <span className="hero-count-sep">/</span>
-        <span className="hero-count-total">0{total}</span>
-      </div>
+          <div className="hero-slide-counter">
+            <span className="hero-count-curr">0{activeIdx + 1}</span>
+            <span className="hero-count-sep">/</span>
+            <span className="hero-count-total">0{total}</span>
+          </div>
+        </>
+      )}
 
       <div className="hero-scroll-hint">
         <span className="hero-scroll-track" />

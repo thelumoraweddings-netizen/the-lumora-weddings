@@ -18,6 +18,7 @@ const teamMembers = [
   { name: 'Bharathi raja', role: 'Photographer & designer',   img: '/images/Meet Our Team Images/Bharathi raja.PNG' },
   { name: 'Raja rajan',    role: 'Photographer & designer',   img: '/images/Meet Our Team Images/Raja Rajan.jpeg' },
   { name: 'Hari',          role: 'Cinemotographer & Editor',  img: '/images/Meet Our Team Images/Hari Krishnan.PNG' },
+  { name: 'Siva',          role: 'Photographer',              img: '/images/Meet Our Team Images/Siva -02.png' },
 ];
 
 const About = () => (
@@ -135,7 +136,12 @@ const About = () => (
           {teamMembers.map((member, i) => (
             <motion.div key={i} {...vUp(i * 0.1)} className="team-card">
               <div className="team-img-wrapper">
-                <img src={member.img} alt={member.name} loading="lazy" decoding="async" />
+                <img 
+                  src={member.img} 
+                  alt={member.name} 
+                  loading="lazy" 
+                  decoding="async" 
+                />
               </div>
               <div className="team-info">
                 <h3 className="team-name">{member.name}</h3>

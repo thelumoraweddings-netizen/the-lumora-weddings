@@ -38,13 +38,14 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.06);
-  transition: transform 12s cubic-bezier(0.1, 0.15, 0.25, 1);
   display: block;
-  will-change: transform;
+  transition: transform 12s var(--hc-ease);
 }
 
-.hero-bg-img.zoomed img { transform: scale(1.18); }
+/* Restored cinematic zoom effect */
+.hero-bg-swiper-slide-active .hero-bg-img img {
+  transform: scale(1.1);
+}
 
 /* ── Overlays ── */
 .hero-overlay-base { position: absolute; inset: 0; background: rgba(0,0,0,0.25); z-index: 1; }
