@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronUp, ChevronDown, Check, ArrowRight } from 'lucide-react';
+import { ChevronUp, ChevronDown, Check, ArrowRight, Calendar } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import DatePicker from "react-multi-date-picker";
+import "react-multi-date-picker/styles/layouts/mobile.css";
 import api from '../utils/api';
 import './ConnectForm.css';
 
@@ -53,7 +55,7 @@ const ConnectForm = () => {
     phone: '',
     city: '',
     venue: '',
-    date: '',
+    dates: [], // Support multiple dates
     guestCount: '',
     source: '',
     message: '',
@@ -95,7 +97,7 @@ const ConnectForm = () => {
       else if (!/^\d{10}$/.test(formData.phone)) newErrors.phone = 'Please enter a valid 10-digit number';
     } else if (s === 2) {
       if (!formData.city.trim()) newErrors.city = 'City is required';
-      if (!formData.date) newErrors.date = 'Please select a date';
+      if (!formData.dates || formData.dates.length === 0) newErrors.date = 'Please select at least one date';
       if (formData.guestCount && isNaN(formData.guestCount)) {
         newErrors.guestCount = 'Please enter a valid number';
       }
@@ -134,6 +136,7 @@ const ConnectForm = () => {
     try {
       const apiData = {
         ...formData,
+        date: Array.isArray(formData.dates) ? formData.dates.join(', ') : formData.dates,
         phone: `${formData.isdCode} ${formData.phone}`,
         location: `${formData.venue}, ${formData.city}`,
         eventType: 'Wedding Photography'
@@ -276,12 +279,24 @@ const ConnectForm = () => {
                   )}
                 </div>
                 <div className="input-group">
-                  <label>Event Date</label>
-                  <input 
-                    type="date" name="date"
-                    value={formData.date} onChange={handleChange}
-                    className={`date-input-clean ${errors.date ? 'input-error' : ''}`}
-                  />
+                  <label>Event Date(s)</label>
+                  <div className={`multi-date-container ${errors.date ? 'input-error' : ''}`}>
+                    <DatePicker 
+                      multiple
+                      value={formData.dates}
+                      onChange={(dateObjects) => {
+                        const dateStrings = dateObjects.map(d => d.format("DD-MM-YYYY"));
+                        setFormData(prev => ({ ...prev, dates: dateStrings }));
+                        if (errors.date) setErrors(prev => ({ ...prev, date: '' }));
+                      }}
+                      format="DD-MM-YYYY"
+                      placeholder="Select one or more dates"
+                      className="custom-calendar"
+                      containerClassName="custom-container"
+                      calendarPosition="bottom-center"
+                    />
+                    <Calendar size={18} className="calendar-floating-icon" />
+                  </div>
                   {errors.date && (
                     <span className="error-text">
                       {errors.date}

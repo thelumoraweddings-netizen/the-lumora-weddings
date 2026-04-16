@@ -120,6 +120,69 @@
   min-height: 56px;
 }
 
+.multi-date-container {
+  position: relative;
+  width: 100%;
+}
+
+.calendar-floating-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent-color);
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* ── Custom Calendar Theme ── */
+.custom-container {
+  width: 100% !important;
+}
+
+.custom-calendar.rmdp-calendar {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 20px 50px rgba(0, 45, 36, 0.15);
+  border: 1px solid var(--pg-border);
+  padding: 10px;
+}
+
+.rmdp-day span {
+  font-family: 'Instrument Sans', sans-serif !important;
+  font-size: 14px !important;
+  color: var(--text-primary) !important;
+}
+
+.rmdp-day.rmdp-selected span {
+  background-color: var(--accent-color) !important;
+  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3) !important;
+  color: #FFFFFF !important;
+}
+
+.rmdp-day:not(.rmdp-disabled):not(.rmdp-day-hidden) span:hover {
+  background-color: var(--pg-gold-glow) !important;
+  color: var(--accent-color) !important;
+}
+
+.rmdp-header-values {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  color: var(--text-primary) !important;
+}
+
+.rmdp-arrow {
+  border: solid var(--accent-color) !important;
+  border-width: 0 2px 2px 0 !important;
+}
+
+.rmdp-week-day {
+  color: var(--accent-color) !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+}
+
 @media (max-width: 768px) {
   .form-grid-inner {
     grid-template-columns: 1fr;

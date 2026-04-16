@@ -2431,6 +2431,18 @@
   color: var(--accent-color);
   margin: 0;
   letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.stat-suffix {
+  font-size: 0.9em;
+  font-weight: 600; /* Bolder for visibility */
+  color: var(--accent-color);
+  margin-left: 2px;
+  vertical-align: baseline;
 }
 
 .stat-mag-label {

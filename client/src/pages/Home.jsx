@@ -116,7 +116,7 @@ const StatItem = ({ target, label, bg, suffix = '+', delay = 0 }) => {
         {bg}
       </motion.span>
       <div className="stat-mag-content">
-        <h4 className="stat-mag-num">{count}{suffix}</h4>
+        <h4 className="stat-mag-num">{count}<span className="stat-suffix">{suffix}</span></h4>
         <p className="stat-mag-label">{label}</p>
       </div>
     </motion.div>
