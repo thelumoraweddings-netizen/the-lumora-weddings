@@ -90,11 +90,15 @@ const ConnectForm = () => {
   const validateStep = (s) => {
     let newErrors = {};
     if (s === 1) {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      const phoneRegex = /^\d{10}$/;
+
       if (!formData.name.trim()) newErrors.name = 'Please enter your name';
       if (!formData.email.trim()) newErrors.email = 'Email is required';
-      else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Please enter a valid email';
+      else if (!emailRegex.test(formData.email)) newErrors.email = 'Please enter a valid business/personal email';
+      
       if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
-      else if (!/^\d{10}$/.test(formData.phone)) newErrors.phone = 'Please enter a valid 10-digit number';
+      else if (!phoneRegex.test(formData.phone)) newErrors.phone = 'Please enter a valid 10-digit mobile number';
     } else if (s === 2) {
       if (!formData.city.trim()) newErrors.city = 'City is required';
       if (!formData.dates || formData.dates.length === 0) newErrors.date = 'Please select at least one date';
@@ -291,9 +295,15 @@ const ConnectForm = () => {
                       }}
                       format="DD-MM-YYYY"
                       placeholder="Select one or more dates"
-                      className="custom-calendar"
+                      className="custom-calendar rmdp-mobile"
                       containerClassName="custom-container"
                       calendarPosition="bottom-center"
+                      mobileButtons={[
+                        
+                      ]}
+                      animations={[
+                        
+                      ]}
                     />
                     <Calendar size={18} className="calendar-floating-icon" />
                   </div>

@@ -93,11 +93,21 @@ class EmailService {
 
     try {
       console.log(`[Email Dispatch] Sending inquiry to: ${adminEmail}`);
-      await this.transporter.sendMail(mailOptions);
-      console.log(`[Email Success] Inquiry email delivered successfully.`);
+      const info = await this.transporter.sendMail(mailOptions);
+      console.log(`[Email Success] Inquiry delivered. Message ID: ${info.messageId}`);
       return true;
     } catch (error) {
       console.error(`[Email Error] Failed to send email: ${error.message}`);
+      
+      // Detailed diagnostics for the administrator
+      if (error.code === 'EAUTH') {
+        console.error('[Action Required] Authentication failed. Please verify your Gmail App Password.');
+      } else if (error.code === 'ETIMEDOUT') {
+        console.error('[Action Required] Connection timed out. This could be a firewall or slow network issue.');
+      } else if (error.code === 'ESOCKET') {
+        console.error('[Action Required] Socket error. Check if port 465 is blocked by your ISP or host.');
+      }
+      
       return false;
     }
   }

@@ -213,6 +213,21 @@
   font-size: 12px !important;
 }
 
+.rmdp-mobile .rmdp-calendar {
+  width: 90vw !important;
+  max-width: 380px;
+}
+
+.rmdp-action-button {
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  font-family: 'Instrument Sans', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  padding: 8px 20px !important;
+  border-radius: 4px !important;
+}
+
 @media (max-width: 768px) {
   .form-grid-inner {
     grid-template-columns: 1fr;

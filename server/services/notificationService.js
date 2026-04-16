@@ -1,6 +1,25 @@
-const axios = require('axios');
-const twilio = require('twilio');
 const EmailService = require('./emailService');
+const twilio = require('twilio');
+const fs = require('fs');
+const path = require('path');
+
+/**
+ * Utility for journaling notification attempts
+ */
+const JOURNAL_PATH = path.join(__dirname, '../logs/notification_journal.log');
+
+const logToJournal = (message) => {
+  const timestamp = new Date().toISOString();
+  const logEntry = `[${timestamp}] ${message}\n`;
+  try {
+    if (!fs.existsSync(path.dirname(JOURNAL_PATH))) {
+      fs.mkdirSync(path.dirname(JOURNAL_PATH), { recursive: true });
+    }
+    fs.appendFileSync(JOURNAL_PATH, logEntry);
+  } catch (err) {
+    console.error('[Journal Error] Failed to write to journal:', err.message);
+  }
+};
 
 /**
  * Notification Service
@@ -73,9 +92,11 @@ class NotificationService {
       });
       
       console.log(`[WhatsApp Success] Message sent! SID: ${response.sid}`);
+      logToJournal(`SUCCESS: WhatsApp delivered to ${adminNumber} (SID: ${response.sid})`);
       return true;
     } catch (error) {
       console.error(`[WhatsApp Error] Twilio API failure! Status: ${error.status} | Code: ${error.code} | Message: ${error.message}`);
+      logToJournal(`FAILURE: WhatsApp to ${adminNumber}. Error: ${error.message}`);
       return false;
     }
   }
@@ -114,22 +135,29 @@ class NotificationService {
         if (emailSuccess) {
           if (!waSuccess) {
             console.warn(`[Notification Warning] Attempt ${i}: Email OK but WhatsApp failed.`);
+            logToJournal(`PARTIAL SUCCESS: Email delivered for ${booking.name}, but WhatsApp failed.`);
+          } else {
+            logToJournal(`FULL SUCCESS: All notifications delivered for ${booking.name} on attempt ${i}`);
           }
           console.log(`[Notification Success] Inquiry delivered via Email on attempt ${i}`);
           return true;
         } else {
           console.warn(`[Notification Warning] Attempt ${i}: Email failed.`);
+          logToJournal(`RETRY: Email failed for ${booking.name} (Attempt ${i}/3).`);
+          
           if (waSuccess) {
             console.log(`[Notification Success] Attempt ${i}: WhatsApp OK (but Email failed).`);
           }
           
           if (i === attempts) {
             console.error('[Notification Final Error] Exhausted all retry attempts for Email.');
+            logToJournal(`CRITICAL FAILURE: Exhausted all retries for ${booking.name}. Email was NOT sent.`);
             return false;
           }
         }
       } catch (error) {
         console.error(`[Notification Critical Error] Attempt ${i} failed critically:`, error.message);
+        logToJournal(`CRITICAL ERROR: Unexpected system error on attempt ${i}: ${error.message}`);
         if (i === attempts) return false;
       }
       
