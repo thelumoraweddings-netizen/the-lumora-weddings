@@ -16,19 +16,20 @@ router.post('/', async (req, res) => {
   try {
     const bookingData = req.body;
     
-    // 💡 STEP 1: Trigger Immediate Notifications (Email/WhatsApp)
-    // We attempt to notify the admin immediately. the service handles retries.
-    const isNotified = await NotificationService.notifyAll(bookingData);
-
-    // 💡 STEP 2: Safety Backup to local file 
-    // This serves as a secondary record in case of notification failure.
+    // 💡 STEP 1: Safety Backup to local file (IMMEDIATE)
+    // This ensures no inquiry is lost even if notifications hang.
     await StorageService.saveInquiry(bookingData);
+
+    // 💡 STEP 2: Trigger Notifications (Email/WhatsApp) in Background
+    // We send the response to the user FIRST for a snappy experience,
+    // while the notification service handles delivery in the background.
+    NotificationService.notifyAll(bookingData).catch(err => {
+      console.error('[Background Notification Error]', err.message);
+    });
 
     res.status(201).json({ 
       success: true, 
-      message: isNotified 
-        ? 'Your inquiry has been sent directly to our team via Email & WhatsApp.' 
-        : 'Inquiry received. We will contact you shortly.'
+      message: 'Your inquiry has been captured! We will contact you via Email & WhatsApp shortly.'
     });
   } catch (error) {
     console.error('[API Error] Booking submission failed:', error.message);

@@ -17,7 +17,10 @@ class EmailService {
       tls: {
         // This resolves the 'self-signed certificate' error common in some hosting environments
         rejectUnauthorized: false
-      }
+      },
+      connectionTimeout: 10000, // 10 seconds
+      greetingTimeout: 10000,   // 10 seconds
+      socketTimeout: 15000      // 15 seconds
     });
   }
 
