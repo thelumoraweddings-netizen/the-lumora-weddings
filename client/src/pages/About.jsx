@@ -18,7 +18,7 @@ const teamMembers = [
   { name: 'Bharathi raja', role: 'Photographer & designer',   img: '/images/meet-our-team/bharathi-raja.jpg' },
   { name: 'Raja rajan',    role: 'Photographer & designer',   img: '/images/meet-our-team/raja-rajan.jpg' },
   { name: 'Hari',          role: 'Cinemotographer & Editor',  img: '/images/meet-our-team/hari-krishnan.jpg' },
-  { name: 'Siva',          role: 'Photographer',              img: '/images/meet-our-team/siva.png' },
+  { name: 'Siva',          role: 'Photographer',              img: '/images/meet-our-team/siva.jpg' },
 ];
 
 const About = () => (
