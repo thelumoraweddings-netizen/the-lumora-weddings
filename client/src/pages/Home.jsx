@@ -68,13 +68,13 @@ const testimonials = [
 ];
 
 const instaPhotos = [
-  '/images/BABYSHOWERR CC/KEERTHIGA CC/IMG01815.jpg',
-  '/images/BABYSHOWERR CC/KEERTHIGA CC/IMG01822.jpg',
-  '/images/BABYSHOWERR CC/ridhu cc/5.jpg',
-  '/images/ENGAGEMENT CC/AJAY CC/image_5.jpg',
+  '/images/babyshower/keerthiga/img01815.jpg',
+  '/images/babyshower/keerthiga/img01822.jpg',
+  '/images/babyshower/ridhu/5.jpg',
+  '/images/engagement/ajay/image_5.jpg',
   '/images/home_image/image_14.jpg',
-  '/images/MATERNITY CC/RIDHU CC/image_7.jpg',
-  '/images/OUTDOOR CC/DEVA SOWMIYA CC/IMG08357.jpg',
+  '/images/maternity/ridhu/image_7.jpg',
+  '/images/outdoor/deva-sowmiya/img08357.jpg',
 ];
 
 const StatItem = ({ target, label, bg, suffix = '+', delay = 0 }) => {
@@ -167,12 +167,13 @@ const Home = () => {
                 link: '/work/maternity-story'
               },
               { 
-                img: '/images/ENGAGEMENT CC/AJAY CC/image_5.jpg', 
+                img: '/images/engagement/ajay/image_5.jpg', 
                 cat: 'ENGAGEMENT', 
                 title: 'The Promise of Always — A Celebration of Commitment.',
                 link: '/work/engagement'
               },
-            ].map((story, i) => (
+            ]
+.map((story, i) => (
               <motion.div key={i} {...vUp(i * 0.1)} className="story-mag-card">
                 <Link to={story.link || '#'} className="story-mag-link-wrap">
                   <div className="story-mag-img">
