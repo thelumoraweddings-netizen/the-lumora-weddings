@@ -95,14 +95,6 @@ const SLIDE_DATA = [
     eyebrow: 'Fine Art',
     script: 'spirit',
     image: '/images/homepage_image/home-10.jpg'
-  },
-  {
-    id: 11,
-    title: 'THE JOURNEY BEGINS',
-    subtitle: 'Every frame is a new chapter in your beautiful love story.',
-    eyebrow: 'Legacy',
-    script: 'dream',
-    image: '/images/homepage_image/home-11.jpg'
   }
 ];
 
