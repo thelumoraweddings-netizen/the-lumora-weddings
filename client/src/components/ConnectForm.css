@@ -120,9 +120,38 @@
   min-height: 56px;
 }
 
+/* ── Custom Calendar Styles ── */
 .multi-date-container {
   position: relative;
   width: 100%;
+}
+
+.multi-date-container .rmdp-container {
+  width: 100% !important;
+}
+
+.multi-date-container .rmdp-input {
+  width: 100% !important;
+  background: #F8F6F1;
+  border: 1.5px solid rgba(47, 53, 40, 0.1);
+  border-radius: 8px;
+  padding: 16px 45px 16px 20px !important; /* Extra right padding for icon */
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 1rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: all 0.3s ease;
+  height: auto !important;
+  min-height: 56px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.multi-date-container .rmdp-input:focus {
+  border-color: var(--accent-color);
+  background: #FFFFFF;
+  box-shadow: 0 5px 20px rgba(138, 154, 91, 0.06);
 }
 
 .calendar-floating-icon {
@@ -132,7 +161,8 @@
   transform: translateY(-50%);
   color: var(--accent-color);
   pointer-events: none;
-  opacity: 0.7;
+  opacity: 0.8;
+  z-index: 1;
 }
 
 /* ── Custom Calendar Theme ── */

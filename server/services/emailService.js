@@ -64,8 +64,8 @@ class EmailService {
               <td style="padding: 12px 0; border-bottom: 0.5px solid #eeeeee; text-align: right;">${booking.venue || 'N/A'}</td>
             </tr>
             <tr>
-              <td style="padding: 12px 0; border-bottom: 0.5px solid #eeeeee;"><strong>Event Date:</strong></td>
-              <td style="padding: 12px 0; border-bottom: 0.5px solid #eeeeee; text-align: right;">${booking.date ? new Date(booking.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) : 'N/A'}</td>
+              <td style="padding: 12px 0; border-bottom: 0.5px solid #eeeeee;"><strong>Event Date(s):</strong></td>
+              <td style="padding: 12px 0; border-bottom: 0.5px solid #eeeeee; text-align: right;">${booking.date || 'N/A'}</td>
             </tr>
             <tr>
               <td style="padding: 12px 0; border-bottom: 0.5px solid #eeeeee;"><strong>Guest Count:</strong></td>

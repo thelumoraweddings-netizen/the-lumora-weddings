@@ -55,7 +55,7 @@ class NotificationService {
       `*Phone:* +91 ${booking.phone || 'N/A'}\n` +
       `*City:* ${booking.city || 'N/A'}\n` +
       `*Venue:* ${booking.venue || 'N/A'}\n` +
-      `*Date:* ${booking.date ? new Date(booking.date).toLocaleDateString() : 'N/A'}\n` +
+      `*Date:* ${booking.date || 'N/A'}\n` +
       `*Guests:* ${booking.guestCount || '0'}\n` +
       `*Source:* ${booking.source || 'Direct'}\n` +
       `*Story:* ${booking.message || 'No message provided'}`;
