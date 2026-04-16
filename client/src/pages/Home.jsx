@@ -70,10 +70,10 @@ const testimonials = [
 const instaPhotos = [
   '/images/babyshower/keerthiga/img01815.jpg',
   '/images/babyshower/keerthiga/img01822.jpg',
-  '/images/babyshower/ridhu/5.jpg',
+  '/images/babyshower/ridhu/image_5.jpg',
   '/images/engagement/ajay/image_5.jpg',
   '/images/home_image/image_14.jpg',
-  '/images/maternity/ridhu/image_7.jpg',
+  '/images/maternity/ridhu/image_5.jpg',
   '/images/outdoor/deva-sowmiya/img08357.jpg',
 ];
 
