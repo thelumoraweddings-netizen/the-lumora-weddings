@@ -68,13 +68,16 @@ const testimonials = [
 ];
 
 const instaPhotos = [
-  '/images/babyshower/keerthiga/img01815.jpg',
-  '/images/babyshower/keerthiga/img01822.jpg',
-  '/images/babyshower/ridhu/image_5.jpg',
-  '/images/engagement/ajay/image_5.jpg',
-  '/images/home_image/image_14.jpg',
-  '/images/maternity/ridhu/image_5.jpg',
+  '/images/babyshower/ridhu/image_1.jpg',
+  '/images/babyshower/ridhu/image_2.jpg',
+  '/images/engagement/ajay/image_1.jpg',
+  '/images/engagement/ajay/image_2.jpg',
+  '/images/maternity/ridhu/image_1.jpg',
+  '/images/maternity/ridhu/image_2.jpg',
+  '/images/outdoor/deva-sowmiya/img07947.jpg',
   '/images/outdoor/deva-sowmiya/img08357.jpg',
+  '/images/reception/jeevi/image_1.jpg',
+  '/images/reception/jeevi/image_2.jpg',
 ];
 
 const StatItem = ({ target, label, bg, suffix = '+', delay = 0 }) => {

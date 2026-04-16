@@ -12,13 +12,13 @@ const vUp = (delay = 0) => ({
 });
 
 const teamMembers = [
-  { name: 'Maari Selvam',  role: 'Cinemotographer & Editor',  img: '/images/Meet Our Team Images/Maari Selvam.jpeg' },
-  { name: 'Santhosh kumar', role: 'Photographer',             img: '/images/Meet Our Team Images/Santhosh kumar.jpeg' },
-  { name: 'Tilak',         role: 'Cinemotographer & Editor',  img: '/images/Meet Our Team Images/Tilak.jpeg' },
-  { name: 'Bharathi raja', role: 'Photographer & designer',   img: '/images/Meet Our Team Images/Bharathi raja.PNG' },
-  { name: 'Raja rajan',    role: 'Photographer & designer',   img: '/images/Meet Our Team Images/Raja Rajan.jpeg' },
-  { name: 'Hari',          role: 'Cinemotographer & Editor',  img: '/images/Meet Our Team Images/Hari Krishnan.PNG' },
-  { name: 'Siva',          role: 'Photographer',              img: '/images/Meet Our Team Images/Siva -02.png' },
+  { name: 'Maari Selvam',  role: 'Cinemotographer & Editor',  img: '/images/meet-our-team/maari-selvam.jpg' },
+  { name: 'Santhosh kumar', role: 'Photographer',             img: '/images/meet-our-team/santhosh-kumar.jpg' },
+  { name: 'Tilak',         role: 'Cinemotographer & Editor',  img: '/images/meet-our-team/tilak.jpg' },
+  { name: 'Bharathi raja', role: 'Photographer & designer',   img: '/images/meet-our-team/bharathi-raja.jpg' },
+  { name: 'Raja rajan',    role: 'Photographer & designer',   img: '/images/meet-our-team/raja-rajan.jpg' },
+  { name: 'Hari',          role: 'Cinemotographer & Editor',  img: '/images/meet-our-team/hari-krishnan.jpg' },
+  { name: 'Siva',          role: 'Photographer',              img: '/images/meet-our-team/siva.png' },
 ];
 
 const About = () => (
