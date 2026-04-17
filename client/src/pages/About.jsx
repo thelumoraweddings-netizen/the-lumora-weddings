@@ -12,7 +12,7 @@ const vUp = (delay = 0) => ({
 });
 
 const teamMembers = [
-  { name: 'Maari Selvam',  role: 'Cinemotographer & Editor',  img: '/images/meet-our-team/maari-selvam.jpg' },
+  { name: 'Maari Selvam',  role: 'Cinemotographer & Editor',  img: '/images/meet-our-team/maari-selvam new.jpeg' },
   { name: 'Santhosh kumar', role: 'Photographer',             img: '/images/meet-our-team/santhosh-kumar.jpg' },
   { name: 'Tilak',         role: 'Cinemotographer & Editor',  img: '/images/meet-our-team/tilak.jpg' },
   { name: 'Bharathi raja', role: 'Photographer & designer',   img: '/images/meet-our-team/bharathi-raja.jpg' },
