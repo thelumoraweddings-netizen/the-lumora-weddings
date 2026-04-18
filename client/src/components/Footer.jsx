@@ -38,7 +38,6 @@ const Footer = () => {
                         <h4 className="footer-heading-modern">Explore</h4>
                         <ul className="footer-list-modern">
                             <li><Link to="/booking">Book Us</Link></li>
-                            <li><Link to="/testimonials">Testimonials</Link></li>
                         </ul>
                     </div>
 
@@ -67,7 +66,7 @@ const Footer = () => {
                 </div>
 
                 <div className="footer-bottom-modern">
-                    <p>&copy; {new Date().getFullYear()} THE LUMORA WEDDINGS. All rights reserved.</p>
+                    <p>&copy; {new Date().getFullYear()} THE LUMORA WEDDINGS. All rights reserved. | Designed & Developed with passion by Mithun Ragu</p>
                     <div className="footer-legal-links">
                         <a href="#">Privacy Policy</a>
                         <a href="#">Terms of Service</a>
