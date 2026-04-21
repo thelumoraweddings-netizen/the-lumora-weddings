@@ -109,11 +109,6 @@ const clipReveal = {
   exit: { opacity: 0, y: -20, transition: { duration: 0.5 } },
 };
 
-const scriptFade = {
-  hidden:  { opacity: 0, scale: 0.8 },
-  visible: { opacity: 0.08, scale: 1, transition: { duration: 2.2, ease: "easeOut" } },
-  exit:    { opacity: 0, scale: 1.1, transition: { duration: 1 } }
-};
 
 const fadeSlide = (delay = 0) => ({
   initial:  { opacity: 0, y: 20 },
@@ -156,16 +151,6 @@ const HeroCarousel = () => {
                   <AnimatePresence mode="wait" initial={true}>
                     {isActive && (
                       <motion.div key={`text-${slide.id}`} className="hero-text-inner">
-                        {/* Background Script Text */}
-                        <motion.span 
-                          className="hero-script-bg"
-                          variants={scriptFade}
-                          initial="hidden"
-                          animate="visible"
-                          exit="exit"
-                        >
-                          {slide.script}
-                        </motion.span>
 
                         <motion.div className="hero-slide-eyebrow" {...fadeSlide(0.3)}>
                           <span className="hero-eyebrow-line" />
