@@ -90,7 +90,7 @@ const StatItem = ({ target, label, bg, suffix = '+', delay = 0 }) => {
   useEffect(() => {
     if (isInView) {
       const controls = animate(0, target, {
-        duration: 3,
+        duration: 1.2,
         delay: delay * 0.1, // Staggered count-up
         ease: [0.16, 1, 0.3, 1],
         onUpdate: (value) => setCount(Math.floor(value)),
