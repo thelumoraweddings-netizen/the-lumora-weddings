@@ -27,7 +27,7 @@ const Footer = () => {
                     <div className="col-span-2 footer-nav-col">
                         <h4 className="footer-heading-modern">Studio</h4>
                         <ul className="footer-list-modern">
-                            <li><Link to="/">Home</Link></li>
+                            <li><Link to="/" onClick={() => window.scrollTo(0, 0)}>Home</Link></li>
                             <li><Link to="/gallery">Wedding Films</Link></li>
                             <li><Link to="/about">Our Story</Link></li>
                         </ul>
