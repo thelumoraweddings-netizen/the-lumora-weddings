@@ -30,3 +30,4 @@ server/output.log
 temp/
 /tmp/
 .gemini/
+*.original
