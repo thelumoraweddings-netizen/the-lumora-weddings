@@ -12,18 +12,18 @@ export const galleryCategories = [
     id: 'engagement',
     title: 'Engagement',
     description: 'The beautiful promise of a lifetime, captured in every glance.',
-    image: '/images/ENGAGEMENT CC/AJAY CC/image_1.jpg',
+    image: '/images/ENGAGEMENT-NEW/DEVA & SOWMIYA/tamnail.jpg',
     subCategories: [
       {
-        id: 'tirupur',
-        name: 'Arjun & Sneha',
-        title: 'ARJUN & SNEHA — TIRUPUR',
-        description: 'An elegant engagement ceremony in the heart of Tirupur, celebrating a timeless union.',
-        content: 'Engagement Photography in Tirupur. An engagement ceremony is one of the most memorable milestones in a couple\'s love story. It is the moment when two families come together to celebrate love, commitment, and the beginning of a lifelong journey.',
-        image: '/images/ENGAGEMENT CC/AJAY CC/image_1.jpg',
-        folder: 'ENGAGEMENT CC/AJAY CC',
-        prefix: 'image_',
-        count: 21
+        id: 'chennai',
+        name: 'Deva & Sowmiya',
+        title: 'DEVA & SOWMIYA — CHENNAI',
+        description: 'An elegant engagement ceremony in the heart of Chennai, celebrating a timeless union.',
+        content: 'Engagement Photography in Chennai. An engagement ceremony is one of the most memorable milestones in a couple\'s love story. It is the moment when two families come together to celebrate love, commitment, and the beginning of a lifelong journey.',
+        image: '/images/ENGAGEMENT-NEW/DEVA & SOWMIYA/tamnail.jpg',
+        folder: 'ENGAGEMENT-NEW/DEVA & SOWMIYA',
+        prefix: '',
+        count: 6
       },
       {
         id: 'coimbatore',

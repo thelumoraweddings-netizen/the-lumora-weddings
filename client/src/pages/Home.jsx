@@ -170,7 +170,7 @@ const Home = () => {
                 link: '/work/maternity-story'
               },
               { 
-                img: '/images/ENGAGEMENT CC/AJAY CC/image_5.jpg', 
+                img: '/images/ENGAGEMENT-NEW/DEVA & SOWMIYA/tamnail.jpg', 
                 cat: 'ENGAGEMENT', 
                 title: 'The Promise of Always — A Celebration of Commitment.',
                 link: '/work/engagement'

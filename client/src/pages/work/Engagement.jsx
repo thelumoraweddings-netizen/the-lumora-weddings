@@ -15,24 +15,20 @@ const Engagement = () => {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   const heroImages = {
-    left: '/images/ENGAGEMENT CC/AJAY CC/image_5.jpg',
-    center: '/images/ENGAGEMENT CC/AJAY CC/image_1.jpg',
-    right: '/images/ENGAGEMENT CC/AJAY CC/image_7.jpg',
+    left: '/images/ENGAGEMENT-NEW/DEVA & SOWMIYA/1.jpg',
+    center: '/images/ENGAGEMENT-NEW/DEVA & SOWMIYA/tamnail.jpg',
+    right: '/images/ENGAGEMENT-NEW/DEVA & SOWMIYA/2.jpg',
   };
   
   const galleryImages = [
-    '/images/ENGAGEMENT CC/AJAY CC/image_2.jpg',
-    '/images/ENGAGEMENT CC/AJAY CC/image_3.jpg',
-    '/images/ENGAGEMENT CC/AJAY CC/image_4.jpg',
-    '/images/ENGAGEMENT CC/AJAY CC/image_6.jpg',
-    '/images/ENGAGEMENT CC/AJAY CC/image_8.jpg',
-    '/images/ENGAGEMENT CC/AJAY CC/image_9.jpg',
-    '/images/ENGAGEMENT CC/AJAY CC/image_10.jpg',
-    '/images/ENGAGEMENT CC/AJAY CC/image_11.jpg',
-    '/images/ENGAGEMENT CC/AJAY CC/image_12.jpg',
-    '/images/ENGAGEMENT CC/AJAY CC/image_13.jpg',
-    '/images/ENGAGEMENT CC/AJAY CC/image_14.jpg',
-    '/images/ENGAGEMENT CC/AJAY CC/image_15.jpg',
+    '/images/ENGAGEMENT-NEW/DEVA & SOWMIYA/1.jpg',
+    '/images/ENGAGEMENT-NEW/DEVA & SOWMIYA/2.jpg',
+    '/images/ENGAGEMENT-NEW/DEVA & SOWMIYA/3.jpg',
+    '/images/ENGAGEMENT-NEW/DEVA & SOWMIYA/4.jpg',
+    '/images/ENGAGEMENT-NEW/DEVA & SOWMIYA/5.jpg',
+    '/images/ENGAGEMENT-NEW/DEVA & SOWMIYA/6.jpg',
+    '/images/ENGAGEMENT-NEW/DEVA & SOWMIYA/tamnail1.jpg',
+    '/images/ENGAGEMENT-NEW/DEVA & SOWMIYA/tamnail2.jpg',
   ];
 
   return (
