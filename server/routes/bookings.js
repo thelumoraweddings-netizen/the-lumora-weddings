@@ -11,30 +11,28 @@ const StorageService = require('../services/storageService');
 
 // @desc    Create new booking
 // @route   POST /api/bookings
-router.post('/', async (req, res) => {
-  console.log('[API] Received new booking inquiry:', req.body.name);
-  try {
-    const bookingData = req.body;
-    
-    // 💡 STEP 1: Safety Backup to local file (IMMEDIATE)
-    // This ensures no inquiry is lost even if notifications hang.
-    await StorageService.saveInquiry(bookingData);
+router.post('/', (req, res) => {
+  const bookingData = req.body;
+  console.log('[API] Received new booking inquiry:', bookingData.name);
 
-    // 💡 STEP 2: Trigger Notifications (Email/WhatsApp) in Background
-    // We send the response to the user FIRST for a snappy experience,
-    // while the notification service handles delivery in the background.
-    NotificationService.notifyAll(bookingData).catch(err => {
-      console.error('[Background Notification Error]', err.message);
-    });
+  // ⚡ Snappy Response: Send success immediately to the client
+  res.status(201).json({ 
+    success: true, 
+    message: 'Your inquiry has been captured! We will contact you via Email & WhatsApp shortly.'
+  });
 
-    res.status(201).json({ 
-      success: true, 
-      message: 'Your inquiry has been captured! We will contact you via Email & WhatsApp shortly.'
-    });
-  } catch (error) {
-    console.error('[API Error] Booking submission failed:', error.message);
-    res.status(400).json({ success: false, message: error.message });
-  }
+  // 🛠️ Background Processing: Handle storage and notifications without blocking the client
+  (async () => {
+    try {
+      // Step 1: Safety Backup to local file
+      await StorageService.saveInquiry(bookingData);
+
+      // Step 2: Trigger Notifications (Email/WhatsApp)
+      await NotificationService.notifyAll(bookingData);
+    } catch (error) {
+      console.error('[Background Processing Error] Booking tasks failed:', error.message);
+    }
+  })();
 });
 
 // @desc    Get all bookings (Safety net backup)
