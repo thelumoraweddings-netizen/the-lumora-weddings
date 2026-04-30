@@ -146,6 +146,21 @@ export const galleryCategories = [
           'DSC09969-Edit.jpg'
         ],
         count: 7
+      },
+      {
+        id: 'sibi-dharshini',
+        name: 'Sibi & Dharshini',
+        title: 'SIBI & DHARSHINI — WEDDING STORY',
+        description: 'A beautiful wedding celebration filled with love and tradition.',
+        content: 'Wedding / Reception. A grand celebration capturing the essence of their beautiful journey.',
+        image: '/images/RECEPTION & WEDDING NEW/SIBI & DHARSHINI/tamnail.jpg.jpeg',
+        folder: 'RECEPTION & WEDDING NEW/SIBI & DHARSHINI',
+        customNames: [
+          '04.jpg.jpeg', '05.jpg.jpeg', '06.jpg.jpeg', '07.jpg.jpeg', '1.jpg - Copy.jpeg',
+          '2.jpg.jpeg', '3.jpg.jpeg', '4.jpg.jpeg', '5.jpg.jpeg', '6.jpg - Copy.jpeg',
+          '7.jpg.jpeg', '9.jpg.jpeg', 'tamnail.jpg.jpeg'
+        ],
+        count: 13
       }
     ]
   },
@@ -274,39 +289,6 @@ export const galleryCategories = [
         description: 'Capturing the curious and joyful exploration of a baby’s first milestones.',
         content: 'Babyshoot — First Steps. Baby Zara\'s curiosity and joyful spirit shone through every moment of her milestone shoot.',
         image: '/images/BABYSHOWERR CC/ridhu cc/5.jpg',
-        folder: 'BABYSHOWERR CC/ridhu cc',
-        prefix: '',
-        count: 20
-      },
-      {
-        id: 'newborn-ishani',
-        name: 'Newborn Ishani',
-        title: 'NEWBORN ISHANI — PURE JOY',
-        description: 'A serene and cinematic session documenting the arrival of pure innocence.',
-        content: 'Babyshoot — Pure Joy. Newborn Ishani\'s arrival brought so much light to her family.',
-        image: '/images/BABYSHOWERR CC/ridhu cc/10.jpg',
-        folder: 'BABYSHOWERR CC/ridhu cc',
-        prefix: '',
-        count: 20
-      },
-      {
-        id: 'baby-vihaan',
-        name: 'Baby Vihaan',
-        title: 'BABY VIHAAN — SMILING HEARTS',
-        description: 'Capturing the playful and infectious laughter of baby Vihaan.',
-        content: 'Babyshoot — Smiling Hearts. Every giggle and playful movement of baby Vihaan was a joy to capture.',
-        image: '/images/BABYSHOWERR CC/ridhu cc/15.jpg',
-        folder: 'BABYSHOWERR CC/ridhu cc',
-        prefix: '',
-        count: 20
-      },
-      {
-        id: 'little-myra',
-        name: 'Little Myra',
-        title: 'LITTLE MYRA — SERENE MOMENTS',
-        description: 'Documenting the peaceful and angelic expressions of little Myra.',
-        content: 'Babyshoot — Serene Moments. A collection of precious and tranquil moments reflecting pure innocence.',
-        image: '/images/BABYSHOWERR CC/ridhu cc/18.jpg',
         folder: 'BABYSHOWERR CC/ridhu cc',
         prefix: '',
         count: 20
