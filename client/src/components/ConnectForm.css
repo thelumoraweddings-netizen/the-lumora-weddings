@@ -6,8 +6,8 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow: hidden;
-  padding: 80px 20px;
+  overflow-y: auto; /* Allow scrolling for long forms */
+  padding: 120px 20px 80px; /* Increased top padding to avoid navbar overlap */
 }
 
 /* ── Fixed Progress Header ── */
@@ -214,8 +214,14 @@
 }
 
 .rmdp-mobile .rmdp-calendar {
-  width: 90vw !important;
-  max-width: 380px;
+  width: 95vw !important;
+  max-width: 360px;
+  z-index: 2000 !important;
+}
+
+/* Ensure the portal/modal is visible on top */
+.rmdp-mobile {
+  z-index: 2000 !important;
 }
 
 .rmdp-action-button {
@@ -376,6 +382,7 @@
 
   .form-card {
     padding: 30px 20px;
+    margin-bottom: 40px; /* Space for the bottom of the screen */
   }
 
   .card-header h2 {

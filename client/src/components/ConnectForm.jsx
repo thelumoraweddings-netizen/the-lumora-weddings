@@ -155,9 +155,14 @@ const ConnectForm = () => {
         toast.error(response.data.message || 'Something went wrong. Please try again.');
       }
     } catch (err) {
-      console.error('[Booking Error]', err);
+      console.error('[Booking Submit Failure]', {
+        message: err.message,
+        response: err.response?.data,
+        status: err.response?.status,
+        apiData
+      });
       const errorMessage = err.response?.data?.message || err.message || 'Connection error';
-      toast.error(`Error: ${errorMessage}. Please check your connection.`);
+      toast.error(`Submission failed: ${errorMessage}. Please check your connection.`);
     } finally {
       setLoading(false);
     }
@@ -199,7 +204,7 @@ const ConnectForm = () => {
                 <label>Bride/Groom Name</label>
                 <input 
                   type="text" name="name" placeholder="E.g. Akash & Priya"
-                  value={formData.name} onChange={handleChange} autoFocus
+                  value={formData.name} onChange={handleChange}
                   className={errors.name ? 'input-error' : ''}
                 />
                 {errors.name && (
@@ -273,7 +278,7 @@ const ConnectForm = () => {
                   <label>Venue City</label>
                   <input 
                     type="text" name="city" placeholder="E.g. Mumbai"
-                    value={formData.city} onChange={handleChange} autoFocus
+                    value={formData.city} onChange={handleChange}
                     className={errors.city ? 'input-error' : ''}
                   />
                   {errors.city && (
@@ -299,7 +304,11 @@ const ConnectForm = () => {
                       containerClassName="custom-container"
                       calendarPosition="bottom-center"
                       mobileButtons={[
-                        
+                        {
+                          label: "SET DATES",
+                          className: "rmdp-button rmdp-action-button",
+                          onClick: () => {} 
+                        }
                       ]}
                       animations={[
                         
