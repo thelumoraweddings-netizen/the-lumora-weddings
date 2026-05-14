@@ -27,9 +27,9 @@ const Footer = () => {
                     <div className="col-span-2 footer-nav-col">
                         <h4 className="footer-heading-modern">Studio</h4>
                         <ul className="footer-list-modern">
-                            <li><Link to="/" onClick={() => window.scrollTo(0, 0)}>Home</Link></li>
-                            <li><Link to="/portfolio">Wedding Films</Link></li>
-                            <li><Link to="/about">Our Story</Link></li>
+                            <li><Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Home</Link></li>
+                            <li><Link to="/portfolio" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Wedding Films</Link></li>
+                            <li><Link to="/about" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Our Story</Link></li>
                         </ul>
                     </div>
 
@@ -37,7 +37,7 @@ const Footer = () => {
                     <div className="col-span-2 footer-nav-col">
                         <h4 className="footer-heading-modern">Explore</h4>
                         <ul className="footer-list-modern">
-                            <li><Link to="/booking">Book Us</Link></li>
+                            <li><Link to="/booking" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Book Us</Link></li>
                         </ul>
                     </div>
 

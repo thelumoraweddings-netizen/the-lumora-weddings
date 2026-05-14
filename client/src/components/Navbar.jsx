@@ -81,6 +81,11 @@ const Navbar = () => {
                   <Link 
                     to={link.path} 
                     className={`nf-desktop-link ${location.pathname === link.path ? 'active' : ''}`}
+                    onClick={() => {
+                      if (location.pathname === link.path) {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }
+                    }}
                   >
                     {link.name}
                   </Link>
@@ -94,7 +99,11 @@ const Navbar = () => {
                   <div className="nf-dropdown">
                     <div className="nf-dropdown-inner">
                       {link.dropdown.map((sub) => (
-                        <Link key={sub.path} to={sub.path} className="nf-dropdown-link">
+                        <Link key={sub.path} to={sub.path} className="nf-dropdown-link" onClick={() => {
+                          if (location.pathname === sub.path) {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }
+                        }}>
                           {sub.name}
                         </Link>
                       ))}
@@ -153,7 +162,12 @@ const Navbar = () => {
                     <Link 
                       to={link.path} 
                       className={`nf-drawer-link ${location.pathname === link.path ? 'active' : ''}`}
-                      onClick={() => setMenuOpen(false)}
+                      onClick={() => {
+                        setMenuOpen(false);
+                        if (location.pathname === link.path) {
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }
+                      }}
                     >
                       {link.name}
                     </Link>
@@ -171,7 +185,12 @@ const Navbar = () => {
                           key={sub.path} 
                           to={sub.path} 
                           className="nf-drawer-sublink" 
-                          onClick={() => setMenuOpen(false)}
+                          onClick={() => {
+                            setMenuOpen(false);
+                            if (location.pathname === sub.path) {
+                              window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }
+                          }}
                         >
                           {sub.name}
                         </Link>
