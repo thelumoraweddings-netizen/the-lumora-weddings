@@ -40,35 +40,12 @@ const Testimonials = () => (
       </div>
     </section>
 
-    {/* ── Reviews Grid ── */}
-    <div className="pg-container">
-      <div className="testimonials-page-grid">
-        {reviews.map((rev, i) => (
-          <motion.div key={i} {...vUp(i * 0.1)} className="testimonial-full-card">
-
-            <div className="tfc-top">
-              <div className="tfc-quote-icon"><Quote size={20} /></div>
-              <span className="tfc-tag">{rev.tag}</span>
-            </div>
-
-            <p className="tfc-text">"{rev.text}"</p>
-
-            <div className="tfc-footer">
-              <div className="tfc-avatar">{rev.name.charAt(0)}</div>
-              <div>
-                <div className="tfc-name">{rev.name}</div>
-                <div className="tfc-stars">
-                  {[...Array(rev.rating)].map((_, j) => (
-                    <Star key={j} size={12} fill="var(--pg-gold)" color="var(--pg-gold)" />
-                  ))}
-                </div>
-                <div className="tfc-event">{rev.event}</div>
-              </div>
-            </div>
-
-          </motion.div>
-        ))}
-      </div>
+    {/* ── Coming Soon ── */}
+    <div className="pg-container" style={{ padding: '80px 0', textAlign: 'center' }}>
+      <motion.div {...vUp(0)}>
+        <h2 style={{ color: 'var(--pg-gold)', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '16px' }}>Coming Soon</h2>
+        <p style={{ color: 'var(--pg-gray)', fontSize: '1.1rem' }}>We are currently updating our client stories. Please check back later.</p>
+      </motion.div>
     </div>
 
     {/* ── CTA ── */}

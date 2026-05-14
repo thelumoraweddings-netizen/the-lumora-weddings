@@ -265,81 +265,10 @@ const Home = () => {
             <h2 className="pg-section-title cinematic-header">TESTIMONIALS</h2>
           </motion.div>
 
-          <div className="reviews-layout">
-            {/* Summary Sidebar */}
-            <motion.div {...vUp(0.1)} className="reviews-summary-card">
-              <div className="summary-brand">
-                <img src="/logo.png" alt="Branding" className="summary-logo" />
-                <div className="summary-info">
-                  <h3>The Lumora Weddings</h3>
-                  <div className="summary-rating">
-                    <strong>5.0</strong>
-                    <div className="stars-row">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} size={14} color="#fabb05" fill="#fabb05" />
-                      ))}
-                    </div>
-                  </div>
-                  <span className="summary-total">7 Google reviews</span>
-                </div>
-              </div>
-              <a 
-                href="https://www.google.com/maps/place/NEGATIVE+FILM+PHOTOGRAPHY/@11.034902,76.9756171,17z/data=!3m1!4b1!4m6!3m5!1s0x3ba8596cb5437e81:0x579b38682aaa5777!8m2!3d11.0348967!4d76.978192!16s%2Fg%2F11zksz4mq3?entry=ttu&g_ep=EgoyMDI2MDMzMS4wIKXMDSoASAFQAw%3D%3D" 
-                target="_blank" 
-                rel="noreferrer" 
-                className="write-review-btn"
-              >
-                Write a review
-              </a>
-            </motion.div>
-
-            {/* Reviews Carousel */}
-            <div className="reviews-carousel-wrap">
-              <Swiper
-                modules={[Autoplay, Pagination, Navigation]}
-                spaceBetween={20}
-                slidesPerView={1}
-                breakpoints={{
-                  768: { slidesPerView: 2 },
-                  1100: { slidesPerView: 2.5 }
-                }}
-                loop={true}
-                autoplay={{ delay: 5000, disableOnInteraction: false }}
-                pagination={{ clickable: true, el: '.review-pagination' }}
-                className="reviews-swiper"
-              >
-                {testimonials.map((item, i) => (
-                  <SwiperSlide key={i}>
-                    <div className="review-card">
-                      <div className="review-card-header">
-                        <div className="user-avatar" style={{ background: item.color }}>
-                          {item.initial}
-                        </div>
-                        <div className="user-meta">
-                          <h4>{item.name}</h4>
-                          <span>{item.date}</span>
-                        </div>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" className="google-icon" alt="G" style={{ width: 14 }} />
-                      </div>
-                      
-                      <div className="review-rating">
-                        <div className="stars-row">
-                          {[...Array(item.rating)].map((_, j) => (
-                            <Star key={j} size={14} color="#fabb05" fill="#fabb05" />
-                          ))}
-                        </div>
-                        <CheckCircle2 size={12} color="#1a73e8" className="verified-icon" />
-                      </div>
-
-                      <p className="review-text">{item.text}</p>
-                      <button className="read-more-btn">Read more</button>
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-              <div className="review-pagination"></div>
-            </div>
-          </div>
+          <motion.div {...vUp(0.1)} style={{ textAlign: 'center', padding: '60px 0', borderTop: '1px solid var(--pg-border)' }}>
+            <h3 style={{ color: 'var(--pg-gold)', fontSize: '1.5rem', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '10px' }}>Coming Soon</h3>
+            <p style={{ color: 'var(--pg-gray)' }}>We are currently updating our client stories.</p>
+          </motion.div>
         </div>
       </section>
 

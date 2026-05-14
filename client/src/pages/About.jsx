@@ -61,22 +61,10 @@ const About = () => (
           <motion.div {...vUp(0.15)} className="about-text-col">
             <p className="pg-section-eyebrow">The Visionary</p>
             <h2>About Koushik</h2>
-            <p>
-              Hi, I’m Koushik — the creative eye behind The Lumora Weddings. 
-              Photography, for me, is more than just capturing images. It’s about preserving 
-              emotions, fleeting moments, and stories that deserve to be remembered forever. 
-              Every wedding I shoot is not just an event — it’s a once-in-a-lifetime story, 
-              filled with love, connection, and beautiful chaos.
-            </p>
-            <p>
-              At The Lumora Weddings, I focus on creating timeless, cinematic visuals that 
-              reflect the true essence of your special day. I believe in capturing moments 
-              as they naturally unfold — the laughter, the tears, and the in-between glances 
-              — because those are the memories that matter the most.
-            </p>
-            <p>
-              My goal is simple: to make your story live forever through my lens.
-            </p>
+            <p>Some stories deserve more than memories. They deserve to be felt forever.</p>
+            <p>I’m Koushik, the founder of The Lumora Weddings, where every wedding is captured with emotion, honesty, and timeless artistry. I believe photography is not just about how a moment looks, but about how it feels – the emotions, the connection, the people, and the love that make each celebration truly unforgettable.</p>
+            <p>My approach is natural and cinematic, focused on preserving real moments as they unfold. From quiet glances to joyful tears, every frame is created to hold the emotions of your day in their purest form.</p>
+            <p>At The Lumora Weddings, I don’t just capture weddings. I preserve stories that will be cherished for generations.</p>
 
             <div className="about-stats-row">
               <div className="about-stat">
