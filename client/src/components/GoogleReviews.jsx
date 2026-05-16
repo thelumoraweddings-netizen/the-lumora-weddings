@@ -1,11 +1,12 @@
 import React from 'react';
-import { Star, Quote, ExternalLink } from 'lucide-react';
+import { Star, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination } from 'swiper/modules';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import '../pages/Testimonials.css';
+import 'swiper/css/navigation';
+import './GoogleReviews.css';
 
 const vUp = (delay = 0) => ({
   initial: { opacity: 0, y: 36 },
@@ -16,87 +17,128 @@ const vUp = (delay = 0) => ({
 
 const reviews = [
   {
-    author_name: "Mariselvam S",
+    name: "Mariselvam S",
     rating: 5,
-    text: "Absolutely loved their work! The shooting style, creativity, and editing quality were on another level. Every photo and video felt emotional and cinematic. Watching the final output was truly heart melting. Highly recommended for wedding photography!"
+    text: "Absolutely loved their work! The shooting style, creativity, and editing quality were on another level. Every photo and video felt emotional and cinematic. Watching the final output was truly heart melting. Highly recommended for wedding photography!",
+    date: "Recent",
+    initial: "M",
+    color: "#34a853" // Google Green
   },
   {
-    author_name: "krishna kumar",
+    name: "krishna kumar",
     rating: 5,
-    text: "Amazing experience! The studio ambience was classy and peaceful, and the photographers were very friendly and cooperative. Their customer handling was truly impressive."
+    text: "Amazing experience! The studio ambience was classy and peaceful, and the photographers were very friendly and cooperative. Their customer handling was truly impressive.",
+    date: "Recent",
+    initial: "K",
+    color: "#8c1c3f" // Brand Red/Pink
   },
   {
-    author_name: "KARTHIK M",
+    name: "KARTHIK M",
     rating: 5,
-    text: "Excellent studio with a great environment and professional setup. Friendly service and attention to detail make it a wonderful experience. Highly recommended!"
+    text: "Excellent studio with a great environment and professional setup. Friendly service and attention to detail make it a wonderful experience. Highly recommended!",
+    date: "Recent",
+    initial: "K",
+    color: "#ea4335" // Google Red
   },
   {
-    author_name: "Prabavathi M",
+    name: "Prabavathi M",
     rating: 5,
-    text: "Excellent service and stunning wedding photography. THE LUMORA WEDDINGS captured every moment beautifully. Highly recommended!"
+    text: "Excellent service and stunning wedding photography. THE LUMORA WEDDINGS captured every moment beautifully. Highly recommended!",
+    date: "Recent",
+    initial: "P",
+    color: "#fabb05" // Google Yellow
   },
   {
-    author_name: "jothika28 jayaraman",
+    name: "jothika28 jayaraman",
     rating: 5,
-    text: "A friendly cameraman and takes very good pics"
+    text: "A friendly cameraman and takes very good pics",
+    date: "Recent",
+    initial: "J",
+    color: "#7b1fa2" // Purple
   }
 ];
 
-const GoogleReviews = ({ limit }) => {
-  const displayReviews = limit ? reviews.slice(0, limit) : reviews;
-
+const GoogleReviews = () => {
   return (
     <div className="pg-container">
-      <motion.div {...vUp(0)} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px', marginBottom: '60px' }}>
-        <div>
-          <h2 className="pg-section-title cinematic-header" style={{ marginBottom: '10px' }}>Real Experiences</h2>
-          <p style={{ color: 'var(--pg-muted)', fontSize: '15px' }}>Read what our couples have to say about their journey with us.</p>
-        </div>
-        <a href="https://g.page/r/CU6hY52wS4guEBI/review" target="_blank" rel="noreferrer" className="pg-btn-primary">
-          Write a Review <ExternalLink size={16} />
-        </a>
+      <motion.div {...vUp(0)} className="pg-section-header centered">
+        <h2 className="pg-section-title cinematic-header">REAL EXPERIENCES</h2>
       </motion.div>
 
-      <motion.div {...vUp(0.2)}>
-        <Swiper
-          modules={[Autoplay, Pagination]}
-          spaceBetween={30}
-          slidesPerView={1}
-          breakpoints={{
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-          }}
-          loop={true}
-          autoplay={{ delay: 5000, disableOnInteraction: false }}
-          pagination={{ clickable: true }}
-          style={{ paddingBottom: '60px' }}
-        >
-          {displayReviews.map((review, index) => (
-            <SwiperSlide key={index} style={{ height: 'auto' }}>
-              <div className="pg-card review-card" style={{ padding: '40px', display: 'flex', flexDirection: 'column', height: '100%', cursor: 'grab' }}>
-                <div style={{ display: 'flex', gap: '4px', marginBottom: '20px', color: 'var(--pg-gold)' }}>
-                  {[...Array(review.rating)].map((_, i) => (
-                    <Star key={i} size={18} fill="currentColor" />
+      <div className="reviews-layout">
+        {/* Summary Sidebar */}
+        <motion.div {...vUp(0.1)} className="reviews-summary-card">
+          <div className="summary-brand">
+            <img src="/logo.png" alt="Branding" className="summary-logo" />
+            <div className="summary-info">
+              <h3>The Lumora Weddings</h3>
+              <div className="summary-rating">
+                <strong>5.0</strong>
+                <div className="stars-row">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={14} color="#fabb05" fill="#fabb05" />
                   ))}
                 </div>
-                <Quote size={32} color="var(--pg-border)" style={{ marginBottom: '20px' }} />
-                <p style={{ fontSize: '15px', lineHeight: '1.8', color: 'var(--pg-cream)', marginBottom: '30px', flex: 1, fontStyle: 'italic' }}>
-                  "{review.text.replace(/^["“]|["”]$/g, '')}"
-                </p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', borderTop: '1px solid var(--pg-border-soft)', paddingTop: '20px', marginTop: 'auto' }}>
-                  <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--pg-surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--pg-gold)', fontWeight: 'bold' }}>
-                    {review.author_name.charAt(0).toUpperCase()}
-                  </div>
-                  <div>
-                    <h4 style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '14px', fontWeight: '600', color: 'var(--pg-cream)' }}>{review.author_name}</h4>
-                    <span style={{ fontSize: '12px', color: 'var(--pg-muted)' }}>Verified Review</span>
-                  </div>
-                </div>
               </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </motion.div>
+              <span className="summary-total">5 Google reviews</span>
+            </div>
+          </div>
+          <a 
+            href="https://g.page/r/CU6hY52wS4guEBI/review" 
+            target="_blank" 
+            rel="noreferrer" 
+            className="write-review-btn"
+          >
+            Write a review
+          </a>
+        </motion.div>
+
+        {/* Reviews Carousel */}
+        <div className="reviews-carousel-wrap">
+          <Swiper
+            modules={[Autoplay, Pagination, Navigation]}
+            spaceBetween={20}
+            slidesPerView={1}
+            breakpoints={{
+              768: { slidesPerView: 2 },
+              1100: { slidesPerView: 2.5 }
+            }}
+            loop={true}
+            autoplay={{ delay: 5000, disableOnInteraction: false }}
+            pagination={{ clickable: true, el: '.review-pagination' }}
+            className="reviews-swiper"
+          >
+            {reviews.map((item, i) => (
+              <SwiperSlide key={i} style={{ height: 'auto' }}>
+                <div className="review-card">
+                  <div className="review-card-header">
+                    <div className="user-avatar" style={{ background: item.color }}>
+                      {item.initial}
+                    </div>
+                    <div className="user-meta">
+                      <h4>{item.name}</h4>
+                      <span>{item.date}</span>
+                    </div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" className="google-icon" alt="G" style={{ width: 14 }} />
+                  </div>
+                  
+                  <div className="review-rating">
+                    <div className="stars-row">
+                      {[...Array(item.rating)].map((_, j) => (
+                        <Star key={j} size={14} color="#fabb05" fill="#fabb05" />
+                      ))}
+                    </div>
+                    <CheckCircle2 size={12} color="#1a73e8" className="verified-icon" />
+                  </div>
+
+                  <p className="review-text">{item.text.replace(/^["“]|["”]$/g, '')}</p>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          <div className="review-pagination"></div>
+        </div>
+      </div>
     </div>
   );
 };
