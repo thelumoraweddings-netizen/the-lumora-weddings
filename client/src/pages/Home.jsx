@@ -10,6 +10,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-coverflow';
 // import PortfolioSlider from '../components/PortfolioSlider';
+import GoogleReviews from '../components/GoogleReviews';
 import './Home.css';
 
 const vUp = (delay = 0) => ({
@@ -259,17 +260,8 @@ const Home = () => {
       </section>
 
       {/* ── Google Reviews Overhaul ── */}
-      <section className="home-section reviews-section">
-        <div className="pg-container">
-          <motion.div {...vUp(0)} className="pg-section-header centered">
-            <h2 className="pg-section-title cinematic-header">TESTIMONIALS</h2>
-          </motion.div>
-
-          <motion.div {...vUp(0.1)} style={{ textAlign: 'center', padding: '60px 0', borderTop: '1px solid var(--pg-border)' }}>
-            <h3 style={{ color: 'var(--pg-gold)', fontSize: '1.5rem', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '10px' }}>Coming Soon</h3>
-            <p style={{ color: 'var(--pg-gray)' }}>We are currently updating our client stories.</p>
-          </motion.div>
-        </div>
+      <section className="home-section reviews-section" style={{ paddingBottom: '120px' }}>
+        <GoogleReviews limit={3} />
       </section>
 
       {/* ── CTA ── */}
