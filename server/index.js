@@ -22,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/bookings', require('./routes/bookings'));
+app.use('/api/reviews', require('./routes/reviews'));
 
 
 // Basic Route
