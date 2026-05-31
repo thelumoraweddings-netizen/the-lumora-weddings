@@ -923,7 +923,7 @@ const QuotationManager = () => {
                   {(form.events || []).map((ev, i) => (
                     <div key={i} style={{ background: '#F6F4ED', padding: '12px', borderRadius: '8px', border: '1px solid rgba(0,45,36,0.1)' }}>
                       <div className="qm-dynamic-row" style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '10px' }}>
-                        <div style={{ position: 'relative', flex: '1 1 130px' }}>
+                        <div className="qm-event-date-wrap">
                           {!ev.date && (
                             <div style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'rgba(0,45,36,0.4)', pointerEvents: 'none', fontSize: '0.86rem' }}>
                               Date
@@ -942,7 +942,7 @@ const QuotationManager = () => {
                           />
                         </div>
                         <input 
-                          className="qm-input" 
+                          className="qm-input qm-event-name" 
                           placeholder="e.g. Reception, Haldi..." 
                           value={ev.name} 
                           onChange={e => {
@@ -950,7 +950,6 @@ const QuotationManager = () => {
                             newEvents[i].name = e.target.value;
                             setForm(f => ({ ...f, events: newEvents }));
                           }} 
-                          style={{ flex: '2 1 150px' }}
                         />
                         <select 
                           className="qm-select" 

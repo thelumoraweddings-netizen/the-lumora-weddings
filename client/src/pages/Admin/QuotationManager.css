@@ -855,4 +855,8 @@
   .qm-preview-sig { text-align: left; }
   .qm-preview-sig-line { margin-left: 0; }
   .qm-dynamic-row { flex-wrap: wrap; }
+  .qm-event-date-wrap, .qm-event-name { flex: 1 1 100% !important; margin-bottom: 2px; }
 }
+
+.qm-event-date-wrap { flex: 1 1 130px; position: relative; }
+.qm-event-name { flex: 2 1 150px; }
