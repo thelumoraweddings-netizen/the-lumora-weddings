@@ -1283,7 +1283,7 @@ const QuotationManager = () => {
           <div className="qm-preview-header">
             <div>
               <h1 className="qm-preview-brand">THE LUMORA WEDDINGS</h1>
-              <div className="qm-preview-tagline">Fine Art Wedding Photography & Films</div>
+
               <div className="qm-preview-contact">Coimbatore & Chennai · +91 93458 49846 · @TheLumoraWeddings</div>
             </div>
             <div className="qm-preview-docinfo">
