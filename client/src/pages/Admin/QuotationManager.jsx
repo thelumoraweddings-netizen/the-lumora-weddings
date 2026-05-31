@@ -923,20 +923,24 @@ const QuotationManager = () => {
                   {(form.events || []).map((ev, i) => (
                     <div key={i} style={{ background: '#F6F4ED', padding: '12px', borderRadius: '8px', border: '1px solid rgba(0,45,36,0.1)' }}>
                       <div className="qm-dynamic-row" style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '10px' }}>
-                        <input 
-                          className="qm-input" 
-                          type={ev.date ? 'date' : 'text'}
-                          onFocus={e => (e.target.type = 'date')}
-                          onBlur={e => { if (!e.target.value) e.target.type = 'text'; }}
-                          placeholder="Event Date"
-                          value={ev.date || ''} 
-                          onChange={e => {
-                            const newEvents = [...(form.events || [])];
-                            newEvents[i].date = e.target.value;
-                            setForm(f => ({ ...f, events: newEvents }));
-                          }} 
-                          style={{ flex: 1, minWidth: '130px' }}
-                        />
+                        <div style={{ position: 'relative', flex: 1, minWidth: '130px' }}>
+                          {!ev.date && (
+                            <div style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'rgba(0,45,36,0.4)', pointerEvents: 'none', fontSize: '0.86rem' }}>
+                              Date
+                            </div>
+                          )}
+                          <input 
+                            className="qm-input" 
+                            type="date" 
+                            value={ev.date || ''} 
+                            onChange={e => {
+                              const newEvents = [...(form.events || [])];
+                              newEvents[i].date = e.target.value;
+                              setForm(f => ({ ...f, events: newEvents }));
+                            }} 
+                            style={{ width: '100%', color: ev.date ? 'inherit' : 'rgba(0,0,0,0)' }}
+                          />
+                        </div>
                         <input 
                           className="qm-input" 
                           placeholder="e.g. Reception, Haldi..." 
