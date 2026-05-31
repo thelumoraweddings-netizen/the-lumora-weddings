@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
-import { Sun, Moon, Facebook, Instagram, Linkedin, Youtube, MessageCircle, X } from 'lucide-react';
+import { Sun, Moon, Facebook, Instagram, Linkedin, Youtube, MessageCircle, X, Lock } from 'lucide-react';
 import './Navbar.css';
 
 const navLinks = [
@@ -20,6 +20,7 @@ const navLinks = [
   },
   { name: 'Wedding Films', path: '/portfolio', num: '04' },
   { name: 'Book Us',   path: '/booking',   num: '05' },
+  { name: 'Admin',     path: '/admin/login', num: '06', isAdmin: true },
 ];
 
 const Navbar = () => {
@@ -80,13 +81,14 @@ const Navbar = () => {
                 {link.path ? (
                   <Link 
                     to={link.path} 
-                    className={`nf-desktop-link ${location.pathname === link.path ? 'active' : ''}`}
+                    className={`nf-desktop-link ${link.isAdmin ? 'nf-admin-link' : ''} ${location.pathname === link.path || (link.isAdmin && location.pathname.startsWith('/admin')) ? 'active' : ''}`}
                     onClick={() => {
                       if (location.pathname === link.path) {
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                       }
                     }}
                   >
+                    {link.isAdmin && <Lock size={12} style={{ marginRight: '4px', opacity: 0.7 }} />}
                     {link.name}
                   </Link>
                 ) : (
@@ -161,7 +163,7 @@ const Navbar = () => {
                   {link.path ? (
                     <Link 
                       to={link.path} 
-                      className={`nf-drawer-link ${location.pathname === link.path ? 'active' : ''}`}
+                      className={`nf-drawer-link ${link.isAdmin ? 'nf-drawer-admin-link' : ''} ${location.pathname === link.path || (link.isAdmin && location.pathname.startsWith('/admin')) ? 'active' : ''}`}
                       onClick={() => {
                         setMenuOpen(false);
                         if (location.pathname === link.path) {
@@ -169,6 +171,7 @@ const Navbar = () => {
                         }
                       }}
                     >
+                      {link.isAdmin && <Lock size={14} style={{ marginRight: '8px', opacity: 0.6 }} />}
                       {link.name}
                     </Link>
                   ) : (

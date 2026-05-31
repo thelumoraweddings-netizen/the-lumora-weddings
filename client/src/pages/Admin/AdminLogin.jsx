@@ -1,51 +1,111 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Lock, User } from 'lucide-react';
-import './Admin.css';
+import { Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
+import './AdminLogin.css';
 
 const AdminLogin = () => {
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const { login } = useAuth();
-    const navigate = useNavigate();
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (login(password)) {
-            navigate('/admin');
-        } else {
-            setError('Invalid password');
-        }
-    };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setTimeout(() => {
+      if (login(password)) {
+        navigate('/admin');
+      } else {
+        setError('Incorrect password. Please try again.');
+        setLoading(false);
+      }
+    }, 600);
+  };
 
-    return (
-        <div className="admin-login-page">
-            <div className="login-card glass">
-                <div className="login-header">
-                    <h1>Admin Portal</h1>
-                    <p>Secure login for website management</p>
-                </div>
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label>Password</label>
-                        <div className="input-with-icon">
-                            <Lock size={18} />
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Enter admin password"
-                                required
-                            />
-                        </div>
-                    </div>
-                    {error && <p className="error-text">{error}</p>}
-                    <button type="submit" className="btn btn-primary login-btn">Login</button>
-                </form>
-            </div>
+  return (
+    <div className="al-page">
+      {/* Decorative background */}
+      <div className="al-bg-overlay" />
+      <div className="al-bg-pattern" />
+
+      {/* Back to site */}
+      <Link to="/" className="al-back-link">
+        <ArrowLeft size={16} />
+        <span>Back to Site</span>
+      </Link>
+
+      {/* Card */}
+      <div className="al-card">
+        {/* Logo */}
+        <div className="al-logo-wrap">
+          <img src="/logo.png" alt="The Lumora Weddings" className="al-logo" />
         </div>
-    );
+
+        <div className="al-header">
+          <h1 className="al-title">Admin Portal</h1>
+          <p className="al-subtitle">THE LUMORA WEDDINGS</p>
+          <div className="al-divider" />
+          <p className="al-desc">Authorized personnel only. Enter your credentials to continue.</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="al-form" noValidate>
+          <div className={`al-field ${error ? 'al-field--error' : ''}`}>
+            <label htmlFor="admin-password" className="al-label">
+              <Lock size={13} />
+              Password
+            </label>
+            <div className="al-input-wrap">
+              <input
+                id="admin-password"
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => { setPassword(e.target.value); setError(''); }}
+                placeholder="Enter admin password"
+                className="al-input"
+                autoComplete="current-password"
+                required
+              />
+              <button
+                type="button"
+                className="al-toggle-eye"
+                onClick={() => setShowPassword(v => !v)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            </div>
+            {error && (
+              <p className="al-error" role="alert">{error}</p>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            className={`al-btn ${loading ? 'al-btn--loading' : ''}`}
+            disabled={loading || !password}
+            id="admin-login-submit"
+          >
+            {loading ? (
+              <span className="al-spinner" />
+            ) : (
+              <>
+                <Lock size={15} />
+                Access Dashboard
+              </>
+            )}
+          </button>
+        </form>
+
+        <p className="al-footer-note">
+          © {new Date().getFullYear()} The Lumora Weddings — Internal Use Only
+        </p>
+      </div>
+    </div>
+  );
 };
 
 export default AdminLogin;

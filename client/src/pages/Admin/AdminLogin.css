@@ -1,0 +1,282 @@
+/* ======================================================
+   Admin Login Page — The Lumora Weddings Brand
+   ====================================================== */
+
+.al-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #001A15;
+  position: relative;
+  overflow: hidden;
+  padding: 40px 20px;
+}
+
+/* Radial glow background */
+.al-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 20%, rgba(212,175,55,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 60% at 80% 80%, rgba(0,45,36,0.6) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Subtle grid pattern */
+.al-bg-pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(212,175,55,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212,175,55,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+/* Back link */
+.al-back-link {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255,255,255,0.4);
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  z-index: 10;
+}
+.al-back-link:hover { color: #D4AF37; }
+
+/* Card */
+.al-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 440px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(212,175,55,0.18);
+  border-radius: 12px;
+  padding: 52px 48px;
+  backdrop-filter: blur(24px);
+  box-shadow:
+    0 0 0 1px rgba(212,175,55,0.06),
+    0 40px 80px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+  animation: alCardIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes alCardIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Logo */
+.al-logo-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+.al-logo {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 16px rgba(212,175,55,0.25));
+}
+
+/* Header */
+.al-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.al-title {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 2rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+  color: #FDFCF8 !important;
+  margin: 0 0 4px !important;
+  line-height: 1.2 !important;
+}
+
+.al-subtitle {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #D4AF37;
+  margin: 0 0 20px !important;
+}
+
+.al-divider {
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+  margin: 0 auto 16px;
+}
+
+.al-desc {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.4);
+  line-height: 1.6;
+  margin: 0 !important;
+}
+
+/* Form */
+.al-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.al-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.al-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+
+.al-input-wrap {
+  position: relative;
+}
+
+.al-input {
+  width: 100%;
+  padding: 14px 48px 14px 16px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(212,175,55,0.2);
+  border-radius: 6px;
+  color: #FDFCF8;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.al-input::placeholder { color: rgba(255,255,255,0.2); }
+
+.al-input:focus {
+  border-color: #D4AF37;
+  background: rgba(212,175,55,0.05);
+  box-shadow: 0 0 0 3px rgba(212,175,55,0.08);
+}
+
+.al-field--error .al-input {
+  border-color: rgba(255, 90, 90, 0.6);
+}
+
+.al-toggle-eye {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.3);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+.al-toggle-eye:hover { color: #D4AF37; }
+
+.al-error {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.78rem;
+  color: #ff7070;
+  margin: 0 !important;
+  animation: alShake 0.4s ease;
+}
+
+@keyframes alShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+/* Submit button */
+.al-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #D4AF37, #BF9B30);
+  color: #001A15;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 8px;
+  box-shadow: 0 4px 20px rgba(212,175,55,0.2);
+}
+
+.al-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #E5C348, #D4AF37);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(212,175,55,0.35);
+}
+
+.al-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.al-btn--loading {
+  pointer-events: none;
+}
+
+.al-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(0,26,21,0.3);
+  border-top-color: #001A15;
+  border-radius: 50%;
+  animation: alSpin 0.7s linear infinite;
+}
+
+@keyframes alSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Footer */
+.al-footer-note {
+  text-align: center;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.2);
+  margin: 28px 0 0 !important;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 480px) {
+  .al-card { padding: 36px 28px; }
+  .al-title { font-size: 1.6rem !important; }
+}
