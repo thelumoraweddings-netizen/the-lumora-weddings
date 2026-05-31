@@ -925,14 +925,17 @@ const QuotationManager = () => {
                       <div className="qm-dynamic-row" style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '10px' }}>
                         <input 
                           className="qm-input" 
-                          type="date" 
-                          value={ev.date} 
+                          type={ev.date ? 'date' : 'text'}
+                          onFocus={e => (e.target.type = 'date')}
+                          onBlur={e => { if (!e.target.value) e.target.type = 'text'; }}
+                          placeholder="Event Date"
+                          value={ev.date || ''} 
                           onChange={e => {
                             const newEvents = [...(form.events || [])];
                             newEvents[i].date = e.target.value;
                             setForm(f => ({ ...f, events: newEvents }));
                           }} 
-                          style={{ width: '130px', flexShrink: 0 }}
+                          style={{ flex: 1, minWidth: '130px' }}
                         />
                         <input 
                           className="qm-input" 
@@ -943,6 +946,7 @@ const QuotationManager = () => {
                             newEvents[i].name = e.target.value;
                             setForm(f => ({ ...f, events: newEvents }));
                           }} 
+                          style={{ flex: 2, minWidth: '150px' }}
                         />
                         <select 
                           className="qm-select" 
