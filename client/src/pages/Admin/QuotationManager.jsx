@@ -563,7 +563,7 @@ async function downloadQuotationPDF(q, getHTML) {
     <div style="background: #FDFCF8; width: 794px; margin: 0 auto;">
       <style>
         ${getQuotationStyle()}
-        tr, .final-out-section, .totals-section, .terms-section, .footer { page-break-inside: avoid; }
+        tr, .summary-wrapper, .terms-section, .footer { page-break-inside: avoid; }
         .page { min-height: auto; overflow: visible; padding-bottom: 20px; }
       </style>
       ${getHTML(q)}
