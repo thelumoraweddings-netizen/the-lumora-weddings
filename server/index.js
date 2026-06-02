@@ -35,6 +35,16 @@ app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
+// Debug Route
+app.get('/api/debug-db', (req, res) => {
+  const mongoose = require('mongoose');
+  res.json({
+    readyState: mongoose.connection.readyState,
+    hasMongoUri: !!process.env.MONGODB_URI,
+    mongoUriPrefix: process.env.MONGODB_URI ? process.env.MONGODB_URI.substring(0, 15) + '...' : 'none'
+  });
+});
+
 // Port
 const PORT = process.env.PORT || 5000;
 
