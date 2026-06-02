@@ -92,7 +92,7 @@
   height: 42px;
   object-fit: contain;
   flex-shrink: 0;
-  filter: drop-shadow(0 2px 8px rgba(212,175,55,0.3));
+  filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(212,175,55,0.3));
 }
 
 .al2-brand-text {
