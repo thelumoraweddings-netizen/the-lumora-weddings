@@ -46,7 +46,7 @@ const STATUS_ICONS = {
 };
 
 const emptyQuotation = () => ({
-  id: `Q-${Date.now()}`,
+  id: `Q-${Math.floor(1000 + Math.random() * 9000)}`,
   clientName: '',
   contactPhone: '',
   events: [{ date: '', name: '', time: 'Morning', requirements: [{ item: 'Traditional Photography', qty: '1' }] }],
