@@ -165,22 +165,9 @@ function getQuotationHTML(q) {
         </tr>
       `}).join('')}
       
-      ${(combinedFinalOuts.length > 0) ? `
-      <tr>
-        <td style="text-align:center; font-weight: bold; vertical-align: top;">${(q.events || []).length + 1}</td>
-        <td style="text-align:center; vertical-align: middle; font-weight: 600; font-size: 14px;">FINAL OUT</td>
-        <td style="text-align:left; vertical-align: top; padding-left: 20px;">
-          ${combinedFinalOuts.map(a => `<div class="item-desc" style="margin-bottom: 6px;">${a.item}</div>`).join('')}
-        </td>
-        <td style="text-align:center; vertical-align: top;">
-          ${combinedFinalOuts.map(a => `<div class="item-desc" style="margin-bottom: 6px; font-weight: bold;">${a.qty}</div>`).join('')}
-        </td>
-      </tr>
-      ` : ''}
-
       ${(q.complementary && q.complementary.length > 0) ? `
       <tr>
-        <td style="text-align:center; font-weight: bold; vertical-align: top;">${(q.events || []).length + (combinedFinalOuts.length > 0 ? 1 : 0) + 1}</td>
+        <td style="text-align:center; font-weight: bold; vertical-align: top;">${(q.events || []).length + 1}</td>
         <td style="text-align:center; vertical-align: middle; font-weight: 600; font-size: 14px;">COMPLEMENTARY</td>
         <td style="text-align:left; vertical-align: top; padding-left: 20px;">
           ${q.complementary.map(a => `<div class="item-desc" style="margin-bottom: 6px;">${a.item}</div>`).join('')}
@@ -193,13 +180,30 @@ function getQuotationHTML(q) {
 
       ${(services && services.length > 0) ? `
       <tr>
-        <td style="text-align:center; font-weight: bold; vertical-align: top;">${(q.events || []).length + (combinedFinalOuts.length > 0 ? 1 : 0) + ((q.complementary && q.complementary.length > 0) ? 1 : 0) + 1}</td>
+        <td style="text-align:center; font-weight: bold; vertical-align: top;">${(q.events || []).length + ((q.complementary && q.complementary.length > 0) ? 1 : 0) + 1}</td>
         <td style="text-align:center; vertical-align: middle; font-weight: 600; font-size: 14px;">ADDITIONAL SERVICES</td>
         <td style="text-align:left; vertical-align: top; padding-left: 20px;">
           ${services.map(s => `<div class="item-desc" style="margin-bottom: 6px;">${s.name}</div>`).join('')}
         </td>
         <td style="text-align:center; vertical-align: top;">
           ${services.map(s => `<div class="item-desc" style="margin-bottom: 6px; font-weight: bold;">-</div>`).join('')}
+        </td>
+      </tr>
+      ` : ''}
+
+      ${(combinedFinalOuts.length > 0) ? `
+      <tr style="background-color: #FDFBF2;">
+        <td style="text-align:center; font-weight: bold; vertical-align: top; padding-top: 15px; padding-bottom: 15px; border-top: 2px solid #D4AF37; border-bottom: 2px solid #D4AF37;">
+          ${(q.events || []).length + ((q.complementary && q.complementary.length > 0) ? 1 : 0) + ((services && services.length > 0) ? 1 : 0) + 1}
+        </td>
+        <td style="text-align:center; vertical-align: middle; font-weight: 800; font-size: 15px; color: #002D24; padding-top: 15px; padding-bottom: 15px; border-top: 2px solid #D4AF37; border-bottom: 2px solid #D4AF37;">
+          FINAL OUT
+        </td>
+        <td style="text-align:left; vertical-align: top; padding-left: 20px; padding-top: 15px; padding-bottom: 15px; border-top: 2px solid #D4AF37; border-bottom: 2px solid #D4AF37;">
+          ${combinedFinalOuts.map(a => `<div class="item-desc" style="margin-bottom: 6px; font-weight: 700; color: #002D24;">${a.item}</div>`).join('')}
+        </td>
+        <td style="text-align:center; vertical-align: top; padding-top: 15px; padding-bottom: 15px; border-top: 2px solid #D4AF37; border-bottom: 2px solid #D4AF37;">
+          ${combinedFinalOuts.map(a => `<div class="item-desc" style="margin-bottom: 6px; font-weight: 800; color: #002D24;">${a.qty}</div>`).join('')}
         </td>
       </tr>
       ` : ''}
@@ -591,7 +595,7 @@ async function downloadQuotationPDF(q, getHTML) {
       scrollX: 0,
       windowWidth: 794
     },
-    jsPDF:        { unit: 'px', format: [794, contentHeight], orientation: 'portrait' },
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
     pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
   };
   
