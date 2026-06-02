@@ -1,13 +1,30 @@
-import React, { useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, FileText, TrendingUp, ArrowRight, Plus } from 'lucide-react';
+import api from '../../utils/api';
 import './AdminDashboard.css';
 
+const ADD_SERVICES = [
+  { id: 'helicam',   price: 10000 },
+  { id: 'ledtv',     price: 5000 },
+  { id: 'ledwall',   price: 18000 },
+  { id: 'switcher',  price: 8000 },
+  { id: 'youtube',   price: 3000 },
+];
+
 const AdminDashboard = () => {
-  const quotations = useMemo(() => {
-    try {
-      return JSON.parse(localStorage.getItem('lumora_quotations') || '[]');
-    } catch { return []; }
+  const [quotations, setQuotations] = useState([]);
+
+  useEffect(() => {
+    const fetchQuotations = async () => {
+      try {
+        const { data } = await api.get('/api/quotations');
+        setQuotations(data);
+      } catch (err) {
+        console.error('Failed to load quotations', err);
+      }
+    };
+    fetchQuotations();
   }, []);
 
   const stats = [
@@ -86,9 +103,14 @@ const AdminDashboard = () => {
               </thead>
               <tbody>
                 {recent.map(q => {
-                  const total = q.totalAmount
-                    ? parseFloat(q.totalAmount)
-                    : 0;
+                  let sum = parseFloat(q.baseAmount) || 0;
+                  (q.additionalServices || []).forEach(sid => {
+                    const s = ADD_SERVICES.find(x => x.id === sid);
+                    if (s) sum += (s.price || 0);
+                  });
+                  const discountAmt = Math.round(sum * (parseFloat(q.discount) || 0) / 100);
+                  const total = sum - discountAmt;
+                  
                   return (
                     <tr key={q.id}>
                       <td className="ad2-td-id">{q.id}</td>
@@ -96,7 +118,7 @@ const AdminDashboard = () => {
                       <td>{q.eventType || '—'}</td>
                       <td>{q.eventDate ? new Date(q.eventDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'}</td>
                       <td className="ad2-td-amount">
-                        {total ? new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(total) : '—'}
+                        {total > 0 ? new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(total) : '—'}
                       </td>
                     </tr>
                   );
