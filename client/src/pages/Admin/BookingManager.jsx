@@ -24,83 +24,85 @@ const BookingManager = () => {
     }, []);
 
     return (
-        <div className="qm-container">
-            <header className="qm-header">
-                <div>
-                    <h1 className="qm-page-title">Client Leads</h1>
-                    <p className="qm-subtitle">Manage inquiries from the "Book Us" form</p>
-                </div>
-            </header>
+        <>
+            <div className="qm-container">
+                <header className="qm-header">
+                    <div>
+                        <h1 className="qm-page-title">Client Leads</h1>
+                        <p className="qm-subtitle">Manage inquiries from the "Book Us" form</p>
+                    </div>
+                </header>
 
-            <main className="qm-main">
-                <div className="qm-table-container">
-                    <table className="qm-table">
-                        <thead>
-                            <tr>
-                                <th>Date Received</th>
-                                <th>Client Details</th>
-                                <th>Event Info</th>
-                                <th>Location</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {loading ? (
+                <main className="qm-main">
+                    <div className="qm-table-container">
+                        <table className="qm-table">
+                            <thead>
                                 <tr>
-                                    <td colSpan="5" className="qm-empty-state">
-                                        <div className="qm-spinner" style={{ margin: '0 auto 15px' }} />
-                                        <p>Loading leads...</p>
-                                    </td>
+                                    <th>Date Received</th>
+                                    <th>Client Details</th>
+                                    <th>Event Info</th>
+                                    <th>Location</th>
+                                    <th>Actions</th>
                                 </tr>
-                            ) : bookings.length === 0 ? (
-                                <tr>
-                                    <td colSpan="5" className="qm-empty-state">
-                                        <FileText size={48} />
-                                        <p>No client inquiries found.</p>
-                                    </td>
-                                </tr>
-                            ) : bookings.map(booking => (
-                                <tr key={booking._id}>
-                                    <td>
-                                        <div className="qm-td-val">{new Date(booking.timestamp || booking.createdAt || Date.now()).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
-                                        <div className="qm-td-sub">{new Date(booking.timestamp || booking.createdAt || Date.now()).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</div>
-                                    </td>
-                                    <td>
-                                        <div className="qm-td-val" style={{ fontWeight: 600 }}>{booking.name}</div>
-                                        <div className="qm-td-sub" style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-                                            <a href={`tel:${booking.phone}`} style={{ color: 'inherit', textDecoration: 'none' }}><Phone size={11} /> {booking.phone}</a>
-                                            <a href={`mailto:${booking.email}`} style={{ color: 'inherit', textDecoration: 'none' }}><Mail size={11} /> {booking.email}</a>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className="qm-td-val">{booking.eventType}</div>
-                                        <div className="qm-td-sub" style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-                                            <Calendar size={11} />
-                                            {booking.date ? new Date(booking.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'TBD'}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className="qm-td-val" style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-                                            <MapPin size={12} /> {booking.location || 'Not Specified'}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className="qm-actions">
-                                            <button className="qm-action-btn" title="View Full Details" onClick={() => setSelectedBooking(booking)}>
-                                                <FileText size={16} />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </main>
+                            </thead>
+                            <tbody>
+                                {loading ? (
+                                    <tr>
+                                        <td colSpan="5" className="qm-empty-state">
+                                            <div className="qm-spinner" style={{ margin: '0 auto 15px' }} />
+                                            <p>Loading leads...</p>
+                                        </td>
+                                    </tr>
+                                ) : bookings.length === 0 ? (
+                                    <tr>
+                                        <td colSpan="5" className="qm-empty-state">
+                                            <FileText size={48} />
+                                            <p>No client inquiries found.</p>
+                                        </td>
+                                    </tr>
+                                ) : bookings.map(booking => (
+                                    <tr key={booking._id}>
+                                        <td>
+                                            <div className="qm-td-val">{new Date(booking.timestamp || booking.createdAt || Date.now()).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+                                            <div className="qm-td-sub">{new Date(booking.timestamp || booking.createdAt || Date.now()).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</div>
+                                        </td>
+                                        <td>
+                                            <div className="qm-td-val" style={{ fontWeight: 600 }}>{booking.name}</div>
+                                            <div className="qm-td-sub" style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+                                                <a href={`tel:${booking.phone}`} style={{ color: 'inherit', textDecoration: 'none' }}><Phone size={11} /> {booking.phone}</a>
+                                                <a href={`mailto:${booking.email}`} style={{ color: 'inherit', textDecoration: 'none' }}><Mail size={11} /> {booking.email}</a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className="qm-td-val">{booking.eventType}</div>
+                                            <div className="qm-td-sub" style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+                                                <Calendar size={11} />
+                                                {booking.date ? new Date(booking.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'TBD'}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className="qm-td-val" style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+                                                <MapPin size={12} /> {booking.location || 'Not Specified'}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className="qm-actions">
+                                                <button className="qm-btn-outline" title="View Full Details" onClick={() => setSelectedBooking(booking)}>
+                                                    <FileText size={14} /> View Details
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </main>
+            </div>
 
-            {/* Details Modal */}
+            {/* Details Modal (Moved outside qm-container so position:fixed works perfectly) */}
             {selectedBooking && (
-                <div className="qm-modal-overlay" onClick={() => setSelectedBooking(null)}>
+                <div className="qm-modal-overlay" style={{ zIndex: 999999 }} onClick={() => setSelectedBooking(null)}>
                     <div className="qm-modal qm-modal-premium-content" style={{ maxWidth: '650px' }} onClick={e => e.stopPropagation()}>
                         
                         <div className="qm-modal-header-premium">
@@ -139,12 +141,17 @@ const BookingManager = () => {
                             <div className="qm-message-box">
                                 {selectedBooking.message || 'No additional message provided by the client.'}
                             </div>
-                        </div>
 
+                            <div style={{ display: 'flex', gap: '12px', marginTop: '24px', borderTop: '1px solid rgba(0,45,36,0.08)', paddingTop: '24px' }}>
+                                <a href={`tel:${selectedBooking.phone}`} className="qm-btn-save" style={{ textDecoration: 'none' }}><Phone size={14}/> Call Client</a>
+                                <a href={`mailto:${selectedBooking.email}`} className="qm-btn-outline" style={{ textDecoration: 'none' }}><Mail size={14}/> Email Client</a>
+                                <button className="qm-btn-outline" style={{ marginLeft: 'auto' }} onClick={() => setSelectedBooking(null)}>Close</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             )}
-        </div>
+        </>
     );
 };
 
