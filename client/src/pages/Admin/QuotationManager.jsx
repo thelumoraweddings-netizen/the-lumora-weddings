@@ -88,16 +88,7 @@ function today() {
   return new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
-/* ─── Local Storage Persistence ─────────────────────── */
-function loadQuotations() {
-  try {
-    const raw = localStorage.getItem('lumora_quotations');
-    return raw ? JSON.parse(raw) : [];
-  } catch { return []; }
-}
-function saveQuotations(list) {
-  localStorage.setItem('lumora_quotations', JSON.stringify(list));
-}
+import api from '../../utils/api';
 
 /* ─── HTML Generation for Print/PDF ──────────────────── */
 function getQuotationHTML(q) {
@@ -619,7 +610,7 @@ const Field = ({ label, icon, children, required }) => (
    MAIN COMPONENT
    ═══════════════════════════════════════════════════════ */
 const QuotationManager = () => {
-  const [quotations, setQuotations] = useState(loadQuotations);
+  const [quotations, setQuotations] = useState([]);
   const [view, setView] = useState('list'); // 'list' | 'form' | 'preview'
   const [form, setForm] = useState(emptyQuotation());
   const [editingId, setEditingId] = useState(null);
@@ -630,8 +621,18 @@ const QuotationManager = () => {
   const [saved, setSaved] = useState(false);
   const formRef = useRef(null);
 
-  // Persist on change
-  useEffect(() => { saveQuotations(quotations); }, [quotations]);
+  // Fetch from DB
+  useEffect(() => {
+    const fetchQuotations = async () => {
+      try {
+        const { data } = await api.get('/api/quotations');
+        setQuotations(data);
+      } catch (err) {
+        console.error('Failed to load quotations', err);
+      }
+    };
+    fetchQuotations();
+  }, []);
 
   // Computed auto-total
   const autoTotal = calcTotal(form);
@@ -660,23 +661,36 @@ const QuotationManager = () => {
     setView('preview');
   };
 
-  const saveForm = () => {
+  const saveForm = async () => {
     const updated = { ...form, totalAmount: '' };
-    if (editingId) {
-      setQuotations(prev => prev.map(q => q.id === editingId ? updated : q));
-    } else {
-      setQuotations(prev => [updated, ...prev]);
+    try {
+      if (editingId) {
+        const { data } = await api.put(`/api/quotations/${editingId}`, updated);
+        setQuotations(prev => prev.map(q => q.id === editingId ? data : q));
+      } else {
+        const { data } = await api.post('/api/quotations', updated);
+        setQuotations(prev => [data, ...prev]);
+      }
+      setSaved(true);
+    } catch (err) {
+      console.error('Failed to save quotation', err);
+      alert('Failed to save quotation. Please try again.');
     }
-    setSaved(true);
     setTimeout(() => {
       setView('list');
       setSaved(false);
     }, 1200);
   };
 
-  const deleteQ = (id) => {
-    setQuotations(prev => prev.filter(q => q.id !== id));
-    setDeleteConfirm(null);
+  const deleteQ = async (id) => {
+    try {
+      await api.delete(`/api/quotations/${id}`);
+      setQuotations(prev => prev.filter(q => q.id !== id));
+      setDeleteConfirm(null);
+    } catch (err) {
+      console.error('Failed to delete quotation', err);
+      alert('Failed to delete quotation.');
+    }
     if (view !== 'list') setView('list');
   };
 
