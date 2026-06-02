@@ -69,7 +69,14 @@
   color: #D4AF37 !important;
 }
 
-/* Modal styling overrides for Booking Manager */
+.qm-modal-premium-content {
+  padding: 0; /* Override default padding since we use header/body */
+  overflow: hidden; /* For border radius */
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .qm-modal-header-premium {
   display: flex;
   justify-content: space-between;
@@ -78,6 +85,7 @@
   background: #002D24;
   border-radius: 12px 12px 0 0;
   color: #D4AF37;
+  flex-shrink: 0; /* Prevent header from shrinking */
 }
 
 .qm-modal-header-premium h2 {
@@ -114,6 +122,9 @@
   background: #FDFCF8;
   border-radius: 0 0 12px 12px;
   text-align: left;
+  overflow-y: auto;
+  flex: 1; /* Take up remaining space */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 .qm-lead-detail-box {
@@ -174,10 +185,7 @@
   white-space: pre-wrap;
 }
 
-.qm-modal-premium-content {
-  padding: 0; /* Override default padding since we use header/body */
-  overflow: hidden; /* For border radius */
-}
+/* Duplicate removed */
 
 /* ======================================================
    Mobile Responsiveness
