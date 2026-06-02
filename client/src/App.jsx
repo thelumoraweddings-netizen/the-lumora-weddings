@@ -96,6 +96,7 @@ function App() {
               }>
                 <Route index element={<AdminDashboard />} />
                  <Route path="quotations" element={<QuotationManager />} />
+                 <Route path="bookings" element={<BookingManager />} />
                  <Route path="gallery" element={<GalleryManager />} />
 
                  <Route path="testimonials" element={<TestimonialManager />} />
