@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { protect } = require('../middleware/auth');
 const NotificationService = require('../services/notificationService');
-const Booking = require('../models/Booking');
+const StorageService = require('../services/storageService');
 
 // @desc    Create new booking
 // @route   POST /api/bookings
@@ -11,9 +11,8 @@ router.post('/', async (req, res) => {
   console.log('[API] Received new booking inquiry:', bookingData.name);
 
   try {
-    // 1. Save to MongoDB Database (Permanent Storage)
-    const newBooking = new Booking(bookingData);
-    await newBooking.save();
+    // 1. Save to JSON Database (Fallback Storage)
+    const newBooking = await StorageService.saveBooking(bookingData);
 
     // 2. Send success immediately to the client
     res.status(201).json({ 
@@ -31,7 +30,7 @@ router.post('/', async (req, res) => {
     })();
 
   } catch (err) {
-    console.error('Error saving booking to DB:', err);
+    console.error('Error saving booking:', err);
     res.status(500).json({ success: false, message: 'Server error while saving inquiry' });
   }
 });
@@ -40,10 +39,10 @@ router.post('/', async (req, res) => {
 // @route   GET /api/bookings
 router.get('/', protect, async (req, res) => {
   try {
-    const bookings = await Booking.find().sort({ createdAt: -1 });
+    const bookings = await StorageService.getAllBookings();
     res.json(bookings);
   } catch (error) {
-    console.error('Error fetching bookings from DB:', error);
+    console.error('Error fetching bookings:', error);
     res.status(500).json({ message: error.message });
   }
 });
@@ -51,13 +50,13 @@ router.get('/', protect, async (req, res) => {
 // @desc    Update booking status
 router.patch('/:id', protect, async (req, res) => {
   try {
-    const updatedBooking = await Booking.findByIdAndUpdate(
-      req.params.id,
-      { status: req.body.status },
-      { new: true }
-    );
+    const updatedBooking = await StorageService.updateBookingStatus(req.params.id, req.body.status);
+    if (!updatedBooking) {
+      return res.status(404).json({ message: 'Booking not found' });
+    }
     res.json(updatedBooking);
   } catch (error) {
+    console.error('Error updating booking:', error);
     res.status(500).json({ message: error.message });
   }
 });
