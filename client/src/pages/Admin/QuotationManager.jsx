@@ -49,7 +49,7 @@ const emptyQuotation = () => ({
   id: `Q-${Date.now()}`,
   clientName: '',
   contactPhone: '',
-  events: [{ date: '', name: '', time: 'Morning', requirements: [{ item: 'Traditional Photography', qty: '1', price: '' }] }],
+  events: [{ date: '', name: '', time: 'Morning', requirements: [{ item: 'Traditional Photography', qty: '1' }] }],
   albums: [],
   finalOuts: [],
   complementary: [],
@@ -58,6 +58,7 @@ const emptyQuotation = () => ({
   location: '',
   additionalServices: [],
   notes: '',
+  baseAmount: '',
   discount: '',
   totalAmount: '',
   status: 'Draft',
@@ -66,14 +67,12 @@ const emptyQuotation = () => ({
 
 /* ─── Helpers ────────────────────────────────────────── */
 function calcTotal(q) {
-  const requirementsTotal = (q.events || []).reduce((sum, ev) => {
-    return sum + (ev.requirements || []).reduce((reqSum, req) => reqSum + (parseFloat(req.price) || 0), 0);
-  }, 0);
-  const svcTotal = (q.additionalServices || []).reduce((sum, sid) => {
+  let sum = parseFloat(q.baseAmount) || 0;
+  (q.additionalServices || []).forEach(sid => {
     const s = ADD_SERVICES.find(x => x.id === sid);
-    return sum + (s?.price || 0);
-  }, 0);
-  return requirementsTotal + svcTotal;
+    if (s) sum += (s.price || 0);
+  });
+  return sum;
 }
 
 function formatINR(n) {
@@ -994,18 +993,7 @@ const QuotationManager = () => {
                               }} 
                               style={{ width: '60px', textAlign: 'center' }}
                             />
-                            <input 
-                              className="qm-input" 
-                              placeholder="₹ Price" 
-                              type="number"
-                              value={req.price || ''} 
-                              onChange={e => {
-                                const newEvents = [...(form.events || [])];
-                                newEvents[i].requirements[reqIdx].price = e.target.value;
-                                setForm(f => ({ ...f, events: newEvents }));
-                              }} 
-                              style={{ width: '100px' }}
-                            />
+
                             <button 
                               type="button" 
                               onClick={() => {
@@ -1205,11 +1193,17 @@ const QuotationManager = () => {
               <h3>Pricing Summary</h3>
             </div>
 
-            {/* Subtotal row */}
-            <div className="qm-total-row">
-              <span className="qm-total-label">Subtotal</span>
-              <span className="qm-total-auto">{formatINR(autoTotal)}</span>
-            </div>
+            {/* Package Price row */}
+            <Field label="Package Price" icon={<IndianRupee size={13} />}>
+              <input
+                className="qm-input"
+                type="number"
+                placeholder="e.g. 150000"
+                value={form.baseAmount || ''}
+                onChange={e => setForm(f => ({ ...f, baseAmount: e.target.value }))}
+                id="base-amount"
+              />
+            </Field>
 
             {/* Discount */}
             <Field label="Discount (%)" icon={<IndianRupee size={13} />}>
@@ -1321,16 +1315,14 @@ const QuotationManager = () => {
               <tr><th>#</th><th>Description</th><th style={{ textAlign: 'right' }}>Amount</th></tr>
             </thead>
             <tbody>
-              {(q.events || []).flatMap(ev => ev.requirements || []).map((req, i) => (
-                <tr key={`req-${i}`}>
-                  <td>{i + 1}</td>
-                  <td>{req.item}</td>
-                  <td style={{ textAlign: 'right' }}>{formatINR(parseFloat(req.price) || 0)}</td>
-                </tr>
-              ))}
+              <tr>
+                <td>1</td>
+                <td>Base Package Requirements</td>
+                <td style={{ textAlign: 'right' }}>{formatINR(parseFloat(q.baseAmount) || 0)}</td>
+              </tr>
               {services.map((s, i) => (
                 <tr key={s.id}>
-                  <td>{(q.events || []).flatMap(ev => ev.requirements || []).length + i + 1}</td>
+                  <td>{2 + i}</td>
                   <td>{s.name}</td>
                   <td style={{ textAlign: 'right' }}>{formatINR(s.price)}</td>
                 </tr>
@@ -1340,9 +1332,7 @@ const QuotationManager = () => {
 
           <div className="qm-preview-totals">
             <div className="qm-preview-total-box">
-              {(q.events || []).flatMap(ev => ev.requirements || []).map((req, i) => (
-                <div key={`req-tot-${i}`} className="qm-preview-total-row"><span>{req.item}</span><span>{formatINR(parseFloat(req.price) || 0)}</span></div>
-              ))}
+              <div className="qm-preview-total-row"><span>Package Price</span><span>{formatINR(parseFloat(q.baseAmount) || 0)}</span></div>
               {services.map(s => (
                 <div key={s.id} className="qm-preview-total-row"><span>{s.name}</span><span>{formatINR(s.price)}</span></div>
               ))}
