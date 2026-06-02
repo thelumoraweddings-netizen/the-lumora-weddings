@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   Plus, Search, Edit2, Trash2, Printer, Download, Eye,
   X, ChevronDown, CheckCircle, Clock, FileText, AlertCircle,
-  User, Phone, Mail, Calendar, MapPin, Package, Sparkles, StickyNote, DollarSign, ArrowLeft
+  User, Phone, Mail, Calendar, MapPin, Package, Sparkles, StickyNote, IndianRupee, ArrowLeft
 } from 'lucide-react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -1201,7 +1201,7 @@ const QuotationManager = () => {
           {/* Total, Discount & Final */}
           <div className="qm-form-section qm-total-section">
             <div className="qm-section-header">
-              <DollarSign size={16} />
+              <IndianRupee size={16} />
               <h3>Pricing Summary</h3>
             </div>
 
@@ -1212,7 +1212,7 @@ const QuotationManager = () => {
             </div>
 
             {/* Discount */}
-            <Field label="Discount (%)" icon={<DollarSign size={13} />}>
+            <Field label="Discount (%)" icon={<IndianRupee size={13} />}>
               <input
                 className="qm-input"
                 type="number"
