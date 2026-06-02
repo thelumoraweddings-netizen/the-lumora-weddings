@@ -1,9 +1,9 @@
-const QuotationStorageService = require('../services/QuotationStorageService');
+const Quotation = require('../models/Quotation');
 
 // Get all quotations
 exports.getQuotations = async (req, res) => {
     try {
-        const quotations = await QuotationStorageService.getAllQuotations();
+        const quotations = await Quotation.find().sort({ createdAt: -1 });
         res.status(200).json(quotations);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -14,8 +14,13 @@ exports.getQuotations = async (req, res) => {
 exports.createQuotation = async (req, res) => {
     try {
         const quotationData = req.body;
-        const savedQuotation = await QuotationStorageService.saveQuotation(quotationData);
-        res.status(201).json(savedQuotation);
+        // Upsert based on the custom 'id' field (e.g. Q-1234)
+        const updatedQuotation = await Quotation.findOneAndUpdate(
+            { id: quotationData.id },
+            quotationData,
+            { new: true, upsert: true }
+        );
+        res.status(201).json(updatedQuotation);
     } catch (err) {
         console.error('Error saving quotation:', err);
         res.status(500).json({ error: err.message });
@@ -27,7 +32,8 @@ exports.updateQuotation = exports.createQuotation;
 // Delete a quotation
 exports.deleteQuotation = async (req, res) => {
     try {
-        const deleted = await QuotationStorageService.deleteQuotation(req.params.id);
+        // Delete by custom 'id' field
+        const deleted = await Quotation.findOneAndDelete({ id: req.params.id });
         if (deleted) {
             res.status(200).json({ message: 'Quotation deleted successfully' });
         } else {

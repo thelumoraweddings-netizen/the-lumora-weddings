@@ -7,7 +7,7 @@ const connectDB = require('./config/db');
 const app = express();
 
 // Connect to MongoDB
-// connectDB(); // Disabled: No MongoDB URI provided in Render
+connectDB();
 
 // Middleware
 app.use(cors({
@@ -33,16 +33,6 @@ app.use('/api/quotations', require('./routes/quotations'));
 // Basic Route
 app.get('/', (req, res) => {
   res.send('API is running...');
-});
-
-// Debug Route
-app.get('/api/debug-db', (req, res) => {
-  const mongoose = require('mongoose');
-  res.json({
-    readyState: mongoose.connection.readyState,
-    hasMongoUri: !!process.env.MONGODB_URI,
-    mongoUriPrefix: process.env.MONGODB_URI ? process.env.MONGODB_URI.substring(0, 15) + '...' : 'none'
-  });
 });
 
 // Port
