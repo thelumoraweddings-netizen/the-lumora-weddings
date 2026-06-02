@@ -854,20 +854,6 @@ const QuotationManager = () => {
           {editingId && <span className="qm-count">{form.id}</span>}
         </div>
         <div className="qm-topbar-right">
-          <button className="qm-btn-outline" onClick={() => printQuotation(form)}>
-            <Printer size={15} /> Print
-          </button>
-          <button className="qm-btn-outline" onClick={() => downloadQuotationPDF(form, getQuotationHTML)}>
-            <Download size={15} /> Download PDF
-          </button>
-          <button
-            className={`qm-btn-save ${saved ? 'qm-btn-save--done' : ''}`}
-            onClick={saveForm}
-            disabled={!form.clientName || saved}
-            id="save-quotation-btn"
-          >
-            {saved ? <><CheckCircle size={15} /> Saved!</> : <><FileText size={15} /> Save Quotation</>}
-          </button>
         </div>
       </div>
 
@@ -1253,6 +1239,23 @@ const QuotationManager = () => {
             <div className="qm-total-row qm-final-row">
               <span className="qm-final-label">Final Total</span>
               <span className="qm-final-val">{formatINR(finalTotal)}</span>
+            </div>
+
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '24px', flexWrap: 'wrap' }}>
+              <button className="qm-btn-outline" onClick={() => printQuotation(form)}>
+                <Printer size={15} /> Print
+              </button>
+              <button className="qm-btn-outline" onClick={() => downloadQuotationPDF(form, getQuotationHTML)}>
+                <Download size={15} /> Download PDF
+              </button>
+              <button
+                className={`qm-btn-save ${saved ? 'qm-btn-save--done' : ''}`}
+                onClick={saveForm}
+                disabled={!form.clientName || saved}
+                id="save-quotation-btn"
+              >
+                {saved ? <><CheckCircle size={15} /> Saved!</> : <><FileText size={15} /> Save Quotation</>}
+              </button>
             </div>
 
           </div>
