@@ -596,7 +596,7 @@ async function downloadQuotationPDF(q, getHTML) {
       windowWidth: 794
     },
     jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+    pagebreak:    { mode: ['css', 'legacy'] }
   };
   
   await html2pdf().set(opt).from(htmlContent).save();
