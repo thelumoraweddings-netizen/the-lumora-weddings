@@ -178,3 +178,47 @@
   padding: 0; /* Override default padding since we use header/body */
   overflow: hidden; /* For border radius */
 }
+
+/* ======================================================
+   Mobile Responsiveness
+   ====================================================== */
+@media (max-width: 768px) {
+  .qm-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .qm-table {
+    min-width: 600px; /* Ensure table doesn't squash too much */
+  }
+
+  .qm-modal-header-premium {
+    padding: 20px;
+  }
+
+  .qm-modal-header-premium h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .qm-modal-body-premium {
+    padding: 20px;
+  }
+
+  .qm-lead-detail-box {
+    padding: 16px;
+  }
+
+  .qm-lead-detail-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .qm-lead-detail-grid > div {
+    grid-column: 1 / -1 !important;
+  }
+
+  .qm-modal-premium-content {
+    margin: 16px;
+    width: auto;
+  }
+}
