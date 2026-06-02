@@ -128,7 +128,11 @@ const BookingManager = () => {
                                     </div>
                                     <div>
                                         <div className="qm-detail-label"><Clock size={12}/> Event Date</div>
-                                        <p className="qm-detail-value">{selectedBooking.date ? new Date(selectedBooking.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Not specified'}</p>
+                                        <p className="qm-detail-value">
+                                            {selectedBooking.date && !isNaN(new Date(selectedBooking.date).getTime()) 
+                                                ? new Date(selectedBooking.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) 
+                                                : 'Not specified'}
+                                        </p>
                                     </div>
                                     <div style={{ gridColumn: 'span 2' }}>
                                         <div className="qm-detail-label"><MapPin size={12}/> Location</div>
@@ -144,7 +148,6 @@ const BookingManager = () => {
 
                             <div style={{ display: 'flex', gap: '12px', marginTop: '24px', borderTop: '1px solid rgba(0,45,36,0.08)', paddingTop: '24px' }}>
                                 <a href={`tel:${selectedBooking.phone}`} className="qm-btn-save" style={{ textDecoration: 'none' }}><Phone size={14}/> Call Client</a>
-                                <a href={`mailto:${selectedBooking.email}`} className="qm-btn-outline" style={{ textDecoration: 'none' }}><Mail size={14}/> Email Client</a>
                                 <button className="qm-btn-outline" style={{ marginLeft: 'auto' }} onClick={() => setSelectedBooking(null)}>Close</button>
                             </div>
                         </div>
