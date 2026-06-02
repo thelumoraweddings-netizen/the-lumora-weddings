@@ -1,0 +1,179 @@
+/* ======================================================
+   Booking Manager — Cream + Emerald + Gold Theme
+   ====================================================== */
+
+.qm-table-container {
+  background: #FDFCF8;
+  border: 1px solid rgba(0,45,36,0.08);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,45,36,0.04);
+  overflow: hidden;
+  animation: qmFadeIn 0.4s ease both;
+  width: 100%;
+}
+
+.qm-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.qm-table th {
+  background: #F6F4ED;
+  padding: 18px 24px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #5C6256;
+  border-bottom: 2px solid rgba(0,45,36,0.06);
+}
+
+.qm-table td {
+  padding: 18px 24px;
+  border-bottom: 1px solid rgba(0,45,36,0.05);
+  vertical-align: middle;
+}
+
+.qm-table tr:last-child td {
+  border-bottom: none;
+}
+
+.qm-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.qm-table tbody tr:hover {
+  background: rgba(212,175,55,0.05);
+}
+
+.qm-td-val {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.95rem;
+  color: #002D24;
+  margin-bottom: 4px;
+}
+
+.qm-td-sub {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.78rem;
+  color: #5C6256;
+}
+
+.qm-td-sub a {
+  transition: color 0.2s;
+}
+
+.qm-td-sub a:hover {
+  color: #D4AF37 !important;
+}
+
+/* Modal styling overrides for Booking Manager */
+.qm-modal-header-premium {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 30px;
+  background: #002D24;
+  border-radius: 12px 12px 0 0;
+  color: #D4AF37;
+}
+
+.qm-modal-header-premium h2 {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 1.8rem !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+  color: #D4AF37 !important;
+  letter-spacing: -0.2px;
+}
+
+.qm-modal-close-premium {
+  background: rgba(212,175,55,0.1);
+  border: 1px solid rgba(212,175,55,0.2);
+  color: #D4AF37;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.qm-modal-close-premium:hover {
+  background: #D4AF37;
+  color: #002D24;
+  transform: rotate(90deg);
+}
+
+.qm-modal-body-premium {
+  padding: 30px;
+  background: #FDFCF8;
+  border-radius: 0 0 12px 12px;
+}
+
+.qm-lead-detail-box {
+  background: #F6F4ED;
+  border: 1px solid rgba(0,45,36,0.06);
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.qm-lead-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.qm-detail-label {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #5C6256;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qm-detail-label svg {
+  color: #D4AF37;
+}
+
+.qm-detail-value {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #002D24;
+  margin: 0;
+}
+
+.qm-detail-subvalue {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.9rem;
+  color: #4A5D4E;
+  margin: 6px 0 0 0;
+}
+
+.qm-message-box {
+  background: #fff;
+  border: 1px dashed rgba(212,175,55,0.4);
+  border-radius: 8px;
+  padding: 20px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.95rem;
+  color: #002D24;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.qm-modal-premium-content {
+  padding: 0; /* Override default padding since we use header/body */
+  overflow: hidden; /* For border radius */
+}

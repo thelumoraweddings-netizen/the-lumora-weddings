@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Mail, Phone, MapPin, Calendar, FileText, X } from 'lucide-react';
+import { Mail, Phone, MapPin, Calendar, FileText, X, Clock, Info } from 'lucide-react';
 import api from '../../utils/api';
-import './QuotationManager.css'; // Reusing the modern table styles from Quotations
+import './QuotationManager.css'; 
+import './BookingManager.css'; // Add our new premium table styles
 
 const BookingManager = () => {
     const [bookings, setBookings] = useState([]);
@@ -26,7 +27,7 @@ const BookingManager = () => {
         <div className="qm-container">
             <header className="qm-header">
                 <div>
-                    <h1 className="qm-title">Client Leads</h1>
+                    <h1 className="qm-page-title">Client Leads</h1>
                     <p className="qm-subtitle">Manage inquiries from the "Book Us" form</p>
                 </div>
             </header>
@@ -66,7 +67,7 @@ const BookingManager = () => {
                                     </td>
                                     <td>
                                         <div className="qm-td-val" style={{ fontWeight: 600 }}>{booking.name}</div>
-                                        <div className="qm-td-sub" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                        <div className="qm-td-sub" style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
                                             <a href={`tel:${booking.phone}`} style={{ color: 'inherit', textDecoration: 'none' }}><Phone size={11} /> {booking.phone}</a>
                                             <a href={`mailto:${booking.email}`} style={{ color: 'inherit', textDecoration: 'none' }}><Mail size={11} /> {booking.email}</a>
                                         </div>
@@ -86,7 +87,7 @@ const BookingManager = () => {
                                     <td>
                                         <div className="qm-actions">
                                             <button className="qm-action-btn" title="View Full Details" onClick={() => setSelectedBooking(booking)}>
-                                                <FileText size={16} /> View Details
+                                                <FileText size={16} />
                                             </button>
                                         </div>
                                     </td>
@@ -100,42 +101,46 @@ const BookingManager = () => {
             {/* Details Modal */}
             {selectedBooking && (
                 <div className="qm-modal-overlay" onClick={() => setSelectedBooking(null)}>
-                    <div className="qm-modal" style={{ maxWidth: '600px' }} onClick={e => e.stopPropagation()}>
-                        <div className="qm-modal-header">
+                    <div className="qm-modal qm-modal-premium-content" style={{ maxWidth: '650px' }} onClick={e => e.stopPropagation()}>
+                        
+                        <div className="qm-modal-header-premium">
                             <h2>Lead Details</h2>
-                            <button className="qm-modal-close" onClick={() => setSelectedBooking(null)}><X size={20} /></button>
+                            <button className="qm-modal-close-premium" onClick={() => setSelectedBooking(null)}><X size={20} /></button>
                         </div>
-                        <div className="qm-modal-body" style={{ padding: '30px' }}>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
-                                <div>
-                                    <h4 style={{ fontSize: '11px', textTransform: 'uppercase', color: '#666', letterSpacing: '1px', marginBottom: '5px' }}>Client Name</h4>
-                                    <p style={{ margin: 0, fontSize: '16px', fontWeight: 600, color: '#002D24' }}>{selectedBooking.name}</p>
-                                </div>
-                                <div>
-                                    <h4 style={{ fontSize: '11px', textTransform: 'uppercase', color: '#666', letterSpacing: '1px', marginBottom: '5px' }}>Contact Info</h4>
-                                    <p style={{ margin: 0, fontSize: '14px', color: '#333' }}>{selectedBooking.phone}</p>
-                                    <p style={{ margin: '3px 0 0', fontSize: '14px', color: '#333' }}>{selectedBooking.email}</p>
-                                </div>
-                                <div>
-                                    <h4 style={{ fontSize: '11px', textTransform: 'uppercase', color: '#666', letterSpacing: '1px', marginBottom: '5px' }}>Event Type</h4>
-                                    <p style={{ margin: 0, fontSize: '15px', color: '#333' }}>{selectedBooking.eventType}</p>
-                                </div>
-                                <div>
-                                    <h4 style={{ fontSize: '11px', textTransform: 'uppercase', color: '#666', letterSpacing: '1px', marginBottom: '5px' }}>Event Date</h4>
-                                    <p style={{ margin: 0, fontSize: '15px', color: '#333' }}>{selectedBooking.date ? new Date(selectedBooking.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Not specified'}</p>
-                                </div>
-                                <div style={{ gridColumn: 'span 2' }}>
-                                    <h4 style={{ fontSize: '11px', textTransform: 'uppercase', color: '#666', letterSpacing: '1px', marginBottom: '5px' }}>Location</h4>
-                                    <p style={{ margin: 0, fontSize: '15px', color: '#333' }}>{selectedBooking.location}</p>
-                                </div>
-                                <div style={{ gridColumn: 'span 2' }}>
-                                    <h4 style={{ fontSize: '11px', textTransform: 'uppercase', color: '#666', letterSpacing: '1px', marginBottom: '5px' }}>Message / Requirements</h4>
-                                    <div style={{ background: '#f8f9fa', padding: '15px', borderRadius: '8px', fontSize: '14px', color: '#444', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
-                                        {selectedBooking.message || 'No additional message provided.'}
+                        
+                        <div className="qm-modal-body-premium">
+                            <div className="qm-lead-detail-box">
+                                <div className="qm-lead-detail-grid">
+                                    <div>
+                                        <div className="qm-detail-label"><FileText size={12}/> Client Name</div>
+                                        <p className="qm-detail-value">{selectedBooking.name}</p>
+                                    </div>
+                                    <div>
+                                        <div className="qm-detail-label"><Phone size={12}/> Contact Info</div>
+                                        <p className="qm-detail-value">{selectedBooking.phone}</p>
+                                        <p className="qm-detail-subvalue">{selectedBooking.email}</p>
+                                    </div>
+                                    <div>
+                                        <div className="qm-detail-label"><Calendar size={12}/> Event Type</div>
+                                        <p className="qm-detail-value">{selectedBooking.eventType}</p>
+                                    </div>
+                                    <div>
+                                        <div className="qm-detail-label"><Clock size={12}/> Event Date</div>
+                                        <p className="qm-detail-value">{selectedBooking.date ? new Date(selectedBooking.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Not specified'}</p>
+                                    </div>
+                                    <div style={{ gridColumn: 'span 2' }}>
+                                        <div className="qm-detail-label"><MapPin size={12}/> Location</div>
+                                        <p className="qm-detail-value">{selectedBooking.location}</p>
                                     </div>
                                 </div>
                             </div>
+                            
+                            <div className="qm-detail-label"><Info size={12}/> Message / Requirements</div>
+                            <div className="qm-message-box">
+                                {selectedBooking.message || 'No additional message provided by the client.'}
+                            </div>
                         </div>
+
                     </div>
                 </div>
             )}
