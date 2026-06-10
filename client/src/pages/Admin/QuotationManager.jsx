@@ -96,7 +96,6 @@ function getQuotationHTML(q) {
   const total = calcTotal(q);
   const discountAmt = q.discount && parseFloat(q.discount) > 0 ? Math.round(total * parseFloat(q.discount) / 100) : 0;
   const finalTotal = q.totalAmount ? parseFloat(q.totalAmount) : (total - discountAmt);
-  const finalTotal = q.totalAmount ? parseFloat(q.totalAmount) : (total - discountAmt);
 
   return `
 <div class="page">
