@@ -111,12 +111,23 @@ const AdminDashboard = () => {
                   const discountAmt = Math.round(sum * (parseFloat(q.discount) || 0) / 100);
                   const total = sum - discountAmt;
                   
+                  // Handle Date Display (Checking both q.events and q.eventDate)
+                  const eventDateStr = (q.events && q.events.length > 0 && q.events[0].date) 
+                    ? q.events[0].date 
+                    : q.eventDate;
+                  const displayDate = eventDateStr 
+                    ? (!isNaN(new Date(eventDateStr).getTime()) 
+                        ? new Date(eventDateStr).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) 
+                        : eventDateStr)
+                    : '—';
+                  const extraDates = (q.events && q.events.length > 1) ? ` (+${q.events.length - 1})` : '';
+
                   return (
                     <tr key={q.id}>
                       <td className="ad2-td-id">{q.id}</td>
                       <td className="ad2-td-name">{q.clientName || '—'}</td>
                       <td>{q.eventType || '—'}</td>
-                      <td>{q.eventDate ? new Date(q.eventDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'}</td>
+                      <td>{displayDate !== '—' ? `${displayDate}${extraDates}` : '—'}</td>
                       <td className="ad2-td-amount">
                         {total > 0 ? new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(total) : '—'}
                       </td>
