@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
 
     const login = (password) => {
         // Basic verification for demo
-        if (password === 'Sweety@1101') {
+        if (password === '1101') {
             localStorage.setItem('token', 'fake-jwt-token');
             setIsAdmin(true);
             return true;

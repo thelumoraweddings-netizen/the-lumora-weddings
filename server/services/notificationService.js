@@ -105,7 +105,10 @@ class NotificationService {
    */
   async sendEmailNotification(booking) {
     try {
-      return await EmailService.sendInquiryEmail(booking);
+      const adminSuccess = await EmailService.sendInquiryEmail(booking);
+      const clientSuccess = await EmailService.sendClientConfirmationEmail(booking);
+      
+      return adminSuccess; // returning admin success to maintain previous logic
     } catch (error) {
       console.error('[Email Dispatch Error]', error.message);
       return false;

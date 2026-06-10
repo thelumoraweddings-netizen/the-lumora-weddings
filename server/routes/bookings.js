@@ -11,28 +11,38 @@ router.post('/', async (req, res) => {
   console.log('[API] Received new booking inquiry:', bookingData.name);
 
   try {
-    // 1. Save to MongoDB Database (Permanent Storage)
     const newBooking = new Booking(bookingData);
-    await newBooking.save();
+    
+    // Validate data synchronously before responding
+    const validationError = newBooking.validateSync();
+    if (validationError) {
+      return res.status(400).json({ success: false, message: validationError.message });
+    }
 
-    // 2. Send success immediately to the client
+    // 1. Send success immediately to the client so UI feels incredibly fast
     res.status(201).json({ 
       success: true, 
       message: 'Your inquiry has been captured! We will contact you via Email & WhatsApp shortly.'
     });
 
-    // 3. Trigger Notifications (Email/WhatsApp) in the background
+    // 2. Perform DB Save and Notifications concurrently in the background
     (async () => {
       try {
-        await NotificationService.notifyAll(bookingData);
+        await Promise.allSettled([
+          newBooking.save(),
+          NotificationService.notifyAll(bookingData)
+        ]);
+        console.log('[API] Background processing completed for:', bookingData.name);
       } catch (error) {
-        console.error('[Background Processing Error] Notification tasks failed:', error.message);
+        console.error('[Background Processing Error]:', error.message);
       }
     })();
 
   } catch (err) {
-    console.error('Error saving booking to DB:', err);
-    res.status(500).json({ success: false, message: 'Server error while saving inquiry' });
+    console.error('Error in booking request:', err);
+    if (!res.headersSent) {
+      res.status(500).json({ success: false, message: 'Server error while processing inquiry' });
+    }
   }
 });
 
@@ -57,6 +67,20 @@ router.patch('/:id', protect, async (req, res) => {
       { new: true }
     );
     res.json(updatedBooking);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// @desc    Delete booking
+// @route   DELETE /api/bookings/:id
+router.delete('/:id', protect, async (req, res) => {
+  try {
+    const booking = await Booking.findByIdAndDelete(req.params.id);
+    if (!booking) {
+      return res.status(404).json({ message: 'Booking not found' });
+    }
+    res.json({ message: 'Booking removed' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

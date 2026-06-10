@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Mail, Phone, MapPin, Calendar, FileText, X, Clock, Info } from 'lucide-react';
+import { Mail, Phone, MapPin, Calendar, FileText, X, Clock, Info, Trash2 } from 'lucide-react';
 import api from '../../utils/api';
 import './QuotationManager.css'; 
 import './BookingManager.css'; // Add our new premium table styles
@@ -8,6 +8,7 @@ const BookingManager = () => {
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedBooking, setSelectedBooking] = useState(null);
+    const [bookingToDelete, setBookingToDelete] = useState(null);
 
     useEffect(() => {
         const fetchBookings = async () => {
@@ -22,6 +23,23 @@ const BookingManager = () => {
         };
         fetchBookings();
     }, []);
+
+    const handleDeleteClick = (id) => {
+        setBookingToDelete(id);
+    };
+
+    const confirmDelete = async () => {
+        if (!bookingToDelete) return;
+        try {
+            await api.delete(`/api/bookings/${bookingToDelete}`);
+            setBookings(bookings.filter(b => b._id !== bookingToDelete));
+            setBookingToDelete(null);
+        } catch (err) {
+            console.error('Error deleting booking:', err);
+            alert('Failed to delete lead. Please try again.');
+            setBookingToDelete(null);
+        }
+    };
 
     return (
         <>
@@ -42,7 +60,7 @@ const BookingManager = () => {
                                     <th>Client Details</th>
                                     <th>Event Info</th>
                                     <th>Location</th>
-                                    <th>Actions</th>
+                                    <th style={{ textAlign: 'center' }}>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -77,7 +95,11 @@ const BookingManager = () => {
                                             <div className="qm-td-val">{booking.eventType}</div>
                                             <div className="qm-td-sub" style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
                                                 <Calendar size={11} />
-                                                {booking.date ? new Date(booking.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'TBD'}
+                                                {booking.date 
+                                                    ? (!isNaN(new Date(booking.date).getTime()) 
+                                                        ? new Date(booking.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) 
+                                                        : booking.date)
+                                                    : 'TBD'}
                                             </div>
                                         </td>
                                         <td>
@@ -86,9 +108,12 @@ const BookingManager = () => {
                                             </div>
                                         </td>
                                         <td>
-                                            <div className="qm-actions">
+                                            <div className="qm-actions" style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
                                                 <button className="qm-btn-outline" title="View Full Details" onClick={() => setSelectedBooking(booking)}>
                                                     <FileText size={14} /> View Details
+                                                </button>
+                                                <button className="qm-btn-outline" style={{ color: '#ef4444', borderColor: 'rgba(239, 68, 68, 0.3)' }} title="Delete Lead" onClick={() => handleDeleteClick(booking._id)}>
+                                                    <Trash2 size={14} /> Delete
                                                 </button>
                                             </div>
                                         </td>
@@ -129,8 +154,10 @@ const BookingManager = () => {
                                     <div>
                                         <div className="qm-detail-label"><Clock size={12}/> Event Date</div>
                                         <p className="qm-detail-value">
-                                            {selectedBooking.date && !isNaN(new Date(selectedBooking.date).getTime()) 
-                                                ? new Date(selectedBooking.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) 
+                                            {selectedBooking.date 
+                                                ? (!isNaN(new Date(selectedBooking.date).getTime()) 
+                                                    ? new Date(selectedBooking.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) 
+                                                    : selectedBooking.date)
                                                 : 'Not specified'}
                                         </p>
                                     </div>
@@ -150,6 +177,25 @@ const BookingManager = () => {
                                 <a href={`tel:${selectedBooking.phone}`} className="qm-btn-save" style={{ textDecoration: 'none' }}><Phone size={14}/> Call Client</a>
                                 <button className="qm-btn-outline" style={{ marginLeft: 'auto' }} onClick={() => setSelectedBooking(null)}>Close</button>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Delete Confirmation Modal */}
+            {bookingToDelete && (
+                <div className="qm-modal-overlay" style={{ zIndex: 999999 }} onClick={() => setBookingToDelete(null)}>
+                    <div className="qm-modal qm-modal-premium-content" style={{ maxWidth: '400px', textAlign: 'center', padding: '30px 24px' }} onClick={e => e.stopPropagation()}>
+                        <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+                            <Trash2 size={24} />
+                        </div>
+                        <h3 style={{ margin: '0 0 8px', fontSize: '18px', fontWeight: '600', color: '#111827' }}>Delete Lead</h3>
+                        <p style={{ margin: '0 0 24px', color: '#4b5563', fontSize: '14px', lineHeight: '1.5' }}>
+                            Are you sure you want to permanently delete this lead? This action cannot be undone.
+                        </p>
+                        <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+                            <button className="qm-btn-outline" onClick={() => setBookingToDelete(null)} style={{ flex: 1 }}>Cancel</button>
+                            <button className="qm-btn-save" onClick={confirmDelete} style={{ flex: 1, background: '#ef4444', borderColor: '#ef4444', color: 'white' }}>Delete</button>
                         </div>
                     </div>
                 </div>

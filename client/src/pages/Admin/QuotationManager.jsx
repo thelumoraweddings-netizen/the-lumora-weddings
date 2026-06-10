@@ -1313,13 +1313,30 @@ const QuotationManager = () => {
      ═══════════════════════════════════════════════ */
   if (view === 'preview' && previewQ) {
     const q = previewQ;
-    const services = (q.additionalServices || []).map(sid => ADD_SERVICES.find(x => x.id === sid)).filter(Boolean);
-    const t = calcTotal(q);
-    const dAmt = q.discount && parseFloat(q.discount) > 0 ? Math.round(t * parseFloat(q.discount) / 100) : 0;
-    const total = q.totalAmount ? parseFloat(q.totalAmount) : (t - dAmt);
+    const iframeSrc = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+      <meta charset="UTF-8" />
+      <style>
+      ${getQuotationStyle()}
+      body { background-color: #f3f4f6; display: flex; justify-content: center; padding: 40px 0; margin: 0; min-height: 100vh; }
+      .page { box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 4px; overflow: hidden; margin: 0 auto; }
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: #f3f4f6; }
+      ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+      </style>
+      </head>
+      <body>
+      ${getQuotationHTML(q)}
+      </body>
+      </html>
+    `;
 
     return (
-      <div className="qm-container">
+      <div className="qm-container" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         <div className="qm-topbar">
           <div className="qm-topbar-left">
             <button className="qm-back-btn" onClick={() => setView('list')}><ArrowLeft size={16} /> Back</button>
@@ -1332,87 +1349,12 @@ const QuotationManager = () => {
           </div>
         </div>
 
-        {/* Preview Document */}
-        <div className="qm-preview-doc">
-          <div className="qm-preview-header">
-            <div>
-              <h1 className="qm-preview-brand">THE LUMORA WEDDINGS</h1>
-
-              <div className="qm-preview-contact">Coimbatore & Chennai · +91 93458 49846 · @TheLumoraWeddings</div>
-            </div>
-            <div className="qm-preview-docinfo">
-              <div className="qm-preview-doclabel">QUOTATION</div>
-              <div className="qm-preview-docid">{q.id}</div>
-              <div className="qm-preview-docdate">Issued: {today()}</div>
-            </div>
-          </div>
-
-          <div className="qm-preview-divider-gold" />
-
-          <div className="qm-preview-section-title">CLIENT DETAILS</div>
-          <div className="qm-preview-client-grid">
-            <div><span>Client</span><strong>{q.clientName || '—'}</strong></div>
-            <div><span>Phone</span><strong>{q.contactPhone || '—'}</strong></div>
-            <div><span>Email</span><strong>{q.contactEmail || '—'}</strong></div>
-            <div><span>Event Type</span><strong>{q.eventType || '—'}</strong></div>
-            <div><span>Event Date</span><strong>{formatDate(q.eventDate)}</strong></div>
-            <div><span>Location</span><strong>{q.location || '—'}</strong></div>
-          </div>
-
-          <div className="qm-preview-section-title">PACKAGE & SERVICES</div>
-          <table className="qm-preview-table">
-            <thead>
-              <tr><th>#</th><th>Description</th><th style={{ textAlign: 'right' }}>Amount</th></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>Base Package Requirements</td>
-                <td style={{ textAlign: 'right' }}>{formatINR(parseFloat(q.baseAmount) || 0)}</td>
-              </tr>
-              {services.map((s, i) => (
-                <tr key={s.id}>
-                  <td>{2 + i}</td>
-                  <td>{s.name}</td>
-                  <td style={{ textAlign: 'right' }}>{formatINR(s.price)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          <div className="qm-preview-totals">
-            <div className="qm-preview-total-box">
-              <div className="qm-preview-total-row"><span>Package Price</span><span>{formatINR(parseFloat(q.baseAmount) || 0)}</span></div>
-              {services.map(s => (
-                <div key={s.id} className="qm-preview-total-row"><span>{s.name}</span><span>{formatINR(s.price)}</span></div>
-              ))}
-              <div className="qm-preview-total-row qm-preview-grand">
-                <span>Grand Total</span>
-                <span>{formatINR(total)}</span>
-              </div>
-            </div>
-          </div>
-
-          {q.notes && (
-            <>
-              <div className="qm-preview-section-title">NOTES</div>
-              <div className="qm-preview-notes">{q.notes}</div>
-            </>
-          )}
-
-          <div className="qm-preview-footer">
-            <div className="qm-preview-terms">
-              <p>• 50% advance required to confirm the booking.</p>
-              <p>• Balance to be paid 7 days before the event.</p>
-              <p>• Edited photos/films delivered within 30–45 working days.</p>
-              <p>• This quotation is valid for 30 days from date of issue.</p>
-            </div>
-            <div className="qm-preview-sig">
-              <div className="qm-preview-sig-line" />
-              <p>Authorized Signature</p>
-              <span>The Lumora Weddings</span>
-            </div>
-          </div>
+        <div style={{ flex: 1, width: '100%', background: '#f3f4f6', minHeight: 'calc(100vh - 100px)' }}>
+          <iframe 
+            srcDoc={iframeSrc}
+            style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
+            title="PDF Preview"
+          />
         </div>
       </div>
     );

@@ -111,6 +111,49 @@ class EmailService {
       return false;
     }
   }
+
+  /**
+   * Send a thank-you confirmation email to the client.
+   */
+  async sendClientConfirmationEmail(booking) {
+    if (!booking.email) return false;
+
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      return false;
+    }
+
+    const mailOptions = {
+      from: `"THE LUMORA WEDDINGS" <${process.env.EMAIL_USER}>`,
+      to: booking.email,
+      subject: `Thank you for choosing THE LUMORA WEDDINGS! ✨`,
+      html: `
+        <div style="font-family: 'Playfair Display', serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #d4af37; border-top: 5px solid #d4af37; background-color: #fdfdfd; color: #1a1a1a;">
+          <h2 style="text-align: center; color: #1a1a1a; letter-spacing: 2px;">THE LUMORA WEDDINGS</h2>
+          <hr style="border: 0.5px solid #d4af37; width: 60%; margin: 20px auto;" />
+          <h3 style="color: #4a4a4a; text-transform: uppercase; font-size: 16px; text-align: center;">Vision Captured Successfully</h3>
+          
+          <p style="font-family: 'sans-serif'; font-size: 15px; color: #4a4a4a; line-height: 1.6; margin-top: 20px;">
+            Dear ${booking.name},<br><br>
+            Thank you for reaching out to us. We have successfully received your inquiry for your upcoming event.<br><br>
+            Our team is reviewing your requirements and will get back to you shortly to discuss your cinematic journey in detail.<br><br>
+            We look forward to creating magic together!<br><br>
+            Warm regards,<br>
+            <strong>Team Lumora</strong>
+          </p>
+        </div>
+      `,
+    };
+
+    try {
+      console.log(`[Email Dispatch] Sending confirmation to client: ${booking.email}`);
+      const info = await this.transporter.sendMail(mailOptions);
+      console.log(`[Email Success] Client confirmation delivered. Message ID: ${info.messageId}`);
+      return true;
+    } catch (error) {
+      console.error(`[Email Error] Failed to send client confirmation: ${error.message}`);
+      return false;
+    }
+  }
 }
 
 module.exports = new EmailService();
