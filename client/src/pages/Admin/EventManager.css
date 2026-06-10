@@ -199,6 +199,7 @@
 .em-action-btns {
   display: flex;
   gap: 8px;
+  align-items: center;
 }
 .em-btn-icon {
   width: 32px;
@@ -210,16 +211,20 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s;
-  background: #f1f5f9;
-  color: #475569;
+}
+.em-btn-assign {
+  background-color: #e0e7ff !important;
+  color: #4f46e5 !important;
 }
 .em-btn-assign:hover {
-  background: #dbeafe;
-  color: #2563eb;
+  background-color: #c7d2fe !important;
+}
+.em-btn-pay {
+  background-color: #dcfce7 !important;
+  color: #16a34a !important;
 }
 .em-btn-pay:hover {
-  background: #dcfce7;
-  color: #16a34a;
+  background-color: #bbf7d0 !important;
 }
 
 /* Modals */
