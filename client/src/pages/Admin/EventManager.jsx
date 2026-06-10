@@ -394,7 +394,6 @@ const EventManager = () => {
                     <option value="Bank Transfer">Bank Transfer</option>
                     <option value="UPI">UPI</option>
                     <option value="Cash">Cash</option>
-                    <option value="Cheque">Cheque</option>
                   </select>
                   <input type="text" className="em-input" placeholder="Remarks / Contact No" value={newPayment.remarks} onChange={e => setNewPayment({...newPayment, remarks: e.target.value})} />
                 </div>
