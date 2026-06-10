@@ -187,11 +187,21 @@ function getQuotationHTML(q) {
           ${(q.events || []).length + ((q.complementary && q.complementary.length > 0) ? 1 : 0) + ((services && services.length > 0) ? 1 : 0) + 1}
         </td>
         <td style="text-align:center; vertical-align: middle; font-weight: 600; font-size: 14px;">ALBUMS</td>
-        <td style="text-align:left; vertical-align: top; padding-left: 20px;">
-          ${q.albums.map(a => `<div class="item-desc" style="margin-bottom: 6px;">${a.item}</div>`).join('')}
+        <td style="text-align:center; vertical-align: middle; padding: 10px 0;">
+          ${q.albums.map(a => {
+             const lines = (a.item || '').split('\n').filter(l => l.trim());
+             const main = lines[0] || '';
+             const subs = lines.slice(1);
+             return `
+               <div class="item-desc" style="margin-bottom: 8px;">
+                 <div style="font-weight: 600; font-size: 13px; color: #333;">${main}</div>
+                 ${subs.map(sub => `<div style="font-size: 11px; color: #555; margin-top: 3px;">${sub}</div>`).join('')}
+               </div>
+             `;
+          }).join('')}
         </td>
-        <td style="text-align:center; vertical-align: top;">
-          ${q.albums.map(a => `<div class="item-desc" style="margin-bottom: 6px; font-weight: bold;">${a.qty}</div>`).join('')}
+        <td style="text-align:center; vertical-align: middle;">
+          ${q.albums.map(a => `<div class="item-desc" style="margin-bottom: 8px; font-weight: bold;">${a.qty}</div>`).join('')}
         </td>
       </tr>
       ` : ''}
@@ -1143,15 +1153,17 @@ const QuotationManager = () => {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {(form.albums || []).map((album, idx) => (
                   <div key={idx} className="qm-dynamic-row" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    <input 
-                      className="qm-input" 
-                      placeholder="e.g. Premium Album (40 Sheets)" 
+                    <textarea 
+                      className="qm-input qm-textarea" 
+                      placeholder="e.g. Wedding & Reception (40 Sheets)&#10;(250 to 270 Photos)&#10;Extra Per sheet Rs.400" 
                       value={album.item} 
+                      rows={3}
                       onChange={e => {
                         const newAlbums = [...(form.albums || [])];
                         newAlbums[idx].item = e.target.value;
                         setForm(f => ({ ...f, albums: newAlbums }));
                       }} 
+                      style={{ resize: 'vertical', width: '100%', minHeight: '70px', padding: '10px' }}
                     />
                     <input 
                       className="qm-input" 
