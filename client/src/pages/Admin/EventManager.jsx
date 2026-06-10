@@ -136,7 +136,9 @@ const EventManager = () => {
   };
 
   const handleRemovePayment = (idx) => {
-    setPaymentsForm(paymentsForm.filter((_, i) => i !== idx));
+    if (window.confirm("Are you sure you want to delete this payment record?")) {
+      setPaymentsForm(paymentsForm.filter((_, i) => i !== idx));
+    }
   };
 
   const savePayments = async () => {
