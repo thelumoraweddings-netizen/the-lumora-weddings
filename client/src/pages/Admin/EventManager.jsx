@@ -12,6 +12,7 @@ const EventManager = () => {
   // Modals
   const [activeAssignModal, setActiveAssignModal] = useState(null); // The quotation object
   const [activePaymentModal, setActivePaymentModal] = useState(null); // The quotation object
+  const [paymentToDelete, setPaymentToDelete] = useState(null); // Index of payment to delete
 
   // Form states for Modals
   const [assignmentsForm, setAssignmentsForm] = useState([]);
@@ -136,8 +137,13 @@ const EventManager = () => {
   };
 
   const handleRemovePayment = (idx) => {
-    if (window.confirm("Are you sure you want to delete this payment record?")) {
-      setPaymentsForm(paymentsForm.filter((_, i) => i !== idx));
+    setPaymentToDelete(idx);
+  };
+
+  const confirmRemovePayment = () => {
+    if (paymentToDelete !== null) {
+      setPaymentsForm(paymentsForm.filter((_, i) => i !== paymentToDelete));
+      setPaymentToDelete(null);
     }
   };
 
@@ -400,6 +406,24 @@ const EventManager = () => {
               <button className="em-btn-outline" onClick={() => setActivePaymentModal(null)}>Cancel</button>
               <button className="em-btn-save" onClick={savePayments}>Save All Changes</button>
             </div>
+            
+            {/* Custom Confirm Delete Modal */}
+            {paymentToDelete !== null && (
+              <div className="em-confirm-overlay">
+                <div className="em-confirm-box">
+                  <div className="em-confirm-icon">
+                    <X size={24} />
+                  </div>
+                  <h3>Delete Payment?</h3>
+                  <p>Are you sure you want to delete this payment record? This action cannot be undone.</p>
+                  <div className="em-confirm-actions">
+                    <button className="em-btn-outline" onClick={() => setPaymentToDelete(null)}>Cancel</button>
+                    <button className="em-btn-danger" onClick={confirmRemovePayment}>Yes, Delete</button>
+                  </div>
+                </div>
+              </div>
+            )}
+            
           </div>
         </div>
       )}
