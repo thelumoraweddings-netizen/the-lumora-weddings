@@ -561,3 +561,51 @@
 .em-btn-danger:hover {
   background: #dc2626;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .em-container {
+    padding: 16px;
+  }
+  
+  .em-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .em-search-box {
+    width: 100%;
+  }
+
+  .em-p-summary-cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .em-p-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .em-modal {
+    width: 95%;
+    max-height: 95vh;
+  }
+  
+  .em-modal-header {
+    padding: 16px;
+  }
+  
+  .em-modal-body {
+    padding: 16px;
+  }
+
+  .em-action-btns {
+    flex-direction: column;
+  }
+  
+  .em-confirm-box {
+    width: 90%;
+    padding: 24px;
+  }
+}
