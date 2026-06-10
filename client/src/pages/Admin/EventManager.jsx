@@ -298,7 +298,6 @@ const EventManager = () => {
                       <th>Event</th>
                       <th>Requirement (Camera's)</th>
                       <th>Assigned To (Our's)</th>
-                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -315,12 +314,6 @@ const EventManager = () => {
                             value={req.assignedTo}
                             onChange={(e) => handleAssignmentChange(idx, 'assignedTo', e.target.value)}
                           />
-                        </td>
-                        <td>
-                          <select className="em-select" value={req.status} onChange={(e) => handleAssignmentChange(idx, 'status', e.target.value)}>
-                            <option value="Pending">Pending</option>
-                            <option value="Confirmed">Confirmed</option>
-                          </select>
                         </td>
                       </tr>
                     ))}
