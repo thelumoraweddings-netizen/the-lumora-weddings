@@ -19,24 +19,18 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ success: false, message: validationError.message });
     }
 
-    // 1. Send success immediately to the client so UI feels incredibly fast
+    // In Serverless environments (like Vercel), background tasks are frozen the moment a response is sent.
+    // We MUST await the DB save and Email dispatch to ensure the client receives the email.
+    await Promise.allSettled([
+      newBooking.save(),
+      NotificationService.notifyAll(bookingData)
+    ]);
+    console.log('[API] Processing completed for:', bookingData.name);
+
     res.status(201).json({ 
       success: true, 
       message: 'Your inquiry has been captured! We will contact you via Email & WhatsApp shortly.'
     });
-
-    // 2. Perform DB Save and Notifications concurrently in the background
-    (async () => {
-      try {
-        await Promise.allSettled([
-          newBooking.save(),
-          NotificationService.notifyAll(bookingData)
-        ]);
-        console.log('[API] Background processing completed for:', bookingData.name);
-      } catch (error) {
-        console.error('[Background Processing Error]:', error.message);
-      }
-    })();
 
   } catch (err) {
     console.error('Error in booking request:', err);
