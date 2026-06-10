@@ -14,6 +14,12 @@ router.put('/:id', quotationController.updateQuotation);
 // PATCH to update just the status of a quotation
 router.patch('/:id/status', quotationController.updateQuotationStatus);
 
+// PATCH to update assignments
+router.patch('/:id/assignments', quotationController.updateQuotationAssignments);
+
+// PATCH to update payments
+router.patch('/:id/payments', quotationController.updateQuotationPayments);
+
 // DELETE a quotation by ID
 router.delete('/:id', quotationController.deleteQuotation);
 

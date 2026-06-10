@@ -1,0 +1,489 @@
+/* Event Manager Styles */
+.em-container {
+  padding: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+  font-family: 'Poppins', sans-serif;
+  color: #1a1a1a;
+}
+
+.em-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 30px;
+}
+
+.em-title h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #002D24;
+  margin: 0 0 5px 0;
+}
+
+.em-title p {
+  color: #5C6256;
+  margin: 0;
+  font-size: 14px;
+}
+
+.em-search-box {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 16px;
+  width: 300px;
+  gap: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.em-search-box input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.em-search-box svg {
+  color: #94a3b8;
+}
+
+/* Table Card */
+.em-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+  border: 1px solid #f1f5f9;
+}
+
+.em-table-wrapper {
+  overflow-x: auto;
+}
+
+.em-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.em-table th {
+  background-color: #F8F7F3;
+  color: #5C6256;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.em-table td {
+  padding: 16px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: top;
+}
+
+.em-table tr:hover {
+  background-color: #fafafa;
+}
+
+.em-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Cell Contents */
+.em-date {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.em-date-item {
+  font-weight: 600;
+  color: #002D24;
+  font-size: 13px;
+  background: #f1f5f9;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  width: max-content;
+}
+
+.em-location {
+  font-size: 13px;
+  color: #475569;
+}
+
+.em-client-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: #002D24;
+}
+
+.em-badge {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 20px;
+  background: #eef2ff;
+  color: #4338ca;
+  font-weight: 500;
+  display: inline-block;
+}
+
+/* Clickable cells */
+.em-cell-clickable {
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.em-cell-clickable:hover {
+  background: #f8fafc;
+}
+
+/* Assignments */
+.em-assignments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.em-assignment-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  border-bottom: 1px dashed #e2e8f0;
+  padding-bottom: 4px;
+}
+.em-assignment-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.em-a-role {
+  color: #64748b;
+}
+.em-a-name {
+  font-weight: 600;
+  color: #002D24;
+}
+.em-unassigned {
+  color: #94a3b8;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Payment Stats */
+.em-payment-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+}
+.em-p-row {
+  display: flex;
+  justify-content: space-between;
+}
+.em-p-label {
+  color: #64748b;
+}
+.em-p-val {
+  font-weight: 600;
+}
+.em-text-dark { color: #0f172a; }
+.em-text-green { color: #16a34a; }
+.em-text-red { color: #dc2626; }
+
+/* Actions */
+.em-action-btns {
+  display: flex;
+  gap: 8px;
+}
+.em-btn-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #f1f5f9;
+  color: #475569;
+}
+.em-btn-assign:hover {
+  background: #dbeafe;
+  color: #2563eb;
+}
+.em-btn-pay:hover {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+/* Modals */
+.em-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+.em-modal {
+  background: white;
+  width: 90%;
+  max-width: 700px;
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.em-modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.em-modal-header h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #002D24;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.em-close-btn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.em-close-btn:hover {
+  color: #ef4444;
+}
+
+.em-modal-body {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.em-modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  background: #f8fafc;
+  border-radius: 0 0 12px 12px;
+}
+
+/* Buttons */
+.em-btn-outline {
+  padding: 8px 16px;
+  border: 1px solid #cbd5e1;
+  background: white;
+  color: #475569;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.em-btn-outline:hover {
+  background: #f1f5f9;
+}
+.em-btn-save {
+  padding: 8px 20px;
+  border: none;
+  background: #002D24;
+  color: #E2DECF;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.em-btn-save:hover {
+  background: #004538;
+}
+
+/* Assignment Table Form */
+.em-a-table-wrap {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.em-a-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.em-a-table th {
+  background: #f8fafc;
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+  border-bottom: 1px solid #e2e8f0;
+}
+.em-a-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 14px;
+  color: #1e293b;
+}
+
+.em-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  outline: none;
+  font-family: inherit;
+  font-size: 14px;
+}
+.em-input:focus {
+  border-color: #94a3b8;
+}
+.em-select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: white;
+  outline: none;
+}
+
+/* Payment Form elements */
+.em-p-summary-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.em-p-card {
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+.em-p-card-title {
+  font-size: 12px;
+  color: #64748b;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.em-p-card-val {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.em-p-history h3 {
+  font-size: 15px;
+  color: #1e293b;
+  margin: 0 0 12px 0;
+}
+.em-no-payments {
+  color: #94a3b8;
+  font-size: 14px;
+  font-style: italic;
+  margin-bottom: 24px;
+}
+.em-p-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.em-p-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+}
+.em-p-item-amt {
+  font-weight: 600;
+  font-size: 16px;
+  color: #002D24;
+}
+.em-p-item-meta {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 2px;
+}
+.em-p-item-remarks {
+  font-size: 13px;
+  color: #334155;
+  margin-top: 4px;
+  background: #f1f5f9;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+.em-btn-delete {
+  background: #fef2f2;
+  color: #ef4444;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.em-btn-delete:hover {
+  background: #fca5a5;
+  color: #b91c1c;
+}
+
+.em-p-add-box {
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+.em-p-add-box h3 {
+  font-size: 14px;
+  margin: 0 0 12px 0;
+  color: #1e293b;
+}
+.em-p-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.em-btn-add {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: white;
+  border: 1px dashed #cbd5e1;
+  color: #475569;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  justify-content: center;
+}
+.em-btn-add:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}

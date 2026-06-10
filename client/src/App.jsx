@@ -35,6 +35,7 @@ import BookingManager from './pages/Admin/BookingManager';
 import TestimonialManager from './pages/Admin/TestimonialManager';
 import AdminLayout from './pages/Admin/AdminLayout';
 import QuotationManager from './pages/Admin/QuotationManager';
+import EventManager from './pages/Admin/EventManager';
 
 const ProtectedRoute = ({ children }) => {
   const { isAdmin, loading } = useAuth();
@@ -98,7 +99,7 @@ function App() {
                  <Route path="quotations" element={<QuotationManager />} />
                  <Route path="bookings" element={<BookingManager />} />
                  <Route path="gallery" element={<GalleryManager />} />
-
+                 <Route path="events" element={<EventManager />} />
                  <Route path="testimonials" element={<TestimonialManager />} />
               </Route>
             </Routes>

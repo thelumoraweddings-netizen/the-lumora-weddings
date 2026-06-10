@@ -17,6 +17,8 @@ const QuotationSchema = new mongoose.Schema({
     discount: { type: String, default: '' },
     totalAmount: { type: String, default: '' },
     status: { type: String, default: 'Draft' },
+    assignments: { type: mongoose.Schema.Types.Mixed, default: [] },
+    payments: { type: mongoose.Schema.Types.Mixed, default: [] },
     createdAt: { type: Date, default: Date.now }
 });
 

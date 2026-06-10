@@ -44,6 +44,36 @@ exports.updateQuotationStatus = async (req, res) => {
     }
 };
 
+// Update assignments
+exports.updateQuotationAssignments = async (req, res) => {
+    try {
+        const updated = await Quotation.findOneAndUpdate(
+            { id: req.params.id },
+            { assignments: req.body.assignments },
+            { new: true }
+        );
+        res.status(200).json(updated);
+    } catch (err) {
+        console.error('Error updating assignments:', err);
+        res.status(500).json({ error: err.message });
+    }
+};
+
+// Update payments
+exports.updateQuotationPayments = async (req, res) => {
+    try {
+        const updated = await Quotation.findOneAndUpdate(
+            { id: req.params.id },
+            { payments: req.body.payments },
+            { new: true }
+        );
+        res.status(200).json(updated);
+    } catch (err) {
+        console.error('Error updating payments:', err);
+        res.status(500).json({ error: err.message });
+    }
+};
+
 // Delete a quotation
 exports.deleteQuotation = async (req, res) => {
     try {
