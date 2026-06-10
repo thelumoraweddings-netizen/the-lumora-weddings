@@ -54,10 +54,31 @@ const EventManager = () => {
     return new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
   };
 
+  const ADD_SERVICES = [
+    { id: 'helicam',   name: 'Helicam',                    price: 10000, unit: '/Session' },
+    { id: 'ledtv',     name: 'LED TV 55 inch',              price: 5000,  unit: '/Session' },
+    { id: 'ledwall',   name: 'LED Wall 6×8',                price: 18000, unit: '/Session' },
+    { id: 'switcher',  name: 'Switcher Unit',               price: 8000,  unit: '/Session' },
+    { id: 'youtube',   name: 'YouTube Live Streaming',      price: 3000,  unit: '/Hour' },
+  ];
+
   const calculatePaymentStats = (q) => {
-    const total = parseFloat(q.totalAmount) || 0;
+    // 1. Calculate Base Total
+    let baseTotal = parseFloat(q.baseAmount) || 0;
+    (q.additionalServices || []).forEach(sid => {
+      const s = ADD_SERVICES.find(x => x.id === sid);
+      if (s) baseTotal += (s.price || 0);
+    });
+
+    // 2. Apply Discount
+    const discountAmt = q.discount && parseFloat(q.discount) > 0 ? Math.round(baseTotal * parseFloat(q.discount) / 100) : 0;
+    
+    // 3. Final Total (override with q.totalAmount if explicitly set)
+    const total = q.totalAmount ? parseFloat(q.totalAmount) : (baseTotal - discountAmt);
+
     const received = (q.payments || []).reduce((sum, p) => sum + (parseFloat(p.amount) || 0), 0);
     const balance = total - received;
+    
     return { total, received, balance };
   };
 
