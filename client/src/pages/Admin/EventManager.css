@@ -68,6 +68,7 @@
   width: 100%;
   border-collapse: collapse;
   text-align: left;
+  min-width: 1000px; /* Force horizontal scroll instead of squishing on mobile */
 }
 
 .em-table th {
@@ -332,7 +333,7 @@
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  min-width: 600px;
+  min-width: 400px;
 }
 .em-a-table th {
   background: #f8fafc;
