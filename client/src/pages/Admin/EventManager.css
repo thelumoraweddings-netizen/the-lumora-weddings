@@ -326,12 +326,13 @@
 .em-a-table-wrap {
   border: 1px solid #e2e8f0;
   border-radius: 8px;
-  overflow: hidden;
+  overflow-x: auto;
 }
 .em-a-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
+  min-width: 600px;
 }
 .em-a-table th {
   background: #f8fafc;
