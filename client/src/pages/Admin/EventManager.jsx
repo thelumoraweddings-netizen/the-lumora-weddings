@@ -149,7 +149,14 @@ const EventManager = () => {
 
   const savePayments = async () => {
     try {
-      await api.patch(`/api/quotations/${activePaymentModal.id}/payments`, { payments: paymentsForm });
+      let finalPayments = [...paymentsForm];
+      
+      // If the user typed a payment but forgot to click "+ Add Payment" before clicking "Save"
+      if (newPayment.amount) {
+        finalPayments.push({ ...newPayment });
+      }
+
+      await api.patch(`/api/quotations/${activePaymentModal.id}/payments`, { payments: finalPayments });
       toast.success('Payments updated successfully');
       setActivePaymentModal(null);
       fetchEvents();
