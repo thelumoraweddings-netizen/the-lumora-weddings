@@ -735,8 +735,15 @@ const QuotationManager = () => {
     }));
   };
 
-  const updateStatus = (id, status) => {
+  const updateStatus = async (id, status) => {
+    // Optimistic UI update
     setQuotations(prev => prev.map(q => q.id === id ? { ...q, status } : q));
+    try {
+      await api.patch(`/api/quotations/${id}/status`, { status });
+    } catch (err) {
+      console.error('Failed to update status', err);
+      alert('Failed to save status on the server.');
+    }
   };
 
   /* ── Filtered List ──────────────────────────────────── */

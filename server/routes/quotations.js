@@ -11,6 +11,9 @@ router.post('/', quotationController.createQuotation);
 // PUT to update an existing quotation by ID
 router.put('/:id', quotationController.updateQuotation);
 
+// PATCH to update just the status of a quotation
+router.patch('/:id/status', quotationController.updateQuotationStatus);
+
 // DELETE a quotation by ID
 router.delete('/:id', quotationController.deleteQuotation);
 

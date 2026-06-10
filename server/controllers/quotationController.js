@@ -29,6 +29,21 @@ exports.createQuotation = async (req, res) => {
 
 exports.updateQuotation = exports.createQuotation;
 
+// Update quotation status
+exports.updateQuotationStatus = async (req, res) => {
+    try {
+        const updatedQuotation = await Quotation.findOneAndUpdate(
+            { id: req.params.id },
+            { status: req.body.status },
+            { new: true }
+        );
+        res.status(200).json(updatedQuotation);
+    } catch (err) {
+        console.error('Error updating status:', err);
+        res.status(500).json({ error: err.message });
+    }
+};
+
 // Delete a quotation
 exports.deleteQuotation = async (req, res) => {
     try {
