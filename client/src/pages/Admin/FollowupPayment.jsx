@@ -190,7 +190,7 @@ const FollowupPayment = () => {
                 
                 return (
                   <tr key={q.id}>
-                    <td>
+                    <td data-label="EVENT DATE">
                       <div>
                         {(q.events && q.events.length > 0) ? (
                           q.events.map((e, i) => (
@@ -201,14 +201,14 @@ const FollowupPayment = () => {
                         )}
                       </div>
                     </td>
-                    <td><span className="fp-location">{q.location || '—'}</span></td>
-                    <td>
+                    <td data-label="LOCATION"><span className="fp-location">{q.location || '—'}</span></td>
+                    <td data-label="NAME">
                       <div className="fp-client-name">{q.clientName}</div>
                     </td>
-                    <td><span className="fp-badge">{q.eventType || '—'}</span></td>
+                    <td data-label="EVENT TYPE"><span className="fp-badge">{q.eventType || '—'}</span></td>
                     
                     {/* Payment Status Cell */}
-                    <td>
+                    <td data-label="PAYMENT STATUS">
                       <div className="fp-payment-stats">
                         <div className="fp-p-row">
                           <span className="fp-p-label">Total:</span>
@@ -226,7 +226,7 @@ const FollowupPayment = () => {
                     </td>
 
                     {/* Action Cell */}
-                    <td>
+                    <td data-label="ACTION">
                       <button className="fp-btn-pay" onClick={() => openPaymentModal(q)}>
                         <IndianRupee size={16}/> Payments
                       </button>
