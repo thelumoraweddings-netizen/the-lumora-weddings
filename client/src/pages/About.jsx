@@ -12,7 +12,6 @@ const vUp = (delay = 0) => ({
 });
 
 const teamMembers = [
-  { name: 'Vijay', role: 'Editor', img: '/images/meet-our-team/vijay-black.jpg' },
   { name: 'Tilak',         role: 'Cinematographer & Editor',  img: '/images/meet-our-team/tilak-black.jpg' },
   { name: 'Bharathi Raja', role: 'Photographer & designer',   img: '/images/meet-our-team/bharathi-raja-black.jpg' },
   { name: 'Raja Rajan',    role: 'Photographer & designer',   img: '/images/meet-our-team/raja-rajan-black.jpg' },
