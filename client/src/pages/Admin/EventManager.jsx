@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Users, Camera, IndianRupee, Search, Edit2, Plus, X, UserCheck } from 'lucide-react';
+import { Calendar, Users, Camera, IndianRupee, Search, Edit2, Plus, X, UserCheck, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import api from '../../utils/api';
 import toast from 'react-hot-toast';
 import './EventManager.css';
@@ -7,17 +7,16 @@ import './EventManager.css';
 const EventManager = () => {
   const [quotations, setQuotations] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
+
+  // Calendar State
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedDateKey, setSelectedDateKey] = useState(null);
 
   // Modals
-  const [activeAssignModal, setActiveAssignModal] = useState(null); // The quotation object
-  const [activePaymentModal, setActivePaymentModal] = useState(null); // The quotation object
-  const [paymentToDelete, setPaymentToDelete] = useState(null); // Index of payment to delete
+  const [activeAssignModal, setActiveAssignModal] = useState(null);
 
-  // Form states for Modals
+  // Form states
   const [assignmentsForm, setAssignmentsForm] = useState([]);
-  const [paymentsForm, setPaymentsForm] = useState([]);
-  const [newPayment, setNewPayment] = useState({ amount: '', date: new Date().toISOString().split('T')[0], method: 'Bank Transfer', remarks: '' });
 
   useEffect(() => {
     fetchEvents();
@@ -27,10 +26,7 @@ const EventManager = () => {
     try {
       setLoading(true);
       const { data } = await api.get('/api/quotations');
-      // Only show Confirmed and Completed quotations as "Events"
       const confirmedEvents = data.filter(q => q.status === 'Confirmed' || q.status === 'Completed');
-      // Sort by event date (ascending)
-      confirmedEvents.sort((a, b) => new Date(a.eventDate || a.createdAt) - new Date(b.eventDate || b.createdAt));
       setQuotations(confirmedEvents);
     } catch (err) {
       toast.error('Failed to load events');
@@ -39,11 +35,74 @@ const EventManager = () => {
     }
   };
 
-  const filteredEvents = quotations.filter(q => 
-    q.clientName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    q.eventType?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    q.location?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  /* ─── Calendar Logic ─────────────────────────────────── */
+  const getDaysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
+
+  const generateCalendar = () => {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = getDaysInMonth(year, month);
+    const daysInPrevMonth = getDaysInMonth(year, month - 1);
+    
+    const days = [];
+    
+    // Prev month padding
+    for (let i = firstDay - 1; i >= 0; i--) {
+      days.push({
+        date: new Date(year, month - 1, daysInPrevMonth - i),
+        isCurrentMonth: false
+      });
+    }
+    
+    // Current month
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push({
+        date: new Date(year, month, i),
+        isCurrentMonth: true
+      });
+    }
+    
+    // Next month padding
+    const remainingDays = 42 - days.length; 
+    for (let i = 1; i <= remainingDays; i++) {
+      days.push({
+        date: new Date(year, month + 1, i),
+        isCurrentMonth: false
+      });
+    }
+    return days;
+  };
+
+  const prevMonth = () => {
+    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
+  };
+
+  const nextMonth = () => {
+    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
+  };
+
+  // Group events by YYYY-MM-DD
+  const eventsByDate = {};
+  quotations.forEach(q => {
+    const addEventToDate = (dateStr, evData) => {
+      if (!dateStr) return;
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return;
+      
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+      if (!eventsByDate[key]) eventsByDate[key] = [];
+      eventsByDate[key].push({ quotation: q, ...evData });
+    };
+
+    if (q.events && q.events.length > 0) {
+      q.events.forEach(e => addEventToDate(e.date, { subEventName: e.name || 'Event' }));
+    } else {
+      addEventToDate(q.eventDate, { subEventName: q.eventType || 'Event' });
+    }
+  });
+
+  const calendarDays = generateCalendar();
 
   /* ─── Helpers ────────────────────────────────────────── */
   const formatINR = (amount) => {
@@ -52,7 +111,7 @@ const EventManager = () => {
 
   const formatDate = (iso) => {
     if (!iso) return '—';
-    return new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+    return new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
   };
 
   const ADD_SERVICES = [
@@ -64,39 +123,30 @@ const EventManager = () => {
   ];
 
   const calculatePaymentStats = (q) => {
-    // 1. Calculate Base Total
     let baseTotal = parseFloat(q.baseAmount) || 0;
     (q.additionalServices || []).forEach(sid => {
       const s = ADD_SERVICES.find(x => x.id === sid);
       if (s) baseTotal += (s.price || 0);
     });
-
-    // 2. Apply Discount
     const discountAmt = q.discount && parseFloat(q.discount) > 0 ? Math.round(baseTotal * parseFloat(q.discount) / 100) : 0;
-    
-    // 3. Final Total (override with q.totalAmount if explicitly set)
     const total = q.totalAmount ? parseFloat(q.totalAmount) : (baseTotal - discountAmt);
-
     const received = (q.payments || []).reduce((sum, p) => sum + (parseFloat(p.amount) || 0), 0);
     const balance = total - received;
-    
     return { total, received, balance };
   };
 
   /* ─── Assignment Modal Handlers ─────────────────────── */
   const openAssignModal = (q) => {
     setActiveAssignModal(q);
-    
-    // Auto-generate requirements list from the quotation's events
     const reqs = [];
     (q.events || []).forEach((ev, eIdx) => {
       (ev.requirements || []).forEach((req, rIdx) => {
-        // Find if it already has an assignment
         const existing = (q.assignments || []).find(a => a.eventId === eIdx && a.reqId === rIdx);
         reqs.push({
           eventId: eIdx,
           reqId: rIdx,
-          eventName: ev.name || ev.date || 'Event',
+          eventName: ev.name || 'Event',
+          eventDate: ev.date || q.eventDate || '',
           requirementName: req.item,
           assignedTo: existing ? existing.assignedTo : '',
           status: existing ? existing.status : 'Pending'
@@ -123,166 +173,103 @@ const EventManager = () => {
     }
   };
 
-  /* ─── Payment Modal Handlers ────────────────────────── */
-  const openPaymentModal = (q) => {
-    setActivePaymentModal(q);
-    setPaymentsForm(q.payments || []);
-    setNewPayment({ amount: '', date: new Date().toISOString().split('T')[0], method: 'Bank Transfer', remarks: '' });
-  };
-
-  const handleAddPayment = () => {
-    if (!newPayment.amount) return toast.error('Enter an amount');
-    setPaymentsForm([...paymentsForm, { ...newPayment }]);
-    setNewPayment({ amount: '', date: new Date().toISOString().split('T')[0], method: 'Bank Transfer', remarks: '' });
-  };
-
-  const handleRemovePayment = (idx) => {
-    setPaymentToDelete(idx);
-  };
-
-  const confirmRemovePayment = () => {
-    if (paymentToDelete !== null) {
-      setPaymentsForm(paymentsForm.filter((_, i) => i !== paymentToDelete));
-      setPaymentToDelete(null);
-    }
-  };
-
-  const savePayments = async () => {
-    try {
-      let finalPayments = [...paymentsForm];
-      
-      // If the user typed a payment but forgot to click "+ Add Payment" before clicking "Save"
-      if (newPayment.amount) {
-        finalPayments.push({ ...newPayment });
-      }
-
-      await api.patch(`/api/quotations/${activePaymentModal.id}/payments`, { payments: finalPayments });
-      toast.success('Payments updated successfully');
-      setActivePaymentModal(null);
-      fetchEvents();
-    } catch (err) {
-      toast.error('Failed to save payments');
-    }
-  };
-
   /* ─── Render ────────────────────────────────────────── */
   return (
     <div className="em-container">
-      {/* Header */}
-      <div className="em-header">
-        <div className="em-title">
-          <h1>Events & Work Allocation</h1>
-          <p>Manage assignments and track payments for confirmed events.</p>
-        </div>
-        <div className="em-actions">
-          <div className="em-search-box">
-            <Search size={18} />
-            <input 
-              type="text" 
-              placeholder="Search by client, event..." 
-              value={searchTerm} 
-              onChange={e => setSearchTerm(e.target.value)}
-            />
-          </div>
-        </div>
+      
+      <div className="em-header" style={{ marginBottom: '24px' }}>
+        <h1 style={{ fontSize: '24px', margin: 0, color: '#002D24', fontWeight: '700' }}>Events & Work Allocation</h1>
       </div>
 
-      {/* Table Section */}
-      <div className="em-card">
-        {loading ? (
-          <div className="em-loading">Loading Events...</div>
-        ) : filteredEvents.length === 0 ? (
-          <div className="em-empty">No confirmed events found. Check the Quotations tab.</div>
-        ) : (
-          <div className="em-table-wrapper">
-            <table className="em-table">
-              <thead>
-                <tr>
-                  <th width="12%">EVENT DATE</th>
-                  <th width="12%">LOCATION</th>
-                  <th width="15%">NAME</th>
-                  <th width="15%">EVENT TYPE</th>
-                  <th width="20%">CAMERA'S & OUR'S</th>
-                  <th width="16%">PAYMENT</th>
-                  <th width="10%">ACTION</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredEvents.map(q => {
-                  const { total, received, balance } = calculatePaymentStats(q);
-                  
-                  return (
-                    <tr key={q.id}>
-                      <td>
-                        <div className="em-date">
-                          {(q.events && q.events.length > 0) ? (
-                            q.events.map((e, i) => (
-                              <div key={i} className="em-date-item">{formatDate(e.date)}</div>
-                            ))
-                          ) : (
-                            <div className="em-date-item">{formatDate(q.eventDate)}</div>
-                          )}
-                        </div>
-                      </td>
-                      <td><span className="em-location">{q.location || '—'}</span></td>
-                      <td>
-                        <div className="em-client-name">{q.clientName}</div>
-                      </td>
-                      <td><span className="em-badge">{q.eventType || '—'}</span></td>
-                      
-                      {/* Assignments Cell */}
-                      <td className="em-cell-clickable" onClick={() => openAssignModal(q)}>
-                        <div className="em-assignments-list">
-                          {q.assignments && q.assignments.length > 0 ? (
-                            q.assignments.map((a, i) => (
-                              a.assignedTo ? (
-                                <div key={i} className="em-assignment-item">
-                                  <span className="em-a-role">{a.requirementName}:</span>
-                                  <span className="em-a-name">{a.assignedTo}</span>
-                                </div>
-                              ) : null
-                            ))
-                          ) : (
-                            <span className="em-unassigned"><Users size={12}/> Click to assign team</span>
-                          )}
-                        </div>
-                      </td>
+      <div className="em-layout-grid">
+        
+        {/* Left Side: Calendar & Tasks */}
+        <div className="em-main-col">
+          
+          <div className="em-calendar-card">
+            <div className="em-cal-header">
+              <button onClick={prevMonth}><ChevronLeft size={20}/></button>
+              <h2>{currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h2>
+              <button onClick={nextMonth}><ChevronRight size={20}/></button>
+            </div>
+            
+            <div className="em-cal-grid">
+              {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                <div key={day} className="em-cal-day-header">{day}</div>
+              ))}
+              
+              {calendarDays.map((dayObj, i) => {
+                const key = `${dayObj.date.getFullYear()}-${String(dayObj.date.getMonth() + 1).padStart(2, '0')}-${String(dayObj.date.getDate()).padStart(2, '0')}`;
+                const dayEvents = eventsByDate[key] || [];
+                
+                let colorClass = '';
+                if (dayEvents.length > 0) {
+                  // Simulate the colors from the design based on logic or random for visual
+                  const statuses = dayEvents.map(e => e.quotation.status);
+                  if (statuses.includes('Completed')) colorClass = 'em-bg-blue';
+                  else if (dayEvents.some(e => e.quotation.clientName.toLowerCase().includes('deliverable'))) colorClass = 'em-bg-pink';
+                  else colorClass = 'em-bg-orange';
+                }
+                
+                const isSelected = selectedDateKey === key;
 
-                      {/* Payment Cell */}
-                      <td className="em-cell-clickable" onClick={() => openPaymentModal(q)}>
-                        <div className="em-payment-stats">
-                          <div className="em-p-row">
-                            <span className="em-p-label">Total:</span>
-                            <span className="em-p-val em-text-dark">{formatINR(total)}</span>
-                          </div>
-                          <div className="em-p-row">
-                            <span className="em-p-label">Received:</span>
-                            <span className="em-p-val em-text-green">{formatINR(received)}</span>
-                          </div>
-                          <div className="em-p-row">
-                            <span className="em-p-label">Balance:</span>
-                            <span className={`em-p-val ${balance > 0 ? 'em-text-red' : ''}`}>{formatINR(balance)}</span>
-                          </div>
-                        </div>
-                      </td>
-
-                      {/* Action Cell */}
-                      <td>
-                        <div className="em-action-btns">
-                          <button className="em-btn-icon em-btn-assign" onClick={() => openAssignModal(q)} title="Assign Team"><Camera size={16}/></button>
-                          <button className="em-btn-icon em-btn-pay" onClick={() => openPaymentModal(q)} title="Manage Payments"><IndianRupee size={16}/></button>
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
+                return (
+                  <div 
+                    key={i} 
+                    className={`em-cal-cell ${dayObj.isCurrentMonth ? '' : 'em-cal-dimmed'} ${colorClass} ${isSelected ? 'em-cal-selected' : ''}`}
+                    onClick={() => setSelectedDateKey(key)}
+                  >
+                    <span className="em-cal-date-num">{dayObj.date.getDate()}</span>
+                    {dayEvents.length > 0 && (
+                      <span className="em-cal-badge">{dayEvents.length}</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        )}
+        </div>
+
+        {/* Right Side: Event Details for Selected Date */}
+        <div className="em-side-col">
+          {selectedDateKey ? (
+            <div className="em-selected-events-panel">
+              <h3>Events for {new Date(selectedDateKey).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</h3>
+              
+              {(!eventsByDate[selectedDateKey] || eventsByDate[selectedDateKey].length === 0) ? (
+                <div className="em-no-events">No events scheduled for this date.</div>
+              ) : (
+                <div className="em-event-cards">
+                  {eventsByDate[selectedDateKey].map((ev, i) => (
+                    <div key={i} className="em-event-card">
+                      <div className="em-ec-top">
+                        <div className="em-ec-client">{ev.quotation.clientName}</div>
+                        <div className="em-ec-type">{ev.subEventName}</div>
+                      </div>
+                      <div className="em-ec-meta">
+                        <span>{ev.quotation.location || 'Location TBD'}</span>
+                      </div>
+                      <div className="em-ec-actions">
+                        <button onClick={() => openAssignModal(ev.quotation)} className="em-btn-action-sm">
+                          <Camera size={14}/> Allocations
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="em-select-prompt">
+              <Calendar size={48} strokeWidth={1} />
+              <p>Select a date on the calendar to view its events and manage allocations.</p>
+            </div>
+          )}
+        </div>
+
       </div>
 
-      {/* Assignment Modal */}
+      {/* Assignment Modal (unchanged structure, hidden unless active) */}
       {activeAssignModal && (
         <div className="em-modal-overlay">
           <div className="em-modal">
@@ -291,35 +278,52 @@ const EventManager = () => {
               <button className="em-close-btn" onClick={() => setActiveAssignModal(null)}><X size={20}/></button>
             </div>
             <div className="em-modal-body">
-              <div className="em-a-table-wrap">
-                <table className="em-a-table">
-                  <thead>
-                    <tr>
-                      <th>Event</th>
-                      <th>Requirement (Camera's)</th>
-                      <th>Assigned To (Our's)</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {assignmentsForm.map((req, idx) => (
-                      <tr key={idx}>
-                        <td>{req.eventName}</td>
-                        <td><strong>{req.requirementName}</strong></td>
-                        <td>
-                          <input 
-                            type="text"
-                            list="team-members"
-                            className="em-input"
-                            placeholder="Type or select name"
-                            value={req.assignedTo}
-                            onChange={(e) => handleAssignmentChange(idx, 'assignedTo', e.target.value)}
-                          />
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              {Array.from(new Set(assignmentsForm.map(a => a.eventId))).map(eventId => {
+                const eventAssignments = assignmentsForm.map((req, idx) => ({ ...req, originalIndex: idx })).filter(req => req.eventId === eventId);
+                if (eventAssignments.length === 0) return null;
+                const eventName = eventAssignments[0].eventName;
+                const eventDate = eventAssignments[0].eventDate;
+                
+                return (
+                  <div key={eventId} className="em-event-group" style={{ marginBottom: '24px' }}>
+                    <div style={{ padding: '8px 12px', backgroundColor: '#f8fafc', borderLeft: '4px solid #6366f1', borderRadius: '4px', marginBottom: '12px' }}>
+                      <h3 style={{ margin: 0, fontSize: '15px', color: '#334155' }}>
+                        {eventName} {eventDate ? `— ${formatDate(eventDate)}` : ''}
+                      </h3>
+                    </div>
+                    <div className="em-a-table-wrap" style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden' }}>
+                      <table className="em-a-table" style={{ margin: 0, border: 'none' }}>
+                        <thead>
+                          <tr>
+                            <th width="40%">Requirement (Camera's)</th>
+                            <th width="60%">Assigned To (Our's)</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {eventAssignments.map((req) => (
+                            <tr key={req.originalIndex}>
+                              <td><strong>{req.requirementName}</strong></td>
+                              <td>
+                                <input 
+                                  type="text"
+                                  list="team-members"
+                                  className="em-input"
+                                  placeholder="Type or select name"
+                                  value={req.assignedTo}
+                                  onChange={(e) => handleAssignmentChange(req.originalIndex, 'assignedTo', e.target.value)}
+                                />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                );
+              })}
+              {assignmentsForm.length === 0 && (
+                <div style={{ textAlign: 'center', padding: '20px', color: '#64748b' }}>No requirements found for this event.</div>
+              )}
               <datalist id="team-members">
                 <option value="Siva" />
                 <option value="Mari" />
@@ -332,97 +336,6 @@ const EventManager = () => {
               <button className="em-btn-outline" onClick={() => setActiveAssignModal(null)}>Cancel</button>
               <button className="em-btn-save" onClick={saveAssignments}>Save Assignments</button>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* Payment Modal */}
-      {activePaymentModal && (
-        <div className="em-modal-overlay">
-          <div className="em-modal">
-            <div className="em-modal-header">
-              <h2><IndianRupee size={20}/> Payment Tracking - {activePaymentModal.clientName}</h2>
-              <button className="em-close-btn" onClick={() => setActivePaymentModal(null)}><X size={20}/></button>
-            </div>
-            <div className="em-modal-body">
-              
-              <div className="em-p-summary-cards">
-                <div className="em-p-card">
-                  <div className="em-p-card-title">Total Amount</div>
-                  <div className="em-p-card-val">{formatINR(calculatePaymentStats(activePaymentModal).total)}</div>
-                </div>
-                <div className="em-p-card">
-                  <div className="em-p-card-title">Total Received</div>
-                  <div className="em-p-card-val em-text-green">
-                    {formatINR(paymentsForm.reduce((s, p) => s + (parseFloat(p.amount) || 0), 0))}
-                  </div>
-                </div>
-                <div className="em-p-card">
-                  <div className="em-p-card-title">Pending Balance</div>
-                  <div className="em-p-card-val em-text-red">
-                    {formatINR(calculatePaymentStats(activePaymentModal).total - paymentsForm.reduce((s, p) => s + (parseFloat(p.amount) || 0), 0))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="em-p-history">
-                <h3>Payment History</h3>
-                {paymentsForm.length === 0 ? (
-                  <p className="em-no-payments">No payments recorded yet.</p>
-                ) : (
-                  <div className="em-p-list">
-                    {paymentsForm.map((p, idx) => (
-                      <div className="em-p-item" key={idx}>
-                        <div className="em-p-item-left">
-                          <div className="em-p-item-amt">{formatINR(p.amount)}</div>
-                          <div className="em-p-item-meta">{formatDate(p.date)} • {p.method}</div>
-                          {p.remarks && <div className="em-p-item-remarks">{p.remarks}</div>}
-                        </div>
-                        <button className="em-btn-delete" onClick={() => handleRemovePayment(idx)}><X size={14}/></button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              <div className="em-p-add-box">
-                <h3>Record New Payment</h3>
-                <div className="em-p-form-grid">
-                  <input type="number" className="em-input" placeholder="Amount (e.g. 50000)" value={newPayment.amount} onChange={e => setNewPayment({...newPayment, amount: e.target.value})} />
-                  <input type="date" className="em-input" value={newPayment.date} onChange={e => setNewPayment({...newPayment, date: e.target.value})} />
-                  <select className="em-select" value={newPayment.method} onChange={e => setNewPayment({...newPayment, method: e.target.value})}>
-                    <option value="Bank Transfer">Bank Transfer</option>
-                    <option value="UPI">UPI</option>
-                    <option value="Cash">Cash</option>
-                  </select>
-                  <input type="text" className="em-input" placeholder="Remarks / Contact No" value={newPayment.remarks} onChange={e => setNewPayment({...newPayment, remarks: e.target.value})} />
-                </div>
-                <button className="em-btn-add" onClick={handleAddPayment}><Plus size={16}/> Add Payment</button>
-              </div>
-
-            </div>
-            <div className="em-modal-footer">
-              <button className="em-btn-outline" onClick={() => setActivePaymentModal(null)}>Cancel</button>
-              <button className="em-btn-save" onClick={savePayments}>Save All Changes</button>
-            </div>
-            
-            {/* Custom Confirm Delete Modal */}
-            {paymentToDelete !== null && (
-              <div className="em-confirm-overlay">
-                <div className="em-confirm-box">
-                  <div className="em-confirm-icon">
-                    <X size={24} />
-                  </div>
-                  <h3>Delete Payment?</h3>
-                  <p>Are you sure you want to delete this payment record? This action cannot be undone.</p>
-                  <div className="em-confirm-actions">
-                    <button className="em-btn-outline" onClick={() => setPaymentToDelete(null)}>Cancel</button>
-                    <button className="em-btn-danger" onClick={confirmRemovePayment}>Yes, Delete</button>
-                  </div>
-                </div>
-              </div>
-            )}
-            
           </div>
         </div>
       )}
