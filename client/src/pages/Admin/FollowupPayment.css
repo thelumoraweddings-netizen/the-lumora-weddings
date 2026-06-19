@@ -353,6 +353,12 @@
 
 /* Mobile View */
 @media (max-width: 900px) {
+  .fp-container { padding: 16px; min-height: auto; }
+  .fp-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .fp-search-box { width: 100%; }
+  .fp-card { padding: 16px; border-radius: 12px; }
+  .fp-table th, .fp-table td { padding: 12px; font-size: 13px; }
+
   .em-modal { width: 95%; max-height: 95vh; }
   .em-modal-header { padding: 20px; flex-direction: column; align-items: flex-start; gap: 16px; }
   .em-modal-header h2 { font-size: 18px; }
