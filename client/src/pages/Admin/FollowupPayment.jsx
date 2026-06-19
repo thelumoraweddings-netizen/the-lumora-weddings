@@ -154,7 +154,7 @@ const FollowupPayment = () => {
     <div className="fp-container">
       {/* Header */}
       <div className="fp-header">
-        <h1>Followup & Payment</h1>
+        <h1>Payment</h1>
         <div className="fp-search-box">
           <Search size={18} color="#64748b" />
           <input 
