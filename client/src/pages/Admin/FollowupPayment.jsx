@@ -176,12 +176,11 @@ const FollowupPayment = () => {
           <table className="fp-table">
             <thead>
               <tr>
-                <th width="12%">EVENT DATE</th>
+                <th width="25%">NAME</th>
                 <th width="15%">LOCATION</th>
-                <th width="20%">NAME</th>
-                <th width="15%">EVENT TYPE</th>
-                <th width="25%">PAYMENT STATUS</th>
-                <th width="13%">ACTION</th>
+                <th width="15%">EVENT DATE</th>
+                <th width="30%">PAYMENT STATUS</th>
+                <th width="15%">ACTION</th>
               </tr>
             </thead>
             <tbody>
@@ -190,6 +189,10 @@ const FollowupPayment = () => {
                 
                 return (
                   <tr key={q.id}>
+                    <td data-label="NAME">
+                      <div className="fp-client-name">{q.clientName}</div>
+                    </td>
+                    <td data-label="LOCATION"><span className="fp-location">{q.location || '—'}</span></td>
                     <td data-label="EVENT DATE">
                       <div>
                         {(q.events && q.events.length > 0) ? (
@@ -201,11 +204,6 @@ const FollowupPayment = () => {
                         )}
                       </div>
                     </td>
-                    <td data-label="LOCATION"><span className="fp-location">{q.location || '—'}</span></td>
-                    <td data-label="NAME">
-                      <div className="fp-client-name">{q.clientName}</div>
-                    </td>
-                    <td data-label="EVENT TYPE"><span className="fp-badge">{q.eventType || '—'}</span></td>
                     
                     {/* Payment Status Cell */}
                     <td data-label="PAYMENT STATUS">
