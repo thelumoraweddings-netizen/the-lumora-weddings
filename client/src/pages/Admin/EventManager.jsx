@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Calendar, Users, Camera, IndianRupee, Search, Edit2, Plus, X, UserCheck, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import api from '../../utils/api';
 import toast from 'react-hot-toast';
 import './EventManager.css';
 
 const EventManager = () => {
+  const navigate = useNavigate();
   const [quotations, setQuotations] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -14,9 +16,16 @@ const EventManager = () => {
 
   // Modals
   const [activeAssignModal, setActiveAssignModal] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   // Form states
   const [assignmentsForm, setAssignmentsForm] = useState([]);
+  const [addForm, setAddForm] = useState({
+    clientName: '',
+    eventType: 'Wedding',
+    location: '',
+    requirements: [ { item: 'Traditional Photography', assignedTo: '' } ]
+  });
 
   useEffect(() => {
     fetchEvents();
@@ -164,12 +173,116 @@ const EventManager = () => {
 
   const saveAssignments = async () => {
     try {
-      await api.patch(`/api/quotations/${activeAssignModal.id}/assignments`, { assignments: assignmentsForm });
+      const updatedQuotation = { ...activeAssignModal };
+      
+      if (updatedQuotation.events) {
+        updatedQuotation.events.forEach((ev, eIdx) => {
+          const eventAssignments = assignmentsForm.filter(a => a.eventId === eIdx);
+          ev.requirements = eventAssignments.map(a => ({
+             item: a.requirementName,
+             qty: '1'
+          }));
+          eventAssignments.forEach((a, newReqIdx) => {
+             a.reqId = newReqIdx;
+          });
+        });
+      }
+
+      updatedQuotation.assignments = assignmentsForm.map(a => ({
+        eventId: a.eventId,
+        reqId: a.reqId,
+        assignedTo: a.assignedTo,
+        status: a.assignedTo ? 'Assigned' : 'Pending'
+      }));
+
+      await api.put(`/api/quotations/${activeAssignModal.id}`, updatedQuotation);
+      
       toast.success('Assignments updated successfully');
       setActiveAssignModal(null);
       fetchEvents();
     } catch (err) {
       toast.error('Failed to save assignments');
+    }
+  };
+
+  const addNewRequirement = (eventId) => {
+    const ev = activeAssignModal.events[eventId];
+    const newAssignment = {
+      eventId: eventId,
+      reqId: 999, // Will be re-indexed on save
+      eventName: ev?.name || 'Event',
+      eventDate: ev?.date || activeAssignModal.eventDate || '',
+      requirementName: '',
+      assignedTo: '',
+      status: 'Pending'
+    };
+    setAssignmentsForm([...assignmentsForm, newAssignment]);
+  };
+
+  const removeRequirement = (originalIndex) => {
+    setAssignmentsForm(prev => prev.filter((_, i) => i !== originalIndex));
+  };
+
+  /* ─── Quick Add Event Handlers ──────────────────────── */
+  const openAddModal = () => {
+    setAddForm({
+      clientName: '',
+      eventType: 'Wedding',
+      location: '',
+      requirements: [ { item: 'Traditional Photography', assignedTo: '' } ]
+    });
+    setShowAddModal(true);
+  };
+
+  const handleAddReqChange = (idx, field, val) => {
+    const reqs = [...addForm.requirements];
+    reqs[idx][field] = val;
+    setAddForm({ ...addForm, requirements: reqs });
+  };
+
+  const addReqRow = () => {
+    setAddForm({ ...addForm, requirements: [...addForm.requirements, { item: '', assignedTo: '' }] });
+  };
+
+  const removeReqRow = (idx) => {
+    const reqs = addForm.requirements.filter((_, i) => i !== idx);
+    setAddForm({ ...addForm, requirements: reqs });
+  };
+
+  const saveNewEvent = async () => {
+    if (!addForm.clientName || !addForm.eventType) {
+      toast.error('Client name and Event type are required');
+      return;
+    }
+    
+    const newQuotation = {
+      id: `Q-${Math.floor(1000 + Math.random() * 9000)}`,
+      clientName: addForm.clientName,
+      eventType: addForm.eventType,
+      location: addForm.location,
+      status: 'Confirmed',
+      eventDate: selectedDateKey, 
+      events: [{
+        name: addForm.eventType,
+        date: selectedDateKey,
+        time: 'Morning',
+        requirements: addForm.requirements.map(r => ({ item: r.item, qty: '1' }))
+      }],
+      assignments: addForm.requirements.map((r, i) => ({
+        eventId: 0,
+        reqId: i,
+        assignedTo: r.assignedTo,
+        status: r.assignedTo ? 'Assigned' : 'Pending'
+      }))
+    };
+
+    try {
+      await api.post('/api/quotations', newQuotation);
+      toast.success('Event added successfully');
+      setShowAddModal(false);
+      fetchEvents();
+    } catch (err) {
+      toast.error('Failed to add event');
     }
   };
 
@@ -234,10 +347,17 @@ const EventManager = () => {
         <div className="em-side-col">
           {selectedDateKey ? (
             <div className="em-selected-events-panel">
-              <h3>Events for {new Date(selectedDateKey).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</h3>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                <h3 style={{ margin: 0 }}>Events for {new Date(selectedDateKey).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</h3>
+                <button onClick={openAddModal} className="em-btn-save" style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', fontSize: '13px' }}>
+                  <Plus size={14} /> Add Event
+                </button>
+              </div>
               
               {(!eventsByDate[selectedDateKey] || eventsByDate[selectedDateKey].length === 0) ? (
-                <div className="em-no-events">No events scheduled for this date.</div>
+                <div className="em-no-events" style={{ textAlign: 'center', padding: '40px 20px', color: '#64748b' }}>
+                  No events scheduled for this date.
+                </div>
               ) : (
                 <div className="em-event-cards">
                   {eventsByDate[selectedDateKey].map((ev, i) => (
@@ -286,23 +406,36 @@ const EventManager = () => {
                 
                 return (
                   <div key={eventId} className="em-event-group" style={{ marginBottom: '24px' }}>
-                    <div style={{ padding: '8px 12px', backgroundColor: '#f8fafc', borderLeft: '4px solid #6366f1', borderRadius: '4px', marginBottom: '12px' }}>
+                    <div style={{ padding: '8px 12px', backgroundColor: '#f8fafc', borderLeft: '4px solid #6366f1', borderRadius: '4px', marginBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <h3 style={{ margin: 0, fontSize: '15px', color: '#334155' }}>
                         {eventName} {eventDate ? `— ${formatDate(eventDate)}` : ''}
                       </h3>
+                      <button className="em-btn-outline" style={{ padding: '4px 8px', fontSize: '12px' }} onClick={() => addNewRequirement(eventId)}>
+                        + Add Requirement
+                      </button>
                     </div>
                     <div className="em-a-table-wrap" style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden' }}>
                       <table className="em-a-table" style={{ margin: 0, border: 'none' }}>
                         <thead>
                           <tr>
-                            <th width="40%">Requirement (Camera's)</th>
-                            <th width="60%">Assigned To (Our's)</th>
+                            <th width="45%">Requirement (Camera's)</th>
+                            <th width="45%">Assigned To (Our's)</th>
+                            <th width="10%"></th>
                           </tr>
                         </thead>
                         <tbody>
                           {eventAssignments.map((req) => (
                             <tr key={req.originalIndex}>
-                              <td><strong>{req.requirementName}</strong></td>
+                              <td>
+                                <input 
+                                  type="text"
+                                  list="services-list"
+                                  className="em-input"
+                                  placeholder="E.g. Candid Photography"
+                                  value={req.requirementName}
+                                  onChange={(e) => handleAssignmentChange(req.originalIndex, 'requirementName', e.target.value)}
+                                />
+                              </td>
                               <td>
                                 <input 
                                   type="text"
@@ -312,6 +445,11 @@ const EventManager = () => {
                                   value={req.assignedTo}
                                   onChange={(e) => handleAssignmentChange(req.originalIndex, 'assignedTo', e.target.value)}
                                 />
+                              </td>
+                              <td style={{ textAlign: 'center' }}>
+                                <button onClick={() => removeRequirement(req.originalIndex)} style={{ color: '#ef4444', background: 'none', border: 'none', cursor: 'pointer' }}>
+                                  <X size={16} />
+                                </button>
                               </td>
                             </tr>
                           ))}
@@ -335,6 +473,96 @@ const EventManager = () => {
             <div className="em-modal-footer">
               <button className="em-btn-outline" onClick={() => setActiveAssignModal(null)}>Cancel</button>
               <button className="em-btn-save" onClick={saveAssignments}>Save Assignments</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Quick Add Event Modal */}
+      {showAddModal && (
+        <div className="em-modal-overlay">
+          <div className="em-modal" style={{ maxWidth: '600px' }}>
+            <div className="em-modal-header">
+              <h2><Plus size={20}/> Quick Add Event & Allocation</h2>
+              <button className="em-close-btn" onClick={() => setShowAddModal(false)}><X size={20}/></button>
+            </div>
+            <div className="em-modal-body" style={{ padding: '20px' }}>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>
+                <div>
+                  <label style={{ fontWeight: 600, fontSize: '13px', color: '#475569', display: 'block', marginBottom: '6px' }}>Client Name *</label>
+                  <input type="text" className="em-input" value={addForm.clientName} onChange={e => setAddForm({...addForm, clientName: e.target.value})} placeholder="E.g. Rahul & Priya" />
+                </div>
+                <div>
+                  <label style={{ fontWeight: 600, fontSize: '13px', color: '#475569', display: 'block', marginBottom: '6px' }}>Event Type *</label>
+                  <input type="text" className="em-input" value={addForm.eventType} onChange={e => setAddForm({...addForm, eventType: e.target.value})} placeholder="E.g. Wedding" />
+                </div>
+                <div style={{ gridColumn: '1 / -1' }}>
+                  <label style={{ fontWeight: 600, fontSize: '13px', color: '#475569', display: 'block', marginBottom: '6px' }}>Location</label>
+                  <input type="text" className="em-input" value={addForm.location} onChange={e => setAddForm({...addForm, location: e.target.value})} placeholder="E.g. Coimbatore" />
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                <h3 style={{ margin: 0, fontSize: '15px', color: '#334155' }}>Photography Requirements & Allocation</h3>
+                <button className="em-btn-outline" style={{ padding: '4px 8px', fontSize: '12px' }} onClick={addReqRow}>+ Add Row</button>
+              </div>
+
+              <div className="em-a-table-wrap" style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden' }}>
+                <table className="em-a-table" style={{ margin: 0, border: 'none' }}>
+                  <thead>
+                    <tr>
+                      <th width="45%">Requirement (Camera)</th>
+                      <th width="45%">Assigned To (Staff)</th>
+                      <th width="10%"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {addForm.requirements.map((req, idx) => (
+                      <tr key={idx}>
+                        <td>
+                          <input 
+                            type="text"
+                            list="services-list"
+                            className="em-input"
+                            placeholder="E.g. Candid Photography"
+                            value={req.item}
+                            onChange={(e) => handleAddReqChange(idx, 'item', e.target.value)}
+                          />
+                        </td>
+                        <td>
+                          <input 
+                            type="text"
+                            list="team-members"
+                            className="em-input"
+                            placeholder="Type or select name"
+                            value={req.assignedTo}
+                            onChange={(e) => handleAddReqChange(idx, 'assignedTo', e.target.value)}
+                          />
+                        </td>
+                        <td style={{ textAlign: 'center' }}>
+                          <button onClick={() => removeReqRow(idx)} style={{ color: '#ef4444', background: 'none', border: 'none', cursor: 'pointer' }}>
+                            <X size={16} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <datalist id="services-list">
+                <option value="Traditional Photography" />
+                <option value="Traditional Videography" />
+                <option value="Candid Photography" />
+                <option value="Candid Videography" />
+                <option value="Drone" />
+              </datalist>
+
+            </div>
+            <div className="em-modal-footer">
+              <button className="em-btn-outline" onClick={() => setShowAddModal(false)}>Cancel</button>
+              <button className="em-btn-save" onClick={saveNewEvent}>Save Event</button>
             </div>
           </div>
         </div>
