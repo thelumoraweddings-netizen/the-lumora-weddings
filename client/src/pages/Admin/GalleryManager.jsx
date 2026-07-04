@@ -334,6 +334,8 @@ const GalleryManager = () => {
                         </div>
                     </div>
                 </div>
+            )}
+            
             {/* Confirm Delete Modal */}
             {confirmModal.isOpen && (
                 <div className="gm-modal-overlay" style={{ zIndex: 10000 }}>
