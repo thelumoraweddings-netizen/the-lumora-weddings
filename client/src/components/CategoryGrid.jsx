@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
-import { galleryCategories } from '../utils/galleryConfig';
+import galleryService from '../services/galleryService';
 import './CategoryGrid.css';
 
 const CategoryGrid = () => {
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await galleryService.getCategories();
+        // For each category, we can optionally fetch the count of active clients
+        // But for simplicity, we'll just display them as-is.
+        setCategories(data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCategories();
+  }, []);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -26,6 +45,14 @@ const CategoryGrid = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <section className="category-section" style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <p style={{ color: 'var(--pg-muted)' }}>Loading Collections...</p>
+      </section>
+    );
+  }
+
   return (
     <section className="category-section">
       <div className="pg-container">
@@ -36,7 +63,7 @@ const CategoryGrid = () => {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          {galleryCategories.map((cat) => (
+          {categories.map((cat) => (
             <motion.div 
               key={cat.id} 
               className="category-card-wrapper"
@@ -44,7 +71,7 @@ const CategoryGrid = () => {
             >
               <Link to={`/gallery/${cat.id}`} className="category-card">
                 <div className="category-card-img">
-                  <img src={cat.image} alt={cat.title} loading="lazy" />
+                  <img src={cat.image || '/placeholder.jpg'} alt={cat.title} loading="lazy" />
                   <div className="category-card-overlay" />
                 </div>
                 
@@ -59,7 +86,7 @@ const CategoryGrid = () => {
                     <span className="view-link">
                       View Collection <ChevronRight size={14} />
                     </span>
-                    <span className="photo-count">{cat.count} Photos</span>
+                    <span className="photo-count">{cat.count > 0 ? `${cat.count} Photos` : 'Explore'}</span>
                   </div>
                 </div>
                 

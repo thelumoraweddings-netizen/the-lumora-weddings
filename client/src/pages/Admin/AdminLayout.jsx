@@ -10,7 +10,8 @@ import {
   Menu,
   X,
   Users,
-  IndianRupee
+  IndianRupee,
+  Image
 } from 'lucide-react';
 import './AdminLayout.css';
 
@@ -60,6 +61,7 @@ const AdminLayout = () => {
     { name: 'Client Leads', path: '/admin/bookings',      icon: <Users size={18} /> },
     { name: 'Quotations',  path: '/admin/quotations',    icon: <FileText size={18} /> },
     { name: 'Work Allocation', path: '/admin/events',    icon: <Calendar size={18} /> },
+    { name: 'Gallery', path: '/admin/gallery', icon: <Image size={18} /> },
     { name: 'Payment', path: '/admin/payments', icon: <IndianRupee size={18} /> },
   ];
 

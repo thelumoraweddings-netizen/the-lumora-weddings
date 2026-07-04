@@ -1,0 +1,348 @@
+.gallery-manager-wrapper {
+    padding: 2rem;
+    color: var(--pg-text);
+}
+
+.gallery-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.gallery-header-top h2 {
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--pg-primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.category-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--pg-muted);
+    padding-bottom: 1rem;
+    overflow-x: auto;
+}
+
+.cat-tab {
+    background: transparent;
+    border: none;
+    padding: 0.5rem 1rem;
+    color: var(--pg-muted);
+    font-family: inherit;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.cat-tab:hover {
+    color: var(--pg-primary);
+}
+
+.cat-tab.active {
+    color: var(--pg-primary);
+    font-weight: 500;
+    border-bottom: 2px solid var(--pg-primary);
+}
+
+.client-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.btn-primary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--pg-primary);
+    color: var(--pg-bg);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: var(--pg-accent);
+}
+
+.manager-table-container {
+    background: var(--pg-bg);
+    border: 1px solid var(--pg-muted);
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
+.manager-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.manager-table th,
+.manager-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.manager-table th {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--pg-muted);
+}
+
+.manager-table tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.table-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.status-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.status-badge.active {
+    background-color: #e6f4ea;
+    color: #1e8e3e;
+}
+
+.status-badge.inactive {
+    background-color: #fce8e6;
+    color: #d93025;
+}
+
+.table-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.action-btn.edit {
+    color: #1a73e8;
+}
+
+.action-btn.edit:hover {
+    background-color: rgba(26, 115, 232, 0.1);
+}
+
+.action-btn.image {
+    color: #fbbc04;
+}
+
+.action-btn.image:hover {
+    background-color: rgba(251, 188, 4, 0.1);
+}
+
+.action-btn.delete {
+    color: #ea4335;
+}
+
+.action-btn.delete:hover {
+    background-color: rgba(234, 67, 53, 0.1);
+}
+
+/* Modals */
+.gm-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.gm-modal {
+    background: var(--pg-bg);
+    width: 90%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.gm-modal.large {
+    max-width: 900px;
+}
+
+.gm-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.gm-modal-header h3 {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--pg-primary);
+}
+
+.gm-close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--pg-muted);
+}
+
+.gm-modal-body {
+    padding: 1.5rem;
+}
+
+.gm-form-group {
+    margin-bottom: 1.5rem;
+}
+
+.gm-form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--pg-text);
+}
+
+.gm-form-control {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--pg-muted);
+    background: transparent;
+    font-family: inherit;
+    color: var(--pg-text);
+}
+
+.gm-form-control:focus {
+    outline: none;
+    border-color: var(--pg-primary);
+}
+
+.gm-checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.gm-modal-footer {
+    padding: 1.5rem;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--pg-text);
+    border: 1px solid var(--pg-muted);
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: rgba(0,0,0,0.02);
+}
+
+/* Image Manager Specifics */
+.gm-image-dropzone {
+    border: 2px dashed var(--pg-muted);
+    padding: 3rem 1rem;
+    text-align: center;
+    color: var(--pg-muted);
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.gm-image-dropzone:hover {
+    border-color: var(--pg-primary);
+    color: var(--pg-primary);
+}
+
+.gm-image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.gm-image-item {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 4px;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.gm-image-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.gm-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.gm-image-item:hover .gm-image-overlay {
+    opacity: 1;
+}
+
+.gm-delete-img-btn {
+    background: var(--pg-bg);
+    color: #ea4335;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.gm-delete-img-btn:hover {
+    background: #ea4335;
+    color: var(--pg-bg);
+}

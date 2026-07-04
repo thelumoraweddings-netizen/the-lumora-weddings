@@ -2,57 +2,84 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, X, ArrowLeft } from 'lucide-react';
-import { galleryCategories } from '../utils/galleryConfig';
+import galleryService from '../services/galleryService';
 import CategoryLoader from '../components/CategoryLoader';
 import './CategoryGallery.css';
 
 const CategoryGalleryPage = () => {
   const { categoryId, subId } = useParams();
   const navigate = useNavigate();
+  
+  const [categories, setCategories] = useState([]);
+  const [clients, setClients] = useState([]);
+  const [clientData, setClientData] = useState(null);
+  
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
   
-  const category = galleryCategories.find(c => c.id === categoryId);
-  const subCategory = category?.subCategories?.find(s => s.id === subId);
-  
-  // Decide which data to use: specific sub-category or the main category
-  const activeData = subCategory || category;
-  const isGridView = category?.subCategories && !subId;
-
-  // Scroll to top and validate category
+  // Data fetch
   useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const cats = await galleryService.getCategories();
+        setCategories(cats);
+        
+        const catExists = cats.find(c => c.id === categoryId);
+        if (!catExists) {
+          navigate('/');
+          return;
+        }
+
+        if (subId) {
+            // View specific client
+            const client = await galleryService.getClientById(subId);
+            if (!client || !client.active) {
+                navigate(`/gallery/${categoryId}`);
+                return;
+            }
+            setClientData(client);
+        } else {
+            // View category grid of clients
+            let catClients = await galleryService.getClientsByCategory(categoryId);
+            catClients = catClients.filter(c => c.active);
+            setClients(catClients);
+            
+            // If the category only has 1 default client (e.g., General Portfolio without subcategories in old config)
+            if (catClients.length === 1 && catClients[0].id.endsWith('-default')) {
+                navigate(`/gallery/${categoryId}/${catClients[0].id}`, { replace: true });
+                return;
+            }
+        }
+      } catch (error) {
+        console.error('Failed to fetch gallery data', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
     window.scrollTo(0, 0);
-    if (!category) {
-      navigate('/');
-    }
-  }, [category, navigate, subId]);
+  }, [categoryId, subId, navigate]);
 
-  if (!category) return null;
+  const category = categories.find(c => c.id === categoryId);
+  const activeData = subId ? clientData : category;
+  const isGridView = !subId;
+  const images = clientData?.images || [];
 
-  // Generate image paths (only if not in grid view)
-  const images = (!isGridView && activeData) 
-    ? (activeData.customNames 
-      ? activeData.customNames.map(name => `/images/${activeData.folder}/${name}`)
-      : Array.from({ length: activeData.count }, (_, i) => {
-          const num = i + 1;
-          const fileName = `${activeData.prefix || ''}${num}.jpg`;
-          return `/images/${activeData.folder}/${fileName}`;
-        }))
-    : [];
-
-  // Image Pre-loading Logic
+  // Image Pre-loading Logic for Masonry
   useEffect(() => {
-    if (isGridView) {
-      setLoading(false);
+    if (isGridView || loading || !images.length) {
+      setImagesLoaded(true);
       return;
     }
 
-    setLoading(true);
+    setImagesLoaded(false);
     let loadedCount = 0;
     const targetCount = Math.min(images.length, 8); 
     
     const safetyTimer = setTimeout(() => {
-      setLoading(false);
+      setImagesLoaded(true);
     }, 4500);
 
     images.forEach(src => {
@@ -61,17 +88,17 @@ const CategoryGalleryPage = () => {
       img.onload = () => {
         loadedCount++;
         if (loadedCount >= targetCount) {
-          setTimeout(() => setLoading(false), 800);
+          setTimeout(() => setImagesLoaded(true), 800);
         }
       };
       img.onerror = () => {
         loadedCount++; 
-        if (loadedCount >= targetCount) setLoading(false);
+        if (loadedCount >= targetCount) setImagesLoaded(true);
       };
     });
 
     return () => clearTimeout(safetyTimer);
-  }, [categoryId, subId, images.length, isGridView]);
+  }, [images, isGridView, loading]);
 
   const openLightbox = (index) => {
     setSelectedIndex(index);
@@ -102,20 +129,24 @@ const CategoryGalleryPage = () => {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedIndex]);
+  }, [selectedIndex, images.length]);
+
+  if (loading || !activeData) return <CategoryLoader categoryName="Loading..." />;
+
+  const isActuallyLoading = loading || (!isGridView && !imagesLoaded);
 
   return (
     <div className="page-wrapper category-gallery-page">
       <AnimatePresence>
-        {loading && (
-          <CategoryLoader categoryName={activeData.title || activeData.name} />
+        {isActuallyLoading && (
+          <CategoryLoader categoryName={activeData.title || activeData.name || 'Loading'} />
         )}
       </AnimatePresence>
 
       <motion.div 
         className="pg-container"
         initial={{ opacity: 0, y: 30 }}
-        animate={!loading ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+        animate={!isActuallyLoading ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
       >
         
@@ -161,12 +192,12 @@ const CategoryGalleryPage = () => {
           </motion.div>
         </header>
 
-        {/* Level 1: Sub-Category Grid */}
+        {/* Level 1: Client Grid */}
         {isGridView ? (
           <div className="project-zigzag-list">
-            {category.subCategories.map((sub, idx) => (
+            {clients.map((client, idx) => (
               <motion.div
-                key={sub.id}
+                key={client.id}
                 className="project-zigzag-item"
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -174,9 +205,9 @@ const CategoryGalleryPage = () => {
                 transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
               >
                 <div className="zigzag-image-container">
-                  <Link to={`/gallery/${categoryId}/${sub.id}`} className="zigzag-image-link">
+                  <Link to={`/gallery/${categoryId}/${client.id}`} className="zigzag-image-link">
                     <div className="zigzag-image-reveal">
-                      <img src={sub.image} alt={sub.name} />
+                      <img src={client.coverImage || '/placeholder.jpg'} alt={client.name} />
                     </div>
                   </Link>
                 </div>
@@ -184,12 +215,12 @@ const CategoryGalleryPage = () => {
                 <div className="zigzag-content">
                   <div className="zigzag-content-inner">
                     <div className="zigzag-meta">
-                      <span className="zigzag-number">0{idx + 1}</span>
+                      <span className="zigzag-number">{(idx + 1).toString().padStart(2, '0')}</span>
                       <div className="zigzag-line" />
                     </div>
-                    <h3 className="zigzag-client-name">{sub.name}</h3>
-                    <p className="zigzag-description">{sub.description}</p>
-                    <Link to={`/gallery/${categoryId}/${sub.id}`} className="zigzag-cta">
+                    <h3 className="zigzag-client-name">{client.name}</h3>
+                    <p className="zigzag-description">{client.description}</p>
+                    <Link to={`/gallery/${categoryId}/${client.id}`} className="zigzag-cta">
                       <span>Explore Story</span>
                       <div className="cta-line" />
                     </Link>
@@ -197,6 +228,11 @@ const CategoryGalleryPage = () => {
                 </div>
               </motion.div>
             ))}
+            {clients.length === 0 && (
+                <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--pg-muted)' }}>
+                    No collections found in this category yet.
+                </div>
+            )}
           </div>
         ) : (
           /* Level 2: Masonry Grid */
@@ -270,4 +306,3 @@ const CategoryGalleryPage = () => {
 };
 
 export default CategoryGalleryPage;
-
