@@ -88,15 +88,24 @@ const GalleryManager = () => {
         }
     };
 
-    const handleDeleteClient = async (clientId) => {
-        if (window.confirm('Are you sure you want to delete this client?')) {
-            try {
-                await galleryService.deleteClient(clientId);
-                loadClients(activeCategory.id);
-            } catch (error) {
-                console.error('Failed to delete client', error);
+    // Custom Confirm Modal state
+    const [confirmModal, setConfirmModal] = useState({ isOpen: false, title: '', message: '', onConfirm: null });
+
+    const handleDeleteClient = (clientId) => {
+        setConfirmModal({
+            isOpen: true,
+            title: 'Delete Client',
+            message: 'Are you sure you want to delete this client? All images will also be removed. This action cannot be undone.',
+            onConfirm: async () => {
+                try {
+                    await galleryService.deleteClient(clientId);
+                    loadClients(activeCategory.id);
+                } catch (error) {
+                    console.error('Failed to delete client', error);
+                }
+                setConfirmModal({ isOpen: false });
             }
-        }
+        });
     };
 
     const handleOpenImageModal = (client) => {
@@ -117,15 +126,21 @@ const GalleryManager = () => {
         }
     };
 
-    const handleDeleteImage = async (imageUrl) => {
-        if (window.confirm('Delete this image?')) {
-            try {
-                const updatedClient = await galleryService.deleteImage(editingClient.id, imageUrl);
-                setEditingClient(updatedClient);
-            } catch (error) {
-                console.error('Failed to delete image', error);
+    const handleDeleteImage = (imageUrl) => {
+        setConfirmModal({
+            isOpen: true,
+            title: 'Delete Image',
+            message: 'Are you sure you want to delete this image? It will be permanently removed.',
+            onConfirm: async () => {
+                try {
+                    const updatedClient = await galleryService.deleteImage(editingClient.id, imageUrl);
+                    setEditingClient(updatedClient);
+                } catch (error) {
+                    console.error('Failed to delete image', error);
+                }
+                setConfirmModal({ isOpen: false });
             }
-        }
+        });
     };
 
     return (
@@ -316,6 +331,23 @@ const GalleryManager = () => {
                                     No images uploaded yet.
                                 </div>
                             )}
+                        </div>
+                    </div>
+                </div>
+            {/* Confirm Delete Modal */}
+            {confirmModal.isOpen && (
+                <div className="gm-modal-overlay" style={{ zIndex: 10000 }}>
+                    <div className="gm-modal" style={{ maxWidth: '400px' }}>
+                        <div className="gm-modal-header">
+                            <h3 style={{ color: '#ea4335' }}>{confirmModal.title}</h3>
+                            <button className="gm-close-btn" onClick={() => setConfirmModal({ isOpen: false, title: '', message: '', onConfirm: null })}><X /></button>
+                        </div>
+                        <div className="gm-modal-body">
+                            <p style={{ color: 'var(--pg-text)' }}>{confirmModal.message}</p>
+                        </div>
+                        <div className="gm-modal-footer" style={{ padding: '1.5rem', display: 'flex', justifyContent: 'flex-end', gap: '1rem', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
+                            <button type="button" className="btn-secondary" onClick={() => setConfirmModal({ isOpen: false, title: '', message: '', onConfirm: null })}>Cancel</button>
+                            <button type="button" className="btn-primary" style={{ background: '#ea4335' }} onClick={confirmModal.onConfirm}>Delete</button>
                         </div>
                     </div>
                 </div>
