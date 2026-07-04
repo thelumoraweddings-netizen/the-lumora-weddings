@@ -14,7 +14,7 @@ const navLinks = [
       { name: 'Engagement', path: '/gallery/engagement' },
       { name: 'WEDDING /reception', path: '/gallery/wedding' },
       { name: 'PRE/POST',   path: '/gallery/pre-post' },
-      { name: 'maternity/babyshower',  path: '/gallery/maternity' },
+      { name: 'maternity/babyshower',  path: '/gallery/maternity-babyshower' },
       { name: 'babyshoot', path: '/gallery/baby-shoot' },
     ]
   },

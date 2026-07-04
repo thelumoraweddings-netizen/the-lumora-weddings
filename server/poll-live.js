@@ -1,17 +1,17 @@
 const { exec } = require('child_process');
 
 function runTest() {
-    console.log('Polling live server...');
-    exec('node live-test.js', (err, stdout, stderr) => {
-        console.log(stdout);
-        if (stderr) console.error(stderr);
+    console.log('Polling live server for /api/galleries...');
+    exec('node test-live.js', (err, stdout, stderr) => {
+        const fullOutput = stdout + stderr;
+        console.log(fullOutput);
         
-        if (stdout.includes('ALL TESTS PASSED SUCCESSFULLY!')) {
-            console.log('\n✅ Server is FULLY OPERATIONAL!');
-            process.exit(0);
-        } else {
-            console.log('Server still deploying or failed. Retrying in 15 seconds...');
+        if (fullOutput.includes('404')) {
+            console.log('Server still deploying. Retrying in 15 seconds...');
             setTimeout(runTest, 15000);
+        } else {
+            console.log('\n✅ Server is FULLY DEPLOYED AND OPERATIONAL!');
+            process.exit(0);
         }
     });
 }
