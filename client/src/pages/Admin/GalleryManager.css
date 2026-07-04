@@ -176,21 +176,22 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.6) !important;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 9999;
 }
 
 .gm-modal {
-    background: var(--pg-bg);
+    background-color: #fcfbf9 !important;
     width: 90%;
     max-width: 600px;
     border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     max-height: 90vh;
     overflow-y: auto;
+    border: 1px solid rgba(0,0,0,0.1);
 }
 
 .gm-modal.large {
