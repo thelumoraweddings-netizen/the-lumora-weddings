@@ -38,8 +38,27 @@ router.get('/clients/:clientId', async (req, res) => {
     }
 });
 
+// Wrapper to catch multer errors
+const uploadSingle = (field) => (req, res, next) => {
+    upload.single(field)(req, res, (err) => {
+        if (err) {
+            return res.status(400).json({ message: `Image upload failed: ${err.message}` });
+        }
+        next();
+    });
+};
+
+const uploadArray = (field, maxCount) => (req, res, next) => {
+    upload.array(field, maxCount)(req, res, (err) => {
+        if (err) {
+            return res.status(400).json({ message: `Image upload failed: ${err.message}` });
+        }
+        next();
+    });
+};
+
 // @desc    Create new client
-router.post('/clients', protect, upload.single('coverImage'), async (req, res) => {
+router.post('/clients', protect, uploadSingle('coverImage'), async (req, res) => {
     try {
         const { categoryId, name, title, description, active } = req.body;
         const newClient = new GalleryClient({
@@ -59,7 +78,7 @@ router.post('/clients', protect, upload.single('coverImage'), async (req, res) =
 });
 
 // @desc    Update client
-router.put('/clients/:clientId', protect, upload.single('coverImage'), async (req, res) => {
+router.put('/clients/:clientId', protect, uploadSingle('coverImage'), async (req, res) => {
     try {
         const updateData = { ...req.body };
         if (updateData.active !== undefined) {
@@ -90,7 +109,7 @@ router.delete('/clients/:clientId', protect, async (req, res) => {
 });
 
 // @desc    Upload images to client
-router.post('/clients/:clientId/images', protect, upload.array('images', 20), async (req, res) => {
+router.post('/clients/:clientId/images', protect, uploadArray('images', 20), async (req, res) => {
     try {
         const imageUrls = req.files.map(file => file.path);
         const updated = await GalleryClient.findOneAndUpdate(
