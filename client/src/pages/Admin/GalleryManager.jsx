@@ -84,7 +84,8 @@ const GalleryManager = () => {
             loadClients(activeCategory.id);
         } catch (error) {
             console.error('Failed to save client', error);
-            alert('Error saving client. Ensure image is not too large for LocalStorage mock.');
+            const errorMsg = error.response?.data?.message || error.message;
+            alert(`Error saving client: ${errorMsg}`);
         }
     };
 
@@ -122,7 +123,8 @@ const GalleryManager = () => {
             loadClients(activeCategory.id); // refresh list count
         } catch (error) {
             console.error('Failed to upload images', error);
-            alert('Error uploading images. LocalStorage limit might be reached.');
+            const errorMsg = error.response?.data?.message || error.message;
+            alert(`Error uploading images: ${errorMsg}`);
         }
     };
 
