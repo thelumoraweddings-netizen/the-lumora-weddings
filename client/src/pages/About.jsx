@@ -107,6 +107,48 @@ const About = () => (
       </div>
     </section>
 
+    {/* ── Our Studio Section ── */}
+    <section className="about-studio-section">
+      <div className="pg-container">
+        <h2 className="studio-title">Our Studio</h2>
+        <div className="studio-grid">
+          <motion.div {...vUp(0)} className="studio-info-card">
+            <h3>THE LUMORA WEDDINGS</h3>
+            <p className="studio-address">
+              Gopal swamy, 9, Gopalasamy Koil St,<br/>
+              Sridevi Nagar, Ganapathy,<br/>
+              Coimbatore, Tamil Nadu 641006
+            </p>
+            <div className="studio-contact">
+              <p>Phone: +91 93458 49846 / +91 96291 30158</p>
+              <p>Email: thelumoraweddings@gmail.com</p>
+            </div>
+            <a 
+              href="https://www.google.com/maps/place/THE+LUMORA+WEDDINGS/data=!4m7!3m6!1s0x4537a6db43a3b135:0x2e884bb09d63a14e!8m2!3d11.0358701!4d76.9758734!16s%2Fg%2F11zbbx7v7r!19sChIJNbGjQ9umN0URTqFjnbBLiC4?authuser=0&hl=en&rclk=1" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="pg-btn-primary"
+              style={{ alignSelf: 'flex-start' }}
+            >
+              GET DIRECTIONS
+            </a>
+          </motion.div>
+          <motion.div {...vUp(0.1)} className="studio-map-card">
+            <iframe 
+               src="https://maps.google.com/maps?q=THE+LUMORA+WEDDINGS,+Coimbatore&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+               width="100%" 
+               height="100%" 
+               style={{ border: 0, minHeight: '100%' }} 
+               allowFullScreen="" 
+               loading="lazy" 
+               referrerPolicy="no-referrer-when-downgrade"
+               title="The Lumora Weddings Studio Location"
+            ></iframe>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+
     {/* ── Team Section ── */}
     <section className="team-section">
       <div className="pg-container">

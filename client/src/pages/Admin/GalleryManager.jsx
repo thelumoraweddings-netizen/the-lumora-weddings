@@ -17,6 +17,7 @@ const GalleryManager = () => {
     const [editingClient, setEditingClient] = useState(null);
     const [formData, setFormData] = useState({ name: '', title: '', description: '', active: true });
     const [coverFile, setCoverFile] = useState(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     // Image upload state
     const fileInputRef = useRef(null);
@@ -73,6 +74,8 @@ const GalleryManager = () => {
 
     const handleSaveClient = async (e) => {
         e.preventDefault();
+        if (isSubmitting) return;
+        setIsSubmitting(true);
         try {
             const dataToSave = { ...formData, categoryId: activeCategory.id };
             if (editingClient) {
@@ -86,6 +89,8 @@ const GalleryManager = () => {
             console.error('Failed to save client', error);
             const errorMsg = error.response?.data?.message || error.message;
             alert(`Error saving client: ${errorMsg}`);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -284,7 +289,9 @@ const GalleryManager = () => {
                             </div>
                             <div className="gm-modal-footer">
                                 <button type="button" className="btn-secondary" onClick={() => setShowClientModal(false)}>Cancel</button>
-                                <button type="submit" className="btn-primary">Save Client</button>
+                                <button type="submit" className="btn-primary" disabled={isSubmitting}>
+                                    {isSubmitting ? 'Saving...' : 'Save Client'}
+                                </button>
                             </div>
                         </form>
                     </div>
