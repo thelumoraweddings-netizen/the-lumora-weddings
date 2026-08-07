@@ -22,4 +22,6 @@ const QuotationSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
+QuotationSchema.index({ createdAt: -1 });
+
 module.exports = mongoose.model('Quotation', QuotationSchema);

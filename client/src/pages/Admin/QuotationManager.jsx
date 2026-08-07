@@ -95,7 +95,7 @@ function getQuotationHTML(q) {
   const services = (q.additionalServices || []).map(sid => ADD_SERVICES.find(x => x.id === sid)).filter(Boolean);
   const total = calcTotal(q);
   const discountAmt = q.discount && parseFloat(q.discount) > 0 ? Math.round(total * parseFloat(q.discount) / 100) : 0;
-  const finalTotal = q.totalAmount ? parseFloat(q.totalAmount) : (total - discountAmt);
+  const finalTotal = total - discountAmt;
 
   return `
 <div class="page">
@@ -146,11 +146,19 @@ function getQuotationHTML(q) {
             <div class="item-name">${ev.date ? formatDate(ev.date) : ''} ${ev.name ? `[${ev.name.toUpperCase()}]` : ''}</div>
             ${ev.time ? `<div class="item-desc" style="font-size: 11px;">Time - ${ev.time}</div>` : ''}
           </td>
-          <td style="text-align:left; vertical-align: middle; padding-left: 20px;">
-            ${reqs.map(r => `<div class="item-desc" style="margin-bottom: 4px;">${r.item}</div>`).join('')}
-          </td>
-          <td style="text-align:center; vertical-align: middle;">
-            ${reqs.map(r => `<div class="item-desc" style="margin-bottom: 4px; font-weight: bold;">${r.qty}</div>`).join('')}
+          <td colspan="2" style="padding: 24px 0; vertical-align: middle;">
+            <table style="width: 100%; border-collapse: collapse; border: none;">
+              ${reqs.map(r => `
+                <tr style="border-bottom: none;">
+                  <td style="width: 81.8%; text-align: left; vertical-align: middle; padding: 4px 0 4px 20px; border: none;">
+                    <div class="item-desc">${r.item}</div>
+                  </td>
+                  <td style="width: 18.2%; text-align: center; vertical-align: middle; padding: 4px 0; border: none;">
+                    <div class="item-desc" style="font-weight: bold;">${r.qty}</div>
+                  </td>
+                </tr>
+              `).join('')}
+            </table>
           </td>
         </tr>
       `}).join('')}
@@ -159,11 +167,19 @@ function getQuotationHTML(q) {
       <tr>
         <td style="text-align:center; font-weight: bold; vertical-align: middle;">${(q.events || []).length + 1}</td>
         <td style="text-align:center; vertical-align: middle; font-weight: 600; font-size: 14px;">COMPLEMENTARY</td>
-        <td style="text-align:left; vertical-align: top; padding-left: 20px;">
-          ${q.complementary.map(a => `<div class="item-desc" style="margin-bottom: 6px;">${a.item}</div>`).join('')}
-        </td>
-        <td style="text-align:center; vertical-align: top;">
-          ${q.complementary.map(a => `<div class="item-desc" style="margin-bottom: 6px; font-weight: bold;">${a.qty}</div>`).join('')}
+        <td colspan="2" style="padding: 24px 0; vertical-align: top;">
+          <table style="width: 100%; border-collapse: collapse; border: none;">
+            ${q.complementary.map(a => `
+              <tr style="border-bottom: none;">
+                <td style="width: 81.8%; text-align: left; vertical-align: middle; padding: 4px 0 4px 20px; border: none;">
+                  <div class="item-desc">${a.item}</div>
+                </td>
+                <td style="width: 18.2%; text-align: center; vertical-align: middle; padding: 4px 0; border: none;">
+                  <div class="item-desc" style="font-weight: bold;">${a.qty}</div>
+                </td>
+              </tr>
+            `).join('')}
+          </table>
         </td>
       </tr>
       ` : ''}
@@ -172,11 +188,19 @@ function getQuotationHTML(q) {
       <tr>
         <td style="text-align:center; font-weight: bold; vertical-align: middle;">${(q.events || []).length + ((q.complementary && q.complementary.length > 0) ? 1 : 0) + 1}</td>
         <td style="text-align:center; vertical-align: middle; font-weight: 600; font-size: 14px;">ADDITIONAL SERVICES</td>
-        <td style="text-align:left; vertical-align: top; padding-left: 20px;">
-          ${services.map(s => `<div class="item-desc" style="margin-bottom: 6px;">${s.name}</div>`).join('')}
-        </td>
-        <td style="text-align:center; vertical-align: top;">
-          ${services.map(s => `<div class="item-desc" style="margin-bottom: 6px; font-weight: bold;">-</div>`).join('')}
+        <td colspan="2" style="padding: 24px 0; vertical-align: top;">
+          <table style="width: 100%; border-collapse: collapse; border: none;">
+            ${services.map(s => `
+              <tr style="border-bottom: none;">
+                <td style="width: 81.8%; text-align: left; vertical-align: middle; padding: 4px 0 4px 20px; border: none;">
+                  <div class="item-desc">${s.name}</div>
+                </td>
+                <td style="width: 18.2%; text-align: center; vertical-align: middle; padding: 4px 0; border: none;">
+                  <div class="item-desc" style="font-weight: bold;">-</div>
+                </td>
+              </tr>
+            `).join('')}
+          </table>
         </td>
       </tr>
       ` : ''}
@@ -187,21 +211,27 @@ function getQuotationHTML(q) {
           ${(q.events || []).length + ((q.complementary && q.complementary.length > 0) ? 1 : 0) + ((services && services.length > 0) ? 1 : 0) + 1}
         </td>
         <td style="text-align:center; vertical-align: middle; font-weight: 600; font-size: 14px;">ALBUMS</td>
-        <td style="text-align:center; vertical-align: middle; padding: 10px 0;">
-          ${q.albums.map(a => {
-             const lines = (a.item || '').split('\n').filter(l => l.trim());
-             const main = lines[0] || '';
-             const subs = lines.slice(1);
-             return `
-               <div class="item-desc" style="margin-bottom: 8px;">
-                 <div style="font-weight: 600; font-size: 13px; color: #333;">${main}</div>
-                 ${subs.map(sub => `<div style="font-size: 11px; color: #555; margin-top: 3px;">${sub}</div>`).join('')}
-               </div>
-             `;
-          }).join('')}
-        </td>
-        <td style="text-align:center; vertical-align: middle;">
-          ${q.albums.map(a => `<div class="item-desc" style="margin-bottom: 8px; font-weight: bold;">${a.qty}</div>`).join('')}
+        <td colspan="2" style="padding: 24px 0; vertical-align: middle;">
+          <table style="width: 100%; border-collapse: collapse; border: none;">
+            ${q.albums.map(a => {
+               const lines = (a.item || '').split('\n').filter(l => l.trim());
+               const main = lines[0] || '';
+               const subs = lines.slice(1);
+               return `
+                 <tr style="border-bottom: none;">
+                   <td style="width: 81.8%; text-align: left; vertical-align: middle; padding: 6px 0 6px 20px; border: none;">
+                     <div class="item-desc">
+                       <div style="font-weight: 600; font-size: 13px; color: #333;">${main}</div>
+                       ${subs.map(sub => `<div style="font-size: 11px; color: #555; margin-top: 3px;">${sub}</div>`).join('')}
+                     </div>
+                   </td>
+                   <td style="width: 18.2%; text-align: center; vertical-align: middle; padding: 6px 0; border: none;">
+                     <div class="item-desc" style="font-weight: bold;">${a.qty}</div>
+                   </td>
+                 </tr>
+               `;
+            }).join('')}
+          </table>
         </td>
       </tr>
       ` : ''}
@@ -214,11 +244,19 @@ function getQuotationHTML(q) {
         <td style="text-align:center; vertical-align: middle; font-weight: 600; font-size: 14px; color: #002D24; padding-top: 10px; padding-bottom: 10px;">
           FINAL OUT
         </td>
-        <td style="text-align:left; vertical-align: top; padding-left: 20px; padding-top: 10px; padding-bottom: 10px;">
-          ${q.finalOuts.map(a => `<div class="item-desc" style="margin-bottom: 6px; font-weight: 600; color: #002D24;">${a.item}</div>`).join('')}
-        </td>
-        <td style="text-align:center; vertical-align: top; padding-top: 10px; padding-bottom: 10px;">
-          ${q.finalOuts.map(a => `<div class="item-desc" style="margin-bottom: 6px; font-weight: bold; color: #002D24;">${a.qty}</div>`).join('')}
+        <td colspan="2" style="padding: 10px 0; vertical-align: top;">
+          <table style="width: 100%; border-collapse: collapse; border: none;">
+            ${q.finalOuts.map(a => `
+              <tr style="border-bottom: none;">
+                <td style="width: 81.8%; text-align: left; vertical-align: middle; padding: 4px 0 4px 20px; border: none;">
+                  <div class="item-desc" style="font-weight: 600; color: #002D24;">${a.item}</div>
+                </td>
+                <td style="width: 18.2%; text-align: center; vertical-align: middle; padding: 4px 0; border: none;">
+                  <div class="item-desc" style="font-weight: bold; color: #002D24;">${a.qty}</div>
+                </td>
+              </tr>
+            `).join('')}
+          </table>
         </td>
       </tr>
       ` : ''}
@@ -227,7 +265,7 @@ function getQuotationHTML(q) {
 
   <div class="summary-wrapper">
     <div style="width: 100%; text-align: right; padding-right: 20px;">
-      ${discountAmt > 0 && !q.totalAmount ? `
+      ${discountAmt > 0 ? `
       <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 20px; padding-top: 10px;">
         <span style="font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 600; color: #5C6256;">Subtotal</span>
         <span style="font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: 600; color: #5C6256;">${formatINR(total)}</span>
@@ -238,7 +276,7 @@ function getQuotationHTML(q) {
       </div>
       ` : ''}
       <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 20px; border-top: 2px solid #002D24; padding-top: 10px; margin-top: 10px;">
-        <span style="font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; color: #002D24;">${discountAmt > 0 && !q.totalAmount ? 'Grand Total' : 'Total'}</span>
+        <span style="font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; color: #002D24;">${discountAmt > 0 ? 'Grand Total' : 'Total'}</span>
         <span style="font-family: 'Poppins', sans-serif; font-size: 26px; font-weight: 800; color: #002D24;">${formatINR(finalTotal)}</span>
       </div>
     </div>

@@ -14,4 +14,7 @@ const GalleryClientSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
+GalleryClientSchema.index({ categoryId: 1, createdAt: -1 });
+GalleryClientSchema.index({ createdAt: -1 });
+
 module.exports = mongoose.model('GalleryClient', GalleryClientSchema);
