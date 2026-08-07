@@ -13,9 +13,6 @@ const HomeCardManager = () => {
   const [editingCard, setEditingCard] = useState(null);
   const [saving, setSaving] = useState(false);
 
-  // Custom Confirm Modal state
-  const [confirmModal, setConfirmModal] = useState({ isOpen: false, title: '', message: '', onConfirm: null });
-
   // Tabs in modal: 'basic' | 'inner' | 'gallery'
   const [activeTab, setActiveTab] = useState('basic');
 
@@ -151,30 +148,22 @@ const HomeCardManager = () => {
     }
   };
 
-  const handleRemoveGalleryImage = (url) => {
-    setConfirmModal({
-      isOpen: true,
-      title: 'Remove Image',
-      message: 'Are you sure you want to remove this image? This action cannot be undone.',
-      onConfirm: async () => {
-        setConfirmModal({ isOpen: false, title: '', message: '', onConfirm: null });
-        try {
-          await api.delete(`/api/homecards/${editingCard.id}/gallery`, {
-            data: { imageUrl: url }
-          });
-          toast.success('Image removed');
-          fetchCards();
-          
-          // Update local state
-          setEditingCard(prev => ({
-            ...prev,
-            galleryImages: prev.galleryImages.filter(i => i !== url)
-          }));
-        } catch (error) {
-          toast.error('Failed to remove image');
-        }
-      }
-    });
+  const handleRemoveGalleryImage = async (url) => {
+    try {
+      await api.delete(`/api/homecards/${editingCard.id}/gallery`, {
+        data: { imageUrl: url }
+      });
+      toast.success('Image removed');
+      fetchCards();
+      
+      // Update local state
+      setEditingCard(prev => ({
+        ...prev,
+        galleryImages: prev.galleryImages.filter(i => i !== url)
+      }));
+    } catch (error) {
+      toast.error('Failed to remove image');
+    }
   };
 
   if (loading) return <div>Loading...</div>;
@@ -282,37 +271,6 @@ const HomeCardManager = () => {
               )}
             </div>
 
-          </div>
-        </div>
-      )}
-
-      {/* Confirm Delete Modal */}
-      {confirmModal.isOpen && (
-        <div className="hcm-modal-overlay" style={{ zIndex: 10000 }}>
-          <div className="hcm-modal" style={{ maxWidth: '400px', padding: '0' }}>
-            <div style={{ padding: '1.5rem', borderBottom: '1px solid #eaeaea', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3 style={{ margin: 0, color: '#f44336' }}>{confirmModal.title}</h3>
-              <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#666' }} onClick={() => setConfirmModal({ isOpen: false, title: '', message: '', onConfirm: null })}>
-                <X size={20} />
-              </button>
-            </div>
-            <div style={{ padding: '1.5rem' }}>
-              <p style={{ margin: 0, color: '#555', fontFamily: "'Jost', sans-serif" }}>{confirmModal.message}</p>
-            </div>
-            <div style={{ padding: '1rem 1.5rem', background: '#f9f9f9', display: 'flex', justifyContent: 'flex-end', gap: '10px', borderTop: '1px solid #eaeaea', borderBottomLeftRadius: '12px', borderBottomRightRadius: '12px' }}>
-              <button 
-                onClick={() => setConfirmModal({ isOpen: false, title: '', message: '', onConfirm: null })}
-                style={{ padding: '8px 16px', background: '#e0e0e0', border: 'none', borderRadius: '4px', cursor: 'pointer', fontFamily: "'Jost', sans-serif", fontWeight: 500 }}
-              >
-                Cancel
-              </button>
-              <button 
-                onClick={confirmModal.onConfirm}
-                style={{ padding: '8px 16px', background: '#f44336', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontFamily: "'Jost', sans-serif", fontWeight: 500 }}
-              >
-                Remove
-              </button>
-            </div>
           </div>
         </div>
       )}
