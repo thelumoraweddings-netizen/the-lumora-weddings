@@ -29,6 +29,8 @@ app.use('/api/bookings', require('./routes/bookings'));
 app.use('/api/reviews', require('./routes/reviews'));
 app.use('/api/quotations', require('./routes/quotations'));
 app.use('/api/galleries', require('./routes/galleries'));
+app.use('/api/homecards', require('./routes/homeCards'));
+
 // Basic Route
 app.get('/', (req, res) => {
   res.send('API is running...');

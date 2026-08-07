@@ -9,8 +9,8 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-coverflow';
-// import PortfolioSlider from '../components/PortfolioSlider';
 import GoogleReviews from '../components/GoogleReviews';
+import api from '../utils/api';
 import './Home.css';
 
 const vUp = (delay = 0) => ({
@@ -128,7 +128,53 @@ const StatItem = ({ target, label, bg, suffix = '+', delay = 0 }) => {
 };
 
 const Home = () => {
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  const [storyCards, setStoryCards] = useState([]);
+  
+  useEffect(() => { 
+    window.scrollTo(0, 0); 
+    
+    // Fetch home cards
+    const fetchHomeCards = async () => {
+      try {
+        const { data } = await api.get('/api/homecards');
+        if (data && data.length > 0) {
+          setStoryCards(data);
+        } else {
+          // Fallback if no data in DB
+          setStoryCards([
+            { 
+              img: '/images/homepage_image/image_1.jpg', 
+              cat: 'WEDDING', 
+              title: 'A Celebration of Love & Traditions',
+              link: '/work/pollachi-wedding'
+            },
+            { 
+              img: '/images/homepage_image/image_2.jpg', 
+              cat: 'OUTDOOR COUPLE PHOTOGRAPHY', 
+              title: 'Moments of joy, laughter, and togetherness, framed under open skies.',
+              link: '/work/outdoor-couple'
+            },
+            { 
+              img: '/images/homepage_image/image_3.jpg', 
+              cat: 'BABYSHOWER — MATERNITY', 
+              title: 'Celebrating the miracle of life and the journey of motherhood.',
+              link: '/work/maternity-story'
+            },
+            { 
+              img: '/images/ENGAGEMENT-NEW/DEVA & SOWMIYA/tamnail.jpg', 
+              cat: 'ENGAGEMENT', 
+              title: 'The Promise of Always — A Celebration of Commitment.',
+              link: '/work/engagement'
+            }
+          ]);
+        }
+      } catch (error) {
+        console.error('Failed to load home cards', error);
+      }
+    };
+    
+    fetchHomeCards();
+  }, []);
 
   return (
     <div style={{ background: 'var(--pg-black)', overflowX: 'hidden' }}>
@@ -149,36 +195,10 @@ const Home = () => {
             </p>
           </motion.div>
 
-          {/* Stories Grid (4 Cards) */}
+          {/* Stories Grid */}
           <div className="stories-magazine-grid">
-            {[
-              { 
-                img: '/images/homepage_image/image_1.jpg', 
-                cat: 'WEDDING', 
-                title: 'A Celebration of Love & Traditions',
-                link: '/work/pollachi-wedding'
-              },
-              { 
-                img: '/images/homepage_image/image_2.jpg', 
-                cat: 'OUTDOOR COUPLE PHOTOGRAPHY', 
-                title: 'Moments of joy, laughter, and togetherness, framed under open skies.',
-                link: '/work/outdoor-couple'
-              },
-              { 
-                img: '/images/homepage_image/image_3.jpg', 
-                cat: 'BABYSHOWER — MATERNITY', 
-                title: 'Celebrating the miracle of life and the journey of motherhood.',
-                link: '/work/maternity-story'
-              },
-              { 
-                img: '/images/ENGAGEMENT-NEW/DEVA & SOWMIYA/tamnail.jpg', 
-                cat: 'ENGAGEMENT', 
-                title: 'The Promise of Always — A Celebration of Commitment.',
-                link: '/work/engagement'
-              },
-            ]
-.map((story, i) => (
-              <motion.div key={i} {...vUp(i * 0.1)} className="story-mag-card">
+            {storyCards.map((story, i) => (
+              <motion.div key={story.id || i} {...vUp(i * 0.1)} className="story-mag-card">
                 <Link to={story.link || '#'} className="story-mag-link-wrap">
                   <div className="story-mag-img">
                     <img src={story.img} alt={story.title} loading="lazy" decoding="async" />

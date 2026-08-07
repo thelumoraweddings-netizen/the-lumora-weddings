@@ -76,9 +76,7 @@ const galleryService = {
             formData.append('coverImage', compressed);
         }
         
-        const res = await api.post('/api/galleries/clients', formData, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-        });
+        const res = await api.post('/api/galleries/clients', formData);
         return res.data;
     },
 
@@ -90,9 +88,7 @@ const galleryService = {
             formData.append('coverImage', compressed);
         }
         
-        const res = await api.put(`/api/galleries/clients/${clientId}`, formData, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-        });
+        const res = await api.put(`/api/galleries/clients/${clientId}`, formData);
         return res.data;
     },
 
@@ -109,9 +105,7 @@ const galleryService = {
             formData.append('images', compressed);
         }
         
-        const res = await api.post(`/api/galleries/clients/${clientId}/images`, formData, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-        });
+        const res = await api.post(`/api/galleries/clients/${clientId}/images`, formData);
         return res.data;
     },
 

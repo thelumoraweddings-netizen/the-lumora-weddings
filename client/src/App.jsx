@@ -26,6 +26,7 @@ import PollachiWedding from './pages/work/PollachiWedding';
 import OutdoorCouplePhotography from './pages/work/OutdoorCouplePhotography';
 import MaternityStory from './pages/work/MaternityStory';
 import BabyPhotography from './pages/work/BabyPhotography';
+import DynamicWorkPage from './pages/work/DynamicWorkPage';
 
 // Admin Pages
 import AdminLogin from './pages/Admin/AdminLogin';
@@ -37,6 +38,7 @@ import AdminLayout from './pages/Admin/AdminLayout';
 import QuotationManager from './pages/Admin/QuotationManager';
 import EventManager from './pages/Admin/EventManager';
 import FollowupPayment from './pages/Admin/FollowupPayment';
+import HomeCardManager from './pages/Admin/HomeCardManager';
 
 const ProtectedRoute = ({ children }) => {
   const { isAdmin, loading } = useAuth();
@@ -79,10 +81,10 @@ function App() {
                       <Route path="/work/brahmin-wedding" element={<BrahminWedding />} />
                       <Route path="/work/christian-wedding" element={<ChristianWedding />} />
                       <Route path="/work/muslim-wedding" element={<MuslimWedding />} />
-                      <Route path="/work/engagement" element={<Engagement />} />
-                      <Route path="/work/pollachi-wedding" element={<PollachiWedding />} />
-                      <Route path="/work/outdoor-couple" element={<OutdoorCouplePhotography />} />
-                      <Route path="/work/maternity-story" element={<MaternityStory />} />
+                      <Route path="/work/baby-photography" element={<BabyPhotography />} />
+                      
+                      {/* Dynamic Route for Home Cards (Replaces Pollachi, Outdoor, Maternity, Engagement) */}
+                      <Route path="/work/:slug" element={<DynamicWorkPage />} />
                       <Route path="/work/baby-photography" element={<BabyPhotography />} />
                     </Routes>
                   </main>
@@ -98,6 +100,7 @@ function App() {
               }>
                 <Route index element={<AdminDashboard />} />
                  <Route path="quotations" element={<QuotationManager />} />
+                 <Route path="homecards" element={<HomeCardManager />} />
                  <Route path="bookings" element={<BookingManager />} />
                  <Route path="gallery" element={<GalleryManager />} />
                  <Route path="events" element={<EventManager />} />
